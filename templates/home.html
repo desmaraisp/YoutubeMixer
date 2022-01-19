@@ -1,0 +1,20 @@
+<h1>Homepage</h1>
+
+<p>test</p>
+
+<script>
+    async function GetAPIResponse() {
+        const response = await fetch("{% url 'Get_Playlist_Contents' %}");
+        return response.json();
+    }
+
+    function SetElement() {
+        var x = document.getElementsByTagName("p");
+
+        GetAPIResponse()
+            .then(res => {
+                x[0].setAttribute("name", res["test"]);
+            });
+    }
+    SetElement();
+</script>
