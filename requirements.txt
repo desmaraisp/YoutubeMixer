@@ -1,0 +1,4 @@
+
+django==4.0.1
+dpath==2.0.5
+google-api-python-client==2.36.0
