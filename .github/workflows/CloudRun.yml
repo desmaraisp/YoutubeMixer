@@ -27,13 +27,13 @@ jobs:
     # Build the Docker image
     - name: Build & Publish
       run: |
-        gcloud builds submit --tag gcr.io/${{ secrets.GCP_PROJECT }}/${{ secrets.GCP_PROJECT }}
+        gcloud builds submit --tag gcr.io/${{ secrets.GCP_PROJECT }}
         gcloud config set run/region us-central1
       
     # Deploy the Docker image to the GKE cluster
     - name: Deploy
       run: |
-        gcloud run deploy ${{ secrets.GCP_PROJECT }} --image gcr.io/${{ secrets.GCP_PROJECT }}/${{ secrets.GCP_PROJECT }} \
+        gcloud run deploy ${{ secrets.GCP_PROJECT }} --image gcr.io/${{ secrets.GCP_PROJECT }} \
         --platform managed \
         --allow-unauthenticated \
         --memory 512M
