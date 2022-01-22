@@ -1,20 +1,50 @@
-<h1>Homepage</h1>
+{% load static %}
 
-<p>test</p>
+<head>
+    <script src='{% static "js/Videos_manager.js" %}'></script>
+    <script src='{% static "js/Playlist_Table.js" %}'></script>
+    <script src='{% static "js/Video_Player.js" %}'></script>
+    <link rel="stylesheet" href='{% static "css/Home.css" %}'>
+    <script type="text/javascript">
+        window.onload = function () {
+            playlist_manager = new Playlist_Manager();
+            playlist_manager.Load_Playlists_From_Local_Storage();
+            player_manager = new Player_Manager();
+            player_manager.Load_From_Storage();
+        };
+        function onYouTubeIframeAPIReady() { player_manager.Initialize_Player(); }
+    </script>
+</head>
+<body>
+    <h1>Youtube Mixer</h1>
 
-<script>
-    async function GetAPIResponse() {
-        const response = await fetch("{% url 'Get_Playlist_Contents' %}");
-        return response.json();
-    }
+    <div class="settings">
+        <form>
+            <table id="Playlists_Manager">
+                <tbody>
+                    <tr id="Input_Row">
+                        <td>
+                            <input placeholder="Playlist ID" type="text" id="Playlist_Input_Field" />
+                        </td>
+                        <td>
+                            <button type="button" onclick="playlist_manager.Process_Playlists_Table_After_Add();" id="Playlist_add_button">
+                                Add Playlist
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
 
-    function SetElement() {
-        var x = document.getElementsByTagName("p");
+            <button type="button" onclick="playlist_manager.Save_Playlists_To_LocalStorage(); Get_Videos_From_Playlist(player_manager);">Save</button>
+        </form>
+    </div>
 
-        GetAPIResponse()
-            .then(res => {
-                x[0].setAttribute("name", res["test"]);
-            });
-    }
-    SetElement();
-</script>
+    <div class="VideoPlayer">
+        <button type="button" onclick="Get_Videos_From_Playlist(player_manager);">Reload player</button>
+        <div id="player"></div>
+        <table id="Player_queue">
+            <tbody>
+            </tbody>
+        </table>
+    </div>
+</body>
