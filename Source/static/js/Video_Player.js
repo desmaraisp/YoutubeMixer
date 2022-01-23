@@ -1,16 +1,21 @@
 class Player_Manager {
     Load_Iframe_API() {
         var tag = document.createElement('script');
+
+        window.onYouTubeIframeAPIReady = this.Initialize_Player;
+
         tag.src = "https://www.youtube.com/iframe_api";
+        tag.type = "text/javascript";
+
         var firstScriptTag = document.getElementsByTagName('script')[0];
         firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+
     }
 
     constructor() {
         this.Load_Iframe_API();
         this.Player_queue_element = document.getElementById("Player_queue")
-
-        window.onYouTubeIframeAPIReady = this.Initialize_Player;
     }
 
     Start_Video(event) {
@@ -25,10 +30,10 @@ class Player_Manager {
     }
 
     Initialize_Player() {
+        if (!localStorage.Videos || localStorage.Videos.length === 0) { return; }
+
+
         let Videos = JSON.parse(localStorage.Videos);
-
-        if (!Array.isArray(Videos) || !Videos.length) { return; }
-
         let Selected_Index = localStorage.Current_Video_Index;
 
         let Current_ID = Videos[Selected_Index]["ID"]

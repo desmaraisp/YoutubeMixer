@@ -37,9 +37,11 @@ class Playlist_Manager {
     }
 
     Load_Playlists_From_Local_Storage() {
+        if (!localStorage.Playlists || localStorage.Playlists.length === 0) { return; }
+
+
         let playlists = JSON.parse(localStorage.Playlists);
 
-        if (!playlists) { return; }
         for (const playlist of playlists) {
             this.Create_New_Row(playlist);
         }
