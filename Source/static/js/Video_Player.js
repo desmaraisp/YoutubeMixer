@@ -2,7 +2,7 @@ class Player_Manager {
     Load_Iframe_API() {
         var tag = document.createElement('script');
 
-        window.onYouTubeIframeAPIReady = this.Initialize_Player;
+        window.onYouTubeIframeAPIReady = this.Initialize_Player.bind(this);
 
         tag.src = "https://www.youtube.com/iframe_api";
         tag.type = "text/javascript";
