@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-%&6-!8tu493_nab$7jy2ofol&aj00gm$-_4=!p*70^&1kf1a9i
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['youtubemixer.tk']
 
 
 # Application definition
