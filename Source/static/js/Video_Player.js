@@ -9,6 +9,8 @@ class Player_Manager {
     constructor() {
         this.Load_Iframe_API();
         this.Player_queue_element = document.getElementById("Player_queue")
+
+        window.onYouTubeIframeAPIReady = this.Initialize_Player;
     }
 
     Start_Video(event) {
