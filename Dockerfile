@@ -7,5 +7,5 @@ COPY . .
 RUN pip install -r requirements.txt
 
 WORKDIR ./Source
-
-CMD exec gunicorn --bind :$PORT --workers 1 --threads 8 main:app
+CMD exec ls
+CMD exec gunicorn --bind :$PORT --workers 1 --threads 8 --timeout 1500 --preload main:app
