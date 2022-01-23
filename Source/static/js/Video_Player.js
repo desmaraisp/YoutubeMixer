@@ -34,7 +34,7 @@ class Player_Manager {
     Initialize_Player() {
         let Videos = JSON.parse(localStorage.Videos);
 
-        if (Videos === []) { return;}
+        if (Videos.length === 0) { return;}
 
         let Selected_Index = localStorage.Current_Video_Index;
 
