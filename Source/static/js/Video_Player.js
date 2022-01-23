@@ -94,9 +94,9 @@ class Player_Manager {
     }
 
     Load_From_Storage() {
-        let Videos = JSON.parse(localStorage.Videos);
+        if (!localStorage.Videos || localStorage.Videos.length === 0) { return; }
 
-        if (!Videos) { return; }
+        let Videos = JSON.parse(localStorage.Videos);
         for (const video_json of Videos) {
             this.Create_Video_Table_Row(video_json["ID"], video_json["Name"], video_json["Image"]);
         }
