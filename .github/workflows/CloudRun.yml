@@ -34,6 +34,7 @@ jobs:
     - name: Deploy
       run: |
         gcloud run deploy ${{ secrets.GCP_PROJECT }} --image gcr.io/${{ secrets.GCP_PROJECT }}/image \
+        --set-env-vars="Youtube_API_Key=${{ secrets.Youtube_API_Key }}" \
         --platform managed \
         --allow-unauthenticated \
         --memory 512M
