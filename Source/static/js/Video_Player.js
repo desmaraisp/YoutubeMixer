@@ -14,6 +14,8 @@ class Player_Manager {
     }
 
     constructor() {
+        if (!localStorage.Videos) { localStorage.Videos = '[]' }
+
         this.Load_Iframe_API();
         this.Player_queue_element = document.getElementById("Player_queue")
     }
@@ -30,10 +32,10 @@ class Player_Manager {
     }
 
     Initialize_Player() {
-        if (!localStorage.Videos || localStorage.Videos.length === 0) { return; }
-
-
         let Videos = JSON.parse(localStorage.Videos);
+
+        if (Videos === []) { return;}
+
         let Selected_Index = localStorage.Current_Video_Index;
 
         let Current_ID = Videos[Selected_Index]["ID"]
@@ -94,8 +96,6 @@ class Player_Manager {
     }
 
     Load_From_Storage() {
-        if (!localStorage.Videos || localStorage.Videos.length === 0) { return; }
-
         let Videos = JSON.parse(localStorage.Videos);
         for (const video_json of Videos) {
             this.Create_Video_Table_Row(video_json["ID"], video_json["Name"], video_json["Image"]);

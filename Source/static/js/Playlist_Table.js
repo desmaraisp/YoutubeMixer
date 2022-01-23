@@ -1,5 +1,7 @@
 class Playlist_Manager {
     constructor() {
+        if (!localStorage.Playlists) { localStorage.Playlists = '[]' }
+
         this.Input_Row = document.getElementById("Input_Row");
         this.Input_Field = document.getElementById("Playlist_Input_Field");
         this.table = document.getElementById("Playlists_Manager");
@@ -37,9 +39,6 @@ class Playlist_Manager {
     }
 
     Load_Playlists_From_Local_Storage() {
-        if (!localStorage.Playlists || localStorage.Playlists.length === 0) { return; }
-
-
         let playlists = JSON.parse(localStorage.Playlists);
 
         for (const playlist of playlists) {
