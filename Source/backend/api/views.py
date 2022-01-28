@@ -45,9 +45,9 @@ def Get_Single_PlayList_Contents(YoutubeObject,PlaylistID):
 	for i, ID in enumerate(video_IDs):
 		Result.append(
 			{
-				"ID":ID,
+				"VideoID":ID,
 				"Image":"Placeholder",
-				"Name":"Placeholder",
+				"Title":i,
 			}
 		)
 	return Result
