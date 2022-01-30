@@ -1,8 +1,8 @@
-import django.http as djh
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
 import googleapiclient.discovery
 import dpath.util as dpu
 import os
-
 
 def start_Google_API():
 	api_service_name = "youtube"
@@ -64,11 +64,13 @@ def Get_Combined_Video_IDs_From_Playlists(Playlist_All_IDs):
 	
 	return Combined_Playlists_Video_IDs
 
-def Get_Combined_Playlist_Contents_From_Request(HttpRequest):
-	playlistIDs = HttpRequest.GET.getlist('PlaylistID')
+
+@api_view(['GET'])
+def Get_Combined_Playlist_Contents_From_Request(request):
+	playlistIDs = request.GET.getlist('PlaylistID')
 
 	Resulting_Video_Ids = Get_Combined_Video_IDs_From_Playlists(playlistIDs)
 
-	return djh.JsonResponse(
+	return Response(
 		{"Contents":Resulting_Video_Ids}
 	)

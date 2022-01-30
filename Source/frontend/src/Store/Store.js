@@ -9,9 +9,11 @@ import {
     PERSIST,
     PURGE,
     REGISTER,
+    persistStore,
 } from 'redux-persist'
 import storage from 'redux-persist/lib/storage'
 import { configureStore, combineReducers } from '@reduxjs/toolkit'
+
 
 
 const persistConfig = {
@@ -22,7 +24,7 @@ const persistConfig = {
 const rootReducer = combineReducers({
     playlists_reducer: Playlist_reducer,
     player_reducer: Player_reducer,
-    saved_slaylists_reducer: Saved_Playlists_reducer,
+    saved_playlists_reducer: Saved_Playlists_reducer,
 });
 const persistedReducer = persistReducer(persistConfig, rootReducer)
 
@@ -35,3 +37,5 @@ export const store = configureStore({
             },
         }),
 })
+
+export const persistor = persistStore(store)

@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import { addPlaylist, remove_Nth_Playlist, Set_Playlist_Menu_Value } from '../Store/Playlist_Manager/Playlist_Manager'
 import { SavePlaylists } from '../Store/Playlist_Manager/Saved_Playlists_Manager'
 import { v4 as uuidv4 } from 'uuid'
+import { Fetch_Videos_From_API } from './Player'
 
 function PLaylistsMenuItem({ Playlist, ElementIndex }) {
     const dispatch = useDispatch()
@@ -10,7 +11,7 @@ function PLaylistsMenuItem({ Playlist, ElementIndex }) {
     return (
         <tr>
             <td>
-                <div>{Playlist.Name}</div>
+                <div>{Playlist}</div>
             </td>
             <td>
                 <button onClick={
@@ -37,9 +38,7 @@ function PLaylistsMenuInput() {
             <td>
                 <button onClick={
                     () => {
-                        dispatch(addPlaylist(
-                            { Name: inputref.current.value }
-                        ))
+                        dispatch(addPlaylist( inputref.current.value ))
                         inputref.current.value = ''
                     }
                 } type="button">Add Playlist</button>
@@ -49,6 +48,7 @@ function PLaylistsMenuInput() {
                         dispatch(SavePlaylists(
                             playlists.values
                         ))
+                        Fetch_Videos_From_API();
                     }}
                 >Save Changes</button>
             </td>
@@ -58,7 +58,7 @@ function PLaylistsMenuInput() {
 
 export function PLaylistsMenu() {
     const playlists = useSelector((state) => state.playlists_reducer);
-    const saved_playlists = useSelector((state) => state.saved_slaylists_reducer);
+    const saved_playlists = useSelector((state) => state.saved_playlists_reducer);
     const dispatch = useDispatch()
 
     const Set_Playlist_Menu_Value_callback = useCallback(() => {

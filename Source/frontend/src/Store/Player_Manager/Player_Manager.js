@@ -4,10 +4,7 @@ export const Player_Slice = createSlice({
     name: "Player",
     initialState: {
         Current_Index: 0,
-        Videos: [
-            { Title: "titletest", VideoID: "2g811Eo7K8U" },
-            { Title: "titletest2", VideoID: "0hjp-Ey5TZ0" }
-        ]
+        Videos: []
     },
     reducers: {
         setCurrentIndex: (state, action) => {
