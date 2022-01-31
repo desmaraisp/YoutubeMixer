@@ -122,5 +122,5 @@ class Dev(Base):
 	CORS_ALLOW_ALL_ORIGINS = True
 
 class Prd(Base):
-	ALLOWED_HOSTS = ['youtubemixer.tk']
+	ALLOWED_HOSTS = ['youtubemixer.tk', 'localhost']
 	DEBUG=True
