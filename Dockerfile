@@ -23,7 +23,7 @@ FROM nginx:latest
 COPY --from=build ./app/build/. /usr/share/nginx/html/
 COPY nginx.conf /etc/nginx/conf.d/configfile.template
 
-
+CMD ["nginx", "-g", "daemon off;"]
 
 #FROM python:3
 #ENV PYTHONDONTWRITEBYTECODE=1
