@@ -4,7 +4,7 @@
 FROM node:latest as build
 
 # Add the source code to app
-COPY ./Source/frontend/* ./app
+COPY ./Source/frontend/* ./app/
 
 # Install all the dependencies
 RUN npm install
