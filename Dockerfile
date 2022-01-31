@@ -31,7 +31,6 @@ CMD exec python manage.py collectstatic
 
 # Copy the build output to replace the default nginx contents.
 COPY --from=build /app/build/. /usr/share/nginx/html/
-RUN rm /etc/nginx/conf.d/default.conf
-COPY nginx.conf /etc/nginx/conf.d
+COPY nginx.conf /etc/nginx/
 
 ENTRYPOINT ["/tini", "--", "./start.sh"]
