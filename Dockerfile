@@ -16,6 +16,7 @@ FROM ubuntu
 RUN apt-get update 
 RUN apt-get install -y nginx
 RUN apt-get install -y python
+RUN apt-get install python3-pip
 ENV TINI_VERSION v0.19.0
 ADD https://github.com/krallin/tini/releases/download/${TINI_VERSION}/tini /tini
 RUN chmod +x /tini
