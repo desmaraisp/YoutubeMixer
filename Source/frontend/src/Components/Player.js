@@ -8,7 +8,7 @@ export function Fetch_Videos_From_API() {
     const saved_playlists = store.getState().saved_playlists_reducer
     var FormattedString = saved_playlists.values.join("&PlaylistID=");
 
-    fetch("http://localhost:8000/api/Get_Combined_Playlist_Contents_From_Request?PlaylistID=" + FormattedString)
+    fetch("/api/Get_Combined_Playlist_Contents_From_Request?PlaylistID=" + FormattedString)
         .then(response => response.json())
         .then(data => {
             store.dispatch(setVideosList(data.Contents))
