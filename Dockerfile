@@ -36,6 +36,8 @@ COPY nginx.conf /etc/nginx/
 COPY start.sh /
 RUN chmod +x /start.sh
 ENV DJANGO_CONFIGURATION Prd
+ENV DJANGO_SETTINGS_MODULE YoutubeMixer_project.settings
+
 
 EXPOSE $PORT
 ENTRYPOINT ["/tini", "--", "/start.sh"]
