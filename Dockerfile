@@ -33,4 +33,5 @@ CMD exec python manage.py collectstatic
 COPY --from=build /app/build/. /usr/share/nginx/html/
 COPY nginx.conf /etc/nginx/
 
+COPY start.sh /
 ENTRYPOINT ["/tini", "--", "/start.sh"]
