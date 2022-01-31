@@ -35,4 +35,6 @@ COPY nginx.conf /etc/nginx/
 
 COPY start.sh /
 RUN chmod +x /start.sh
+
+EXPOSE $PORT
 ENTRYPOINT ["/tini", "--", "/start.sh"]
