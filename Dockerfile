@@ -20,10 +20,10 @@ RUN npm run build
 FROM nginx:latest
 
 # Copy the build output to replace the default nginx contents.
-COPY --from=build ./app/build/. /usr/share/nginx/html/
-COPY nginx.conf /etc/nginx/conf.d/configfile.template
+COPY --from=build /app/build/. /usr/share/nginx/html/
+COPY nginx.conf /etc/nginx/
 
-CMD ["nginx", "-g", "daemon off;"]
+CMD ["nginx", "-g", "daemon off;", "-c", "/etc/nginx/nginx.conf"]
 
 #FROM python:3
 #ENV PYTHONDONTWRITEBYTECODE=1
