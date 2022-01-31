@@ -7,6 +7,8 @@ jobs:
   setup-build-publish-deploy:
     name: Setup, Build, Publish, and Deploy
     runs-on: ubuntu-latest
+    env:
+      GCP_PROJECT: mixer-338320
     steps:
     - name: Checkout
       uses: actions/checkout@master
@@ -27,13 +29,13 @@ jobs:
     # Build the Docker image
     - name: Build & Publish
       run: |
-        gcloud builds submit --tag gcr.io/${{ secrets.GCP_PROJECT }}/image
+        gcloud builds submit --tag gcr.io/${{ env.GCP_PROJECT }}/image
         gcloud config set run/region us-central1
       
     # Deploy the Docker image to the GKE cluster
     - name: Deploy
       run: |
-        gcloud run deploy ${{ secrets.GCP_PROJECT }} --image gcr.io/${{ secrets.GCP_PROJECT }}/image \
+        gcloud run deploy ${{ env.GCP_PROJECT }} --image gcr.io/${{ env.GCP_PROJECT }}/image \
         --set-env-vars="Youtube_API_Key=${{ secrets.Youtube_API_Key }}" \
         --platform managed \
         --allow-unauthenticated \
