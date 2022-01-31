@@ -34,4 +34,5 @@ COPY --from=build /app/build/. /usr/share/nginx/html/
 COPY nginx.conf /etc/nginx/
 
 COPY start.sh /
+RUN chmod +x /start.sh
 ENTRYPOINT ["/tini", "--", "/start.sh"]
