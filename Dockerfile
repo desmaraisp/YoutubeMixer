@@ -24,7 +24,7 @@ ENTRYPOINT ["/tini", "--"]
 
 COPY /Source/backend/* /app/
 COPY requirements.txt .
-RUN python -m pip install -r requirements.txt
+RUN python3 -m pip install -r requirements.txt
 
 WORKDIR /app/
 CMD exec python manage.py collectstatic
