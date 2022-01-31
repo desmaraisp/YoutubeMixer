@@ -123,3 +123,4 @@ class Dev(Base):
 
 class Prd(Base):
 	ALLOWED_HOSTS = ['youtubemixer.tk']
+	DEBUG=True
