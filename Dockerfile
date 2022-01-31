@@ -4,8 +4,8 @@
 FROM node:latest as build
 
 # Add the source code to app
-COPY ./Source/frontend/* ./app/
-WORKDIR ./app
+COPY ./Source/frontend/. /app/
+WORKDIR /app
 
 # Install all the dependencies
 RUN npm install
@@ -20,7 +20,7 @@ RUN npm run build
 FROM nginx:latest
 
 # Copy the build output to replace the default nginx contents.
-COPY --from=build ./app/build/* /usr/share/nginx/html
+COPY --from=build ./app/build/. /usr/share/nginx/html/
 COPY nginx.conf /etc/nginx/conf.d/configfile.template
 
 
