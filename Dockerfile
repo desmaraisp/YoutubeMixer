@@ -35,6 +35,7 @@ COPY nginx.conf /etc/nginx/
 
 COPY start.sh /
 RUN chmod +x /start.sh
+ENV DJANGO_CONFIGURATION Prd
 
 EXPOSE $PORT
 ENTRYPOINT ["/tini", "--", "/start.sh"]
