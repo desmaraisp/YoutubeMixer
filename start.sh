@@ -2,6 +2,7 @@
 set -e
 
 cd /app
+ls
 gunicorn --bind :8080 --workers 1 --threads 8 --timeout 1500 YoutubeMixer_project.wsgi &
 #nginx -c "/etc/nginx/nginx.conf" &
 
