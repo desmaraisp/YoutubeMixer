@@ -23,6 +23,8 @@ FROM nginx:latest
 COPY --from=build /app/build/. /usr/share/nginx/html/
 COPY nginx.conf /etc/nginx/
 
+ENV PORT 8080
+
 CMD ["nginx", "-g", "daemon off;", "-c", "/etc/nginx/nginx.conf"]
 
 #FROM python:3
