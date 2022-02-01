@@ -95,6 +95,7 @@ class Base(Configuration):
 		},
 	]
 
+	ALLOWED_HOSTS = ['localhost', '0.0.0.0']
 
 	# Internationalization
 	# https://docs.djangoproject.com/en/4.0/topics/i18n/
@@ -117,10 +118,7 @@ class Base(Configuration):
 
 class Dev(Base):
 	DEBUG = True
-	ALLOWED_HOSTS = ['localhost']
-
 	CORS_ALLOW_ALL_ORIGINS = True
 
-class Prd(Base):
-	ALLOWED_HOSTS = ['youtubemixer.tk', 'localhost']
-	DEBUG=True
+class Prod(Base):
+	DEBUG=False

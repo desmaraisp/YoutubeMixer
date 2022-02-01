@@ -29,7 +29,8 @@ jobs:
     # Build the Docker image
     - name: Build & Publish
       run: |
-        gcloud builds submit --tag gcr.io/${{ env.GCP_PROJECT }}/image
+        gcloud builds submit --tag gcr.io/${{ env.GCP_PROJECT }}/image \
+        --build-arg='Environment=Prod'
         gcloud config set run/region us-central1
       
     # Deploy the Docker image to the GKE cluster

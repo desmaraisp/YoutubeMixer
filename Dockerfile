@@ -11,22 +11,28 @@ RUN npm install
 RUN npm run build
 
 
+#dependencies
+FROM python:3.10.2-alpine
+RUN apk update && \
+    apk add nginx \
+	&& apk add bash \
+	&& apk add --no-cache tini
+ENTRYPOINT ["/sbin/tini", "--"]
 
-FROM ubuntu
-RUN apt-get update 
-RUN apt-get install -y nginx
-RUN apt-get install -y python3
-RUN apt-get install -y python3-pip
-RUN apt-get install -y net-tools
-ENV TINI_VERSION v0.19.0
-ADD https://github.com/krallin/tini/releases/download/${TINI_VERSION}/tini /tini
-RUN chmod +x /tini
-ENTRYPOINT ["/tini", "--"]
-
+#Python dependencies
 COPY /Source/backend/. /app/
 COPY requirements.txt .
-RUN python3 -m pip install -r requirements.txt
+RUN pip install -r requirements.txt
 
+#Env variables
+ARG Environment='Dev'
+ARG Youtube_API_Key=''
+
+ENV Youtube_API_Key $Youtube_API_Key
+ENV DJANGO_CONFIGURATION $Environment
+ENV DJANGO_SETTINGS_MODULE YoutubeMixer_project.settings
+
+#Staticfiles
 WORKDIR /app/
 CMD exec python manage.py collectstatic
 
@@ -34,11 +40,6 @@ CMD exec python manage.py collectstatic
 COPY --from=build /app/build/. /usr/share/nginx/html/
 COPY nginx.conf /etc/nginx/
 
+EXPOSE 8080
 COPY start.sh /
-RUN chmod +x /start.sh
-ENV DJANGO_CONFIGURATION Prd
-ENV DJANGO_SETTINGS_MODULE YoutubeMixer_project.settings
-
-
-EXPOSE $PORT
-ENTRYPOINT ["/tini", "--", "/start.sh"]
+CMD ["/start.sh"]

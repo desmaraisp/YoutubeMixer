@@ -6,7 +6,7 @@ import sys
 
 def main():
     """Run administrative tasks."""
-    os.environ.setdefault('DJANGO_CONFIGURATION', 'Prd')
+    os.environ.setdefault('DJANGO_CONFIGURATION', 'Prod')
     os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'YoutubeMixer_project.settings')
     try:
         from configurations.management import execute_from_command_line
