@@ -1,0 +1,8 @@
+steps:
+- name: build
+  args: ["build",
+  '--build-arg', 'Environment=Prod',
+  "-t", "gcr.io/$PROJECT_ID/image",
+  "."]
+images:
+- gcr.io/$PROJECT_ID/image
