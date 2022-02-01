@@ -1,5 +1,5 @@
 steps:
-- name: build
+- name: 'gcr.io/cloud-builders/docker'
   args: ["build",
   '--build-arg', 'Environment=Prod',
   "-t", "gcr.io/$PROJECT_ID/image",
