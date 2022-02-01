@@ -42,4 +42,5 @@ COPY nginx.conf /etc/nginx/
 
 EXPOSE 8080
 COPY start.sh /
+RUN chmod +x /start.sh
 CMD ["/start.sh"]
