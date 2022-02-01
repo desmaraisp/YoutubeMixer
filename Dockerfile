@@ -13,11 +13,11 @@ RUN npm run build
 
 #dependencies
 FROM python:3.10.2-alpine
-RUN apk update && \
-    apk add nginx \
+RUN apk update \
+    && apk add nginx \
 	&& apk add bash \
-	&& apk add --no-cache tini
-ENTRYPOINT ["/sbin/tini", "--"]
+	&& apk add tini \
+	&& apk add net-tools
 
 #Python dependencies
 COPY /Source/backend/. /app/
@@ -35,6 +35,7 @@ ENV DJANGO_SETTINGS_MODULE YoutubeMixer_project.settings
 #Staticfiles
 WORKDIR /app/
 CMD exec python manage.py collectstatic
+CMD exec python manage.py migrate
 
 # Copy the build output to replace the default nginx contents.
 COPY --from=build /app/build/. /usr/share/nginx/html/
@@ -43,4 +44,4 @@ COPY nginx.conf /etc/nginx/
 EXPOSE 8080
 COPY start.sh /
 RUN chmod +x /start.sh
-CMD ["/start.sh"]
+ENTRYPOINT ["/sbin/tini", "--", "/start.sh"]

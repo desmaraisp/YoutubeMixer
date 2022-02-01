@@ -2,9 +2,11 @@
 set -e
 
 cd /app
-gunicorn --bind :8081 --workers 1 --threads 8 --log-level debug --timeout 1500 YoutubeMixer_project.wsgi &
+gunicorn --bind :8081 --workers 1 --threads 8 YoutubeMixer_project.wsgi &
+while ! netstat -na | grep 'LISTEN' | grep -q ':8081'; do
+  echo "waiting for gunicorn process..."
+  sleep 1
+done
 nginx -c "/etc/nginx/nginx.conf"
 
-
-sleep 20
 wait -n
