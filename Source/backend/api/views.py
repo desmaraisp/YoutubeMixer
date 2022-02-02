@@ -2,7 +2,7 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 import googleapiclient.discovery
 import dpath.util as dpu
-import os
+import os, random
 
 def start_Google_API():
 	api_service_name = "youtube"
@@ -37,17 +37,17 @@ def Get_Single_PlayList_Contents(YoutubeObject,PlaylistID):
 		if 'nextPageToken' not in nextPage:
 			result.pop('nextPageToken', None)
 		else:
-			nextPageToken = nextPage['nextPageToken']
+			result["nextPageToken"] = nextPage['nextPageToken']
 	
 	Result = []
 	video_IDs = dpu.values(result, "**/snippet/resourceId/videoId")
+	titles = dpu.values(result, "**/snippet/title")
 
 	for i, ID in enumerate(video_IDs):
 		Result.append(
 			{
 				"VideoID":ID,
-				"Image":"Placeholder",
-				"Title":i,
+				"Title":titles[i],
 			}
 		)
 	return Result
@@ -62,6 +62,7 @@ def Get_Combined_Video_IDs_From_Playlists(Playlist_All_IDs):
 		Video_IDs_For_this_Playlist = Get_Single_PlayList_Contents(YoutubeObject, PlayListID)
 		Combined_Playlists_Video_IDs.extend(Video_IDs_For_this_Playlist)
 	
+	random.shuffle(Combined_Playlists_Video_IDs)
 	return Combined_Playlists_Video_IDs
 
 

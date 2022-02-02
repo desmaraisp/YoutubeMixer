@@ -21,11 +21,14 @@ function PlayerVideoItem({ Video, ElementIndex }) {
 
     return (
         <tr>
-            <td>
+            <td className={"onclick_Hover"}>
                 <span onClick={() => {
                     dispatch(setCurrentIndex(ElementIndex))
                 }} >
-                    {Video.Title}
+                    <img className={"video_thumbnail"} alt={"icon"} src={`https://i.ytimg.com/vi/${Video.VideoID}/hqdefault.jpg`} />
+                    <span>
+                        {Video.Title}
+                    </span>
                 </span>
             </td>
         </tr>
