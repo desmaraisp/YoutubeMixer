@@ -1,0 +1,59 @@
+.onclick_Hover {
+    cursor: pointer;
+}
+
+#CurrentlyPlayingVideo {
+    background-color: #167dc640;
+}
+
+table {
+    border-collapse: collapse
+}
+
+.video_Player{
+    margin-top:15px;
+   justify-content: center;
+    display: flex;
+    align-items: center;
+}
+
+.VideoTitle {
+    display: inline-block;
+    padding-left: 10px;
+}
+
+.thumbnail_cell {
+    display: flex;
+    justify-content: center;
+}
+.video_Player tr:nth-child(odd) {
+    background: #282828
+}
+
+input,
+button {
+    background-color:inherit;
+    color:inherit;
+}
+
+body {
+    background-color: #181a1b;
+    border-color: rgb(115, 107, 94);
+    color: rgb(232, 230, 227);
+}
+
+iframe{
+    width:40vw;
+}
+
+.table_scroll {
+    height: 400px;
+    overflow-y: scroll;
+    display: block;
+}
+
+.video_thumbnail {
+    width: 10vw;
+    margin: auto;
+}
+

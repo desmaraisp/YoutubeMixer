@@ -2,7 +2,6 @@ import { useRef, useEffect, useCallback } from 'react';
 import { useSelector, useDispatch } from 'react-redux'
 import { addPlaylist, remove_Nth_Playlist, Set_Playlist_Menu_Value } from '../Store/Playlist_Manager/Playlist_Manager'
 import { SavePlaylists } from '../Store/Playlist_Manager/Saved_Playlists_Manager'
-import { v4 as uuidv4 } from 'uuid'
 import { Fetch_Videos_From_API } from './Player'
 
 function PLaylistsMenuItem({ Playlist, ElementIndex }) {
@@ -73,7 +72,7 @@ export function PLaylistsMenu() {
         <table><tbody>
             {
                 playlists.values.map((playlist, index) => {
-                    return <PLaylistsMenuItem key={uuidv4()} Playlist={playlist} ElementIndex={index} />
+                    return <PLaylistsMenuItem key={playlist.UUID} Playlist={playlist.PlaylistID} ElementIndex={index} />
                 })
             }
 

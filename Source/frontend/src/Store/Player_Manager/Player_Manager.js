@@ -1,4 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit'
+import { v4 as uuidv4 } from 'uuid'
 
 export const Player_Slice = createSlice({
     name: "Player",
@@ -12,6 +13,10 @@ export const Player_Slice = createSlice({
         },
 
         setVideosList: (state, action) => {
+            action.payload.forEach(function (part, index, Array) {
+                Array[index].UUID = uuidv4()
+            });
+
             state.Videos = action.payload
             state.Current_Index = 0
         }

@@ -1,12 +1,14 @@
 import { createSlice } from '@reduxjs/toolkit'
+import { v4 as uuidv4 } from 'uuid'
 
 export const Playlists_Slice = createSlice({
     name: "Playlists_Slice",
     initialState: { values: []},
     reducers : {
         addPlaylist: (state, action) => {
-            if (action.payload.Name !== '') {
-                state.values = state.values.concat(action.payload);
+            if (action.payload !== '') {
+                const Newpayload = { PlaylistID: action.payload, UUID: uuidv4() }
+                state.values = state.values.concat(Newpayload);
             }
         },
 
