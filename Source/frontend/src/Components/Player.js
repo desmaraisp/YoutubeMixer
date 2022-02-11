@@ -1,4 +1,5 @@
 import { useSelector, useDispatch } from 'react-redux'
+import { useEffect } from 'react'
 import { setCurrentIndex, setVideosList } from '../Store/Player_Manager/Player_Manager'
 import ReactPlayer from 'react-player/youtube'
 import { store } from '../Store/Store'
@@ -61,7 +62,7 @@ function VideoPlayerFrame() {
     const CurrentURL = "https://www.youtube.com/watch?v=" + (player_state.Videos[player_state.Current_Index]).VideoID
 
     return (
-        <ReactPlayer url={CurrentURL} controls={true} onReady={
+        <ReactPlayer width="40vw" url={CurrentURL} controls={true} onReady={
             (player) => {
                 if (player.getDuration() === 0) {
                     Current_Video_Done(player_state, dispatch)
@@ -79,6 +80,18 @@ function VideoPlayerFrame() {
 
 export function PlayerMenu() {
     let player_state = useSelector((state) => state.player_reducer);
+
+    useEffect(() => {
+        if (player_state.Videos.length !== 0) {
+            document.title = player_state.Videos[player_state.Current_Index].Title
+        }
+        else {
+            document.title = "Youtube Mixer"
+        }
+    })
+
+
+
 
     return (
         <div className="video_Player">
