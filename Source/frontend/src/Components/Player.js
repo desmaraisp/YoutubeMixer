@@ -68,9 +68,9 @@ function VideoPlayerFrame() {
                     Current_Video_Done(player_state, dispatch)
                 }
             }
-        } playing={true} onEnded={
+        } onEnded={
             () => {
-                Current_Video_Done(player_state, dispatch)
+                Current_Video_Done(player_state)
             }
         } />
     );
