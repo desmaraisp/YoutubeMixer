@@ -68,7 +68,7 @@ function VideoPlayerFrame() {
                     Current_Video_Done(player_state, dispatch)
                 }
             }
-        } onEnded={
+        } playing={true} onEnded={
             () => {
                 Current_Video_Done(player_state)
             }
@@ -81,16 +81,12 @@ function VideoPlayerFrame() {
 export function PlayerMenu() {
     let player_state = useSelector((state) => state.player_reducer);
 
-    useEffect(() => {
-        if (player_state.Videos.length !== 0) {
-            document.title = player_state.Videos[player_state.Current_Index].Title
-        }
-        else {
-            document.title = "Youtube Mixer"
-        }
-    })
-
-
+    if (player_state.Videos.length !== 0) {
+        document.title = player_state.Videos[player_state.Current_Index].Title
+    }
+    else {
+        document.title = "Youtube Mixer"
+    }
 
 
     return (
