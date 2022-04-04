@@ -1,8 +1,7 @@
-import Playlist_reducer from './Playlist_Manager/Playlist_Manager'
+import Unsaved_Playlists_reducer from './Playlists_Manager/Unsaved_Playlists_Manager'
 import Player_reducer from './Player_Manager/Player_Manager'
-import Saved_Playlists_reducer from './Playlist_Manager/Saved_Playlists_Manager'
+import Saved_Playlists_reducer from './Playlists_Manager/Saved_Playlists_Manager'
 import {
-    persistReducer,
     FLUSH,
     REHYDRATE,
     PAUSE,
@@ -11,25 +10,18 @@ import {
     REGISTER,
     persistStore,
 } from 'redux-persist'
-import storage from 'redux-persist/lib/storage'
 import { configureStore, combineReducers } from '@reduxjs/toolkit'
 
 
 
-const persistConfig = {
-    key: 'root',
-    version: 1,
-    storage,
-}
 const rootReducer = combineReducers({
-    playlists_reducer: Playlist_reducer,
-    player_reducer: Player_reducer,
-    saved_playlists_reducer: Saved_Playlists_reducer,
+    Unsaved_Playlists_reducer: Unsaved_Playlists_reducer,
+    Player_reducer: Player_reducer,
+    Saved_Playlists_reducer: Saved_Playlists_reducer,
 });
-const persistedReducer = persistReducer(persistConfig, rootReducer)
 
 export const store = configureStore({
-    reducer: persistedReducer,
+    reducer: rootReducer,
     middleware: (getDefaultMiddleware) =>
         getDefaultMiddleware({
             serializableCheck: {

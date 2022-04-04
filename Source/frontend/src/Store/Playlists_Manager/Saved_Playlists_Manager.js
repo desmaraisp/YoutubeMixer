@@ -1,4 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit'
+import storage from 'redux-persist/lib/storage'
+import { persistReducer } from 'redux-persist'
+
 
 export const Saved_Playlists_Slice = createSlice({
     name: "Saved_Playlists_Slice",
@@ -14,4 +17,11 @@ export const Saved_Playlists_Slice = createSlice({
 
 export const { SavePlaylists } = Saved_Playlists_Slice.actions;
 
-export default Saved_Playlists_Slice.reducer;
+
+const persistConfig = {
+    key: 'Saved_Playlists',
+    version: 1,
+    storage,
+}
+
+export default persistReducer(persistConfig, Saved_Playlists_Slice.reducer)

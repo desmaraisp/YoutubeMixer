@@ -34,8 +34,7 @@ ENV DJANGO_SETTINGS_MODULE YoutubeMixer_project.settings
 
 #Staticfiles
 WORKDIR /app/
-CMD exec python manage.py collectstatic
-CMD exec python manage.py migrate
+#RUN bash -c 'python manage.py migrate'
 
 # Copy the build output to replace the default nginx contents.
 COPY --from=build /app/build/. /usr/share/nginx/html/
