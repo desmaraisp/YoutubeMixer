@@ -6,14 +6,14 @@ import { v4 as uuidv4 } from 'uuid';
 import { UserRefreshClient } from 'googleapis-common';
 import { ErrorWithHTTPCode } from '@/models/exceptions/custom-exceptions';
 
-export const clientId = process.env.GOOGLE_CLIENT_ID
-export const clientSecret = process.env.GOOGLE_CLIENT_SECRET
+export const clientId = process.env.GOOGLE_CLIENT_ID ?? (() => { throw new Error("Missing var GOOGLE_CLIENT_ID") })()
+export const clientSecret = process.env.GOOGLE_CLIENT_SECRET ?? (() => { throw new Error("Missing var GOOGLE_CLIENT_SECRET") })()
 
-function clientFactory(refreshToken: string|null) {
+function clientFactory(refreshToken: string | null) {
 	if (!refreshToken)
 		return youtube({
 			version: 'v3',
-			auth: process.env.Youtube_API_Key,
+			auth: process.env.Youtube_API_Key ?? (() => { throw new Error("Missing var Youtube_API_Key") })(),
 		})
 
 	return youtube({
@@ -22,7 +22,7 @@ function clientFactory(refreshToken: string|null) {
 }
 
 
-export async function getYoutubePlaylistData(PlaylistID: string, refreshToken: string|null): Promise<PlaylistSuccessResponseModel> {
+export async function getYoutubePlaylistData(PlaylistID: string, refreshToken: string | null): Promise<PlaylistSuccessResponseModel> {
 	const client = clientFactory(refreshToken)
 	const oauth = refreshToken ? new UserRefreshClient(
 		clientId,
@@ -58,7 +58,7 @@ export async function getYoutubePlaylistData(PlaylistID: string, refreshToken: s
 		playlistItemsResult.data.nextPageToken = nextPage.data.nextPageToken
 	}
 
-	if(!playlistItemsResult.data.items || !playlistResult.data.items) throw new ErrorWithHTTPCode("No items found", 404)
+	if (!playlistItemsResult.data.items || !playlistResult.data.items) throw new ErrorWithHTTPCode("No items found", 404)
 
 	const playlistItems = playlistItemsResult.data.items.map((item) => {
 		const playlistItemResult: PlaylistItem = {
