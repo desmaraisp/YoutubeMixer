@@ -1,9 +1,9 @@
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
-import { decrementCurrentIndexToExternalStorage, incrementCurrentIndexToExternalStorage } from "@/store/saved-tracks-reducer";
+import { decrementCurrentIndexToExternalStorage, incrementCurrentIndexToExternalStorage, shuffleTracksToExternalStorage } from "@/store/saved-tracks-reducer";
 import { unStyledButton } from "@/styles/shared/button.css";
 import { ellipsisText } from "@/styles/shared/ellipsis-text.css";
 import { flexboxVariants } from "@/styles/shared/flexbox.css";
-import { faStepBackward, faStepForward } from "@fortawesome/free-solid-svg-icons";
+import { faStepBackward, faStepForward, faShuffle } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useContext } from "react";
 import { FirebaseAuthContext } from "./firebase-context";
@@ -25,6 +25,12 @@ export function TracksListHeader() {
 				}}>
 					<FontAwesomeIcon
 						icon={faStepBackward} />
+				</button>
+				<button className={unStyledButton} type="button" onClick={() => {
+					dispatch(shuffleTracksToExternalStorage(currentUser))
+				}}>
+					<FontAwesomeIcon
+						icon={faShuffle} />
 				</button>
 				<button className={unStyledButton} type="button" onClick={() => {
 					dispatch(incrementCurrentIndexToExternalStorage(currentUser))
