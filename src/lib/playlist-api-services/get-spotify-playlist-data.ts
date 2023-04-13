@@ -5,8 +5,8 @@ import { v4 as uuidv4 } from 'uuid';
 import SpotifyWebApi from 'spotify-web-api-node'
 
 const spotifyApi = new SpotifyWebApi({
-	clientId: process.env.SPOTIFY_CLIENT_ID,
-	clientSecret: process.env.SPOTIFY_CLIENT_SECRET,
+	clientId: process.env.SPOTIFY_CLIENT_ID ?? (() => {throw new Error("Missing var SPOTIFY_CLIENT_ID")})(),
+	clientSecret: process.env.SPOTIFY_CLIENT_SECRET ?? (() => {throw new Error("Missing var SPOTIFY_CLIENT_SECRET")})(),
 });
 
 export async function getSpotifyPlaylistData(PlaylistID: string, refreshToken: string | null): Promise<PlaylistSuccessResponseModel> {
