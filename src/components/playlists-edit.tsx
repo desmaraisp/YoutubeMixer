@@ -19,6 +19,7 @@ import { DeletePlaylistButton } from './playlist-menu-controls/delete-playlist-b
 export function PlaylistsEdit() {
 	const playlists = useAppSelector(state => state.playlistsReducer.playlists)
 	const [tempPlaylists, setTempPlaylists] = useState<PlaylistModel[]>([])
+	const [shuffle, setShuffle] = useState(true)
 
 	useEffect(() => {
 		setTempPlaylists(playlists)
@@ -52,11 +53,20 @@ export function PlaylistsEdit() {
 					})
 				}}
 			/>
+			<div className={flexboxVariants.centered}>
+				<label>
+					Shuffle tracks
+					<input type='checkbox' checked={shuffle} onChange={() => {
+						setShuffle((current) => !current)
+					}} />
+				</label>
+
+			</div>
 
 
 
 			<div style={{ marginTop: "15px" }} className={flexboxVariants.gapped}>
-				<SavePlaylistsButton playlistsToSave={tempPlaylists} />
+				<SavePlaylistsButton playlistsToSave={tempPlaylists} shuffle={shuffle} />
 
 				<button type='submit' onClick={() => {
 					setTempPlaylists(playlists)
@@ -71,7 +81,7 @@ export function PlaylistsEdit() {
 	)
 }
 
-function SavePlaylistsButton({ playlistsToSave }: { playlistsToSave: PlaylistModel[] }) {
+function SavePlaylistsButton({ playlistsToSave, shuffle }: { playlistsToSave: PlaylistModel[], shuffle: boolean }) {
 	const router = useRouter()
 	const dispatch = useAppDispatch()
 	const currentUser = useContext(FirebaseAuthContext).user
@@ -82,7 +92,8 @@ function SavePlaylistsButton({ playlistsToSave }: { playlistsToSave: PlaylistMod
 		dispatch(savePlaylistsToExternalStorage({ user: user, newPlaylists: playlistsToSave }));
 		dispatch(setTracksListToExternalStorage({
 			user: user,
-			newTracks: playlistsToSave.filter(x => x.enabled === true)
+			newTracks: playlistsToSave.filter(x => x.enabled === true),
+			shuffle: shuffle
 		}))
 
 		router.push("/");

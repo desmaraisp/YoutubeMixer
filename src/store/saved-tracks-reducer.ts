@@ -5,6 +5,7 @@ import { DBPlayerModel } from '@/models/database/db-player-model';
 import { User } from 'firebase/auth';
 import { AppDispatch, RootState } from './store';
 import { setPlayer } from '@/lib/firestore/set-player';
+import { ShuffleArray } from '@/lib/shuffle-array';
 
 
 export const setCurrentIndexToExternalStorage = createAsyncThunk<void, { user: User, newIndex: number }, { dispatch: AppDispatch, state: RootState }>(
@@ -47,9 +48,22 @@ export const decrementCurrentIndexToExternalStorage = createAsyncThunk<void, Use
 	}
 )
 
+export const shuffleTracksToExternalStorage = createAsyncThunk<void, User, { dispatch: AppDispatch, state: RootState }>(
+	'player/shuffleTracksToExternalStorage',
+	async (user, thunkApi) => {
+		const previousState = {...thunkApi.getState().playerReducer}
+
+		await setPlayer(user, {
+			currentIndex: 0,
+			playlistItems: ShuffleArray([...previousState.playlistItems])
+		})
+	}
+)
+
+
 export const setTracksListToExternalStorage = createAsyncThunk(
 	'player/setTracksListToExternalStorage',
-	async ({ user, newTracks }: { user: User, newTracks: PlaylistModel[] }) => {
+	async ({ user, newTracks, shuffle }: { user: User, newTracks: PlaylistModel[], shuffle: boolean }) => {
 
 		const playlistItems = newTracks.flatMap((playlist) => {
 			return playlist.playlistItems
@@ -57,7 +71,7 @@ export const setTracksListToExternalStorage = createAsyncThunk(
 
 		await setPlayer(user, {
 			currentIndex: 0,
-			playlistItems: playlistItems
+			playlistItems: shuffle? ShuffleArray(playlistItems) : playlistItems
 		})
 	}
 )
