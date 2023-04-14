@@ -27,6 +27,7 @@ jobs:
     - name: 'Set up Cloud SDK'
       uses: 'google-github-actions/setup-gcloud@v1'
 
-    - id: test-access
+    - id: deploy-infra
       run: |
-        gcloud services list --enabled --project temp-happy-1325234
+        terraform -chdir=terraform/main-deployment init
+        terraform -chdir=terraform/main-deployment apply -auto-approve
