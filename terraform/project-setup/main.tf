@@ -44,3 +44,18 @@ resource "google_project_iam_member" "sa-owner-role" {
   role               = "roles/owner"
   member             = "serviceAccount:${google_service_account.project_service_account.email}"
 }
+
+resource "random_id" "bucket_prefix" {
+  byte_length = 8
+}
+
+resource "google_storage_bucket" "default" {
+  name          = "${random_id.bucket_prefix.hex}-bucket-tfstate"
+  force_destroy = true
+  location      = "US"
+  storage_class = "NEARLINE"
+
+  depends_on = [
+	google_project_service.gcp_services
+  ]
+}
