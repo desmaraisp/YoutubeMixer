@@ -2,7 +2,7 @@ resource "google_project_service" "gcp_run" {
   service = "run.googleapis.com"
 }
 
-resource "google_cloud_run_service" "cloudrun-frontend" {
+resource "google_cloud_run_service" "nextjs-main" {
   name     = "NextJS-Main"
   location = var.region
 

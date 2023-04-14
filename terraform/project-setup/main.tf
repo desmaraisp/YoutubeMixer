@@ -8,7 +8,8 @@ resource "google_project_service" "gcp_services" {
   service = each.key
 }
 resource "google_service_account" "project_service_account" {
-  account_id   = "oidc-gcp-service-account"
+  account_id   = "oidc-gcp-service-account2"
+  display_name = "GA service account"
 }
 
 resource "google_iam_workload_identity_pool" "main" {
@@ -32,14 +33,14 @@ resource "google_iam_workload_identity_pool_provider" "main" {
   }
 }
 
-resource "google_service_account_iam_member" "wif-sa-workflow" {
+resource "google_service_account_iam_member" "wif-sa-workload" {
   service_account_id = google_service_account.project_service_account.id
   role               = "roles/iam.workloadIdentityUser"
   member             = "principalSet://iam.googleapis.com/${google_iam_workload_identity_pool.main.name}/attribute.repository/desmaraisp/YoutubeMixer"
 }
 
-resource "google_service_account_iam_member" "wif-sa-owner" {
-  service_account_id = google_service_account.project_service_account.id
+resource "google_project_iam_member" "sa-owner-role" {
+  project            = var.ProjectID
   role               = "roles/owner"
   member             = "serviceAccount:${google_service_account.project_service_account.email}"
 }
