@@ -1,6 +1,14 @@
+resource "google_project_service" "gcp_run" {
+  service = "run.googleapis.com"
+}
+
 resource "google_cloud_run_service" "cloudrun-frontend" {
   name     = "NextJS-Main"
   location = var.region
+
+  depends_on = [
+	google_project_service.gcp_run
+  ]
 
   template {
     spec {
