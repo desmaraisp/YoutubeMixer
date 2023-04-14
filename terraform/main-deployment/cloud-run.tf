@@ -3,7 +3,7 @@ resource "google_project_service" "gcp_run" {
 }
 
 resource "google_cloud_run_service" "nextjs-main" {
-  name     = "NextJS-Main"
+  name     = "nextjs-main"
   location = var.region
 
   depends_on = [

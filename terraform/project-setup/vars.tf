@@ -16,5 +16,6 @@ variable "gcp_service_list" {
 	"cloudresourcemanager.googleapis.com",
 	"iamcredentials.googleapis.com",
 	"sts.googleapis.com",
+	"storage.googleapis.com"
   ]
 }
