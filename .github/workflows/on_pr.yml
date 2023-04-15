@@ -12,6 +12,10 @@ permissions:
   id-token: write # This is required for requesting the JWT
   contents: read  # This is required for actions/checkout
 
+env:
+  ProjectID: temp-happy-1325234
+
+
 jobs:
   test:
     runs-on: ubuntu-latest
@@ -28,6 +32,18 @@ jobs:
       uses: 'google-github-actions/setup-gcloud@v1'
 
     - id: deploy-infra
+      env:
+        TF_VAR_ProjectID: ${{env.ProjectID}}
       run: |
         terraform -chdir=terraform/main-deployment init
         terraform -chdir=terraform/main-deployment apply -auto-approve
+
+    - id: build-docker
+      run: |
+        gcloud auth configure-docker us-central1-docker.pkg.dev
+        docker build -t us-central1-docker.pkg.dev/${{env.ProjectID}}/nextjs-main/release:latest .
+        docker push us-central1-docker.pkg.dev/${{env.ProjectID}}/nextjs-main/release
+    
+    - id: deploy-revision
+      run: |
+        gcloud run deploy nextjs-main --image us-central1-docker.pkg.dev/temp-happy-1325234/nextjs-main/release
