@@ -1,6 +1,14 @@
+resource "google_project_service" "firebase" {
+  provider = google-beta
+  service = "firebase.googleapis.com"
+}
+
 resource "google_firebase_project" "default" {
   provider = google-beta
   project = var.ProjectID
+  depends_on = [
+	google_project_service.firebase
+  ]
 }
 
 resource "google_firebase_web_app" "default" {
