@@ -58,7 +58,7 @@ export function UpgradeAnonymousAccount({ user }: { user: User }) {
 
 				<p>They have access to the exact same features as regular accounts. There are two possible reasons why you might want to upgrade to a regular account:</p>
 				<ul>
-					<li>You don't want to lose your data when clearing the browser data.</li>
+					<li>You don&apos;t want to lose your data when clearing the browser data.</li>
 					<li>You want to synchronize your data across multiple devices</li>
 				</ul>
 			</>}

@@ -24,7 +24,7 @@ export function Player({ className }: { className?: string }) {
 		if (previousPlayerIndex && currentTrack.itemID === savedTracks[previousPlayerIndex].itemID) {
 			setPlayerKey(uuidv4())
 		}
-	}, [currentPlayerIndex])
+	}, [currentPlayerIndex, currentTrack, currentUser, previousPlayerIndex, savedTracks])
 
 
 	if (savedTracks.length == 0 || !currentTrack || !currentUser) {

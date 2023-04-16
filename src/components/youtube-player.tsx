@@ -7,10 +7,10 @@ interface YoutubePlayerProps {
 	onReady?: (player: YT.Player) => void
 	className?: string
 }
-export function YoutubePlayer({ uri, onEnded = () => {}, onReady = () => {}, className = "" }: YoutubePlayerProps) {
+export function YoutubePlayer({ uri, onEnded = () => { }, onReady = () => { }, className = "" }: YoutubePlayerProps) {
 	const ref = useRef<HTMLDivElement>(null)
 	const [isReady, setIsReady] = useState(false)
-	const player = useRef<YT.Player | null>(null)
+	const [player, setPlayer] = useState<YT.Player | null>(null)
 
 	useEffect(() => {
 		if (!window?.YT?.Player) {
@@ -27,29 +27,28 @@ export function YoutubePlayer({ uri, onEnded = () => {}, onReady = () => {}, cla
 		if (!isReady || !window?.YT?.Player || !ref.current)
 			return
 
-		player.current = new window.YT.Player(ref.current, {
+		setPlayer(new window.YT.Player(ref.current, {
 			width: '100%',
 			height: '100%',
-			videoId: uri,
 			events: {
 				onReady: (ev) => {
 					onReady(ev.target)
 				},
 				onStateChange: (ev) => {
-					if(ev.data === YT.PlayerState.ENDED){
+					if (ev.data === YT.PlayerState.ENDED) {
 						onEnded()
 					}
 				}
 			}
-		})
-	}, [isReady])
+		}))
+	}, [isReady, onEnded, onReady])
 
 	useEffect(() => {
-		if (!player.current)
+		if (!player)
 			return
 
-		player.current.loadVideoById(uri)
-	}, [uri])
+		player.loadVideoById(uri)
+	}, [uri, player])
 
 
 

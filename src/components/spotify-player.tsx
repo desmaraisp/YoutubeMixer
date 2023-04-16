@@ -20,7 +20,7 @@ interface SpotifyPlayerProps {
 export function SpotifyPlayer({ uri, onEnded = () => { }, onReady = () => { }, className = "" }: SpotifyPlayerProps) {
 	const ref = useRef<HTMLDivElement>(null)
 	const [isReady, setIsReady] = useState(false)
-	const embedController = useRef<EmbedController | null>(null)
+	const [embedController, setEmbedController] = useState<EmbedController | null>(null)
 
 	useEffect(() => {
 		if (!window?.SpotifyIframeApi) {
@@ -39,23 +39,21 @@ export function SpotifyPlayer({ uri, onEnded = () => { }, onReady = () => { }, c
 
 		window.SpotifyIframeApi.createController(
 			ref.current,
-			{
-				uri: uri
-			},
+			{},
 			(emb) => {
-				embedController.current = emb
+				setEmbedController(emb)
 				emb.addListener("ready", () => onReady(emb))
 				emb.addListener("playback_update", (e) => onStateChange(e, onEnded))
 			}
 		)
-	}, [isReady])
+	}, [isReady, onEnded, onReady])
 
 	useEffect(() => {
-		if (!embedController.current)
+		if (!embedController)
 			return
 
-		embedController.current.loadUri(uri)
-	}, [uri])
+		embedController.loadUri(uri)
+	}, [uri, embedController])
 
 
 
