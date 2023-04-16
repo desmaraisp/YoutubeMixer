@@ -5,7 +5,7 @@ import { spinner } from "@/styles/shared/spinner.css"
 import { getIdToken, User } from "firebase/auth"
 import Link from "next/link"
 import { useRouter } from "next/router"
-import { useEffect, useState } from "react"
+import { useCallback, useEffect, useState } from "react"
 import { ErrorMessage } from "../error-message"
 import { AuthenticationMenuWidget } from "./authentication-menu-widget"
 
@@ -16,7 +16,7 @@ export function ConnectAccount({ user }: { user: User }) {
 	const [errorMessage, setErrorMessage] = useState<string | null>(null)
 	const isGoogleAccountLoggedIn = user.providerData.some((profile) => profile.providerId === "google.com")
 
-	const fetchLoggedInProviders = async () => {
+	const fetchLoggedInProviders = useCallback(async () => {
 		setErrorMessage(null)
 		try {
 			var response = await fetch("/api/auth/get-logged-in-custom-providers", {
@@ -41,11 +41,11 @@ export function ConnectAccount({ user }: { user: User }) {
 
 		setAuthorizationState(result)
 		setTokenID(await getIdToken(user))
-	}
+	}, [user])
 
 	useEffect(() => {
 		fetchLoggedInProviders()
-	}, [])
+	}, [fetchLoggedInProviders])
 
 	return (
 		<AuthenticationMenuWidget title={"Connect external account"} description={<p>Connecting an account allows you list the private playlists of that account</p>}>

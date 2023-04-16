@@ -47,7 +47,7 @@ export function FirebaseProvider({ children }: { children: React.ReactNode }) {
 		})
 
 		return unsubscribe
-	}, [user?.uid])
+	}, [dispatch, user?.uid])
 
 	useEffect(() => {
 		if (!user?.uid) {
@@ -66,7 +66,7 @@ export function FirebaseProvider({ children }: { children: React.ReactNode }) {
 		})
 
 		return unsubscribe
-	}, [user?.uid])
+	}, [dispatch, user?.uid])
 
 	return (
 		<FirebaseAuthContext.Provider value={{user: user, isLoading: isLoading}}>

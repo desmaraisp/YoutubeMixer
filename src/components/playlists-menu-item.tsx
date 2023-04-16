@@ -12,7 +12,7 @@ export function PlaylistsMenuItem({ Playlist, controls }: { Playlist: PlaylistMo
 		<div style={{ width: "45%", minWidth: "355px" }} className={Playlist.enabled ? baseClassName : `${greyedOut} ${baseClassName}`}>
 			<div style={{ width: '100px', borderRadius: "13px", overflow: 'hidden', flexShrink: 0, margin: 'auto' }}>
 				<a target='_blank' href={Playlist.playlistURL}>
-					<img className={fullWidth} src={Playlist.playlistImage} />
+					<img className={fullWidth} src={Playlist.playlistImage} alt={Playlist.playlistName} />
 				</a>
 			</div>
 			<div style={{ flexGrow: 1, padding: "10px 0px" }}>
