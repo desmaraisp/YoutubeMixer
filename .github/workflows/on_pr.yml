@@ -42,6 +42,7 @@ jobs:
     - name: deploy-revision
       run: |
         Youtube_API_Key=$(terraform -chdir=terraform/main-deployment output -raw Youtube_API_Key)
+        gcloud config set run/region us-central1
         gcloud run deploy nextjs-main --image us-central1-docker.pkg.dev/${{vars.GCPProjectID}}/nextjs-main/release \
           --set-env-vars="GOOGLE_CLIENT_ID=${{ secrets.GOOGLE_CLIENT_ID }}" \
           --set-env-vars="GOOGLE_CLIENT_SECRET=${{ secrets.GOOGLE_CLIENT_SECRET }}" \
