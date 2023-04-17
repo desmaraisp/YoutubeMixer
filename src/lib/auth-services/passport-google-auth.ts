@@ -2,13 +2,13 @@ import { GoogleCallbackParameters, Profile, Strategy as GoogleStrategy, VerifyCa
 import passport from "passport";
 import { Request } from 'express'
 import { setRefreshTokensToDB } from "../firestore/get-set-db-refresh-token";
-import { applicationConfig } from "@/configuration";
+import { applicationConfig, throwValidationError } from "@/configuration";
 
 passport.use(
 	new GoogleStrategy(
 		{
-			clientID: applicationConfig.googleClientID,
-			clientSecret: applicationConfig.googleClientSecret,
+			clientID: applicationConfig.googleClientID ?? throwValidationError("GOOGLE_CLIENT_ID"),
+			clientSecret: applicationConfig.googleClientSecret ?? throwValidationError("GOOGLE_CLIENT_SECRET"),
 			callbackURL: "/api/auth/oauth2/redirect/google",
 			passReqToCallback: true
 		},
