@@ -16,7 +16,7 @@ EOT
 
 resource "local_file" "firebase_config" {
   content = local.build-time-env-content
-  filename = "./env.production"
+  filename = "${path.cwd}/.env.production"
 }
 
 output "Youtube_API_Key" {
