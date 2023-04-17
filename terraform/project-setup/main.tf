@@ -8,7 +8,7 @@ resource "google_project_service" "gcp_services" {
   service = each.key
 }
 resource "google_service_account" "project_service_account" {
-  account_id   = "oidc-gcp-service-account2"
+  account_id   = "oidc-gh-service-account"
   display_name = "GA service account"
 }
 
@@ -58,4 +58,17 @@ resource "google_storage_bucket" "default" {
   depends_on = [
 	google_project_service.gcp_services
   ]
+}
+
+output "RemoteStateBucket" {
+  value = google_storage_bucket.default.name
+}
+output "ProjectID" {
+  value = var.ProjectID
+}
+output "WorkloadIDProvider" {
+  value = google_iam_workload_identity_pool_provider.main.name
+}
+output "ServiceAccount" {
+  value = google_service_account.project_service_account.email
 }

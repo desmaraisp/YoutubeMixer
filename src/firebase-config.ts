@@ -1,14 +1,15 @@
 import { FirebaseOptions, getApps, initializeApp, getApp } from "firebase/app";
 import { getAuth } from 'firebase/auth'
 import { getFirestore } from 'firebase/firestore'
+import { applicationConfig } from "./configuration";
 
 const firebaseConfig: FirebaseOptions = {
-	apiKey: process.env.NEXT_PUBLIC_ApiKey ?? (() => {throw new Error("Missing var NEXT_PUBLIC_ApiKey")})(),
-	authDomain: process.env.NEXT_PUBLIC_AuthDomain ?? (() => {throw new Error("Missing var NEXT_PUBLIC_AuthDomain")})(),
-	projectId: process.env.NEXT_PUBLIC_ProjectId ?? (() => {throw new Error("Missing var NEXT_PUBLIC_ProjectId")})(),
-	storageBucket: process.env.NEXT_PUBLIC_StorageBucket ?? (() => {throw new Error("Missing var NEXT_PUBLIC_StorageBucket")})(),
-	messagingSenderId: process.env.NEXT_PUBLIC_MessagingSenderId ?? (() => {throw new Error("Missing var NEXT_PUBLIC_MessagingSenderId")})(),
-	appId: process.env.NEXT_PUBLIC_AppId ?? (() => {throw new Error("Missing var NEXT_PUBLIC_AppId")})()
+	apiKey: applicationConfig.publicAPIKey,
+	authDomain: applicationConfig.publicAuthDomain,
+	projectId: applicationConfig.publicProjectID,
+	storageBucket: applicationConfig.publicStorageBucket,
+	messagingSenderId: applicationConfig.publicMessagingSenderId,
+	appId: applicationConfig.publicAppID
 };
 
 if (!getApps().length) {
