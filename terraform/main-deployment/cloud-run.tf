@@ -12,6 +12,7 @@ resource "google_cloud_run_service" "nextjs-main" {
 
   template {
     spec {
+	  service_account_name = google_service_account.cloudrun-identity.email
       containers {
         image = "us-docker.pkg.dev/cloudrun/container/hello"
       }
@@ -24,6 +25,8 @@ resource "google_cloud_run_service" "nextjs-main" {
   }
 }
 
+
+# Enable unathenticated invocation of cloud function
 data "google_iam_policy" "noauth" {
   binding {
     role = "roles/run.invoker"
@@ -32,7 +35,6 @@ data "google_iam_policy" "noauth" {
     ]
   }
 }
-
 resource "google_cloud_run_service_iam_policy" "noauth" {
   location    = google_cloud_run_service.nextjs-main.location
   project     = google_cloud_run_service.nextjs-main.project

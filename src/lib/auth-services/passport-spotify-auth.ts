@@ -2,12 +2,13 @@ import passport from "passport";
 import {Strategy as SpotifyStrategy, VerifyCallback, Profile, } from 'passport-spotify'
 import { Request } from 'express'
 import { setRefreshTokensToDB } from "../firestore/get-set-db-refresh-token";
+import { applicationConfig } from "@/configuration";
 
 passport.use(
 	new SpotifyStrategy(
 		{
-			clientID: process.env.SPOTIFY_CLIENT_ID ?? (() => {throw new Error("Missing var SPOTIFY_CLIENT_ID")})(),
-			clientSecret: process.env.SPOTIFY_CLIENT_SECRET ?? (() => {throw new Error("Missing var SPOTIFY_CLIENT_SECRET")})(),
+			clientID: applicationConfig.spotifyClientID,
+			clientSecret: applicationConfig.spotifyClientSecret,
 			callbackURL: "/api/auth/oauth2/redirect/spotify",
 			passReqToCallback: true
 		},

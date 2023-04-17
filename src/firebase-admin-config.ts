@@ -2,13 +2,14 @@ import { credential, AppOptions } from "firebase-admin";
 import { getAuth } from 'firebase-admin/auth'
 import { getFirestore } from 'firebase-admin/firestore'
 import firebaseAdmin from 'firebase-admin'
+import { applicationConfig } from "./configuration";
 
 
 const adminConfig: AppOptions = {
 	credential: credential.cert({
-		clientEmail: process.env.FIREBASE_CLIENT_EMAIL ?? (() => {throw new Error("Missing var FIREBASE_CLIENT_EMAIL")})(),
-		privateKey: process.env.FIREBASE_PRIVATE_KEY ?? (() => {throw new Error("Missing var FIREBASE_PRIVATE_KEY")})(),
-		projectId: process.env.FIREBASE_PROJECT_ID ?? (() => {throw new Error("Missing var FIREBASE_PROJECT_ID")})()
+		clientEmail: applicationConfig.clientEmail,
+		privateKey: applicationConfig.privateKey,
+		projectId: applicationConfig.publicProjectID
 	})
 }
 

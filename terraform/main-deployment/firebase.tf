@@ -1,5 +1,4 @@
 resource "google_project_service" "firebase" {
-  provider = google-beta
   service = "firebase.googleapis.com"
 }
 
@@ -24,13 +23,12 @@ resource "google_firebase_web_app" "default" {
 }
 
 resource "google_project_service" "auth" {
-  provider = google-beta
   service = "identitytoolkit.googleapis.com"
 }
 
 resource "google_identity_platform_config" "auth" {
-  provider = google-beta
   autodelete_anonymous_users = true
+  provider = google-beta
 
 
   depends_on = [
@@ -39,7 +37,6 @@ resource "google_identity_platform_config" "auth" {
 }
 
 resource "google_identity_platform_project_default_config" "auth" {
-  provider = google-beta
   sign_in {
     allow_duplicate_emails = false
 

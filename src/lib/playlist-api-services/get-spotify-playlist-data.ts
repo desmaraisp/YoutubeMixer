@@ -3,10 +3,11 @@ import { PlaylistSuccessResponseModel } from "@/models/api-models/playlist-api-m
 import { PlaylistTypesEnum } from '@/models/playlist-types'
 import { v4 as uuidv4 } from 'uuid';
 import SpotifyWebApi from 'spotify-web-api-node'
+import { applicationConfig } from '@/configuration';
 
 const spotifyApi = new SpotifyWebApi({
-	clientId: process.env.SPOTIFY_CLIENT_ID ?? (() => {throw new Error("Missing var SPOTIFY_CLIENT_ID")})(),
-	clientSecret: process.env.SPOTIFY_CLIENT_SECRET ?? (() => {throw new Error("Missing var SPOTIFY_CLIENT_SECRET")})(),
+	clientId: applicationConfig.spotifyClientID,
+	clientSecret: applicationConfig.spotifyClientSecret,
 });
 
 export async function getSpotifyPlaylistData(PlaylistID: string, refreshToken: string | null): Promise<PlaylistSuccessResponseModel> {

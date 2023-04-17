@@ -1,7 +1,3 @@
-provider "google" {
-  project = var.ProjectID
-  region  = var.region
-}
 provider "google-beta" {
   project = var.ProjectID
   region  = var.region
@@ -9,7 +5,7 @@ provider "google-beta" {
 
 terraform {
  backend "gcs" {
-   bucket  = "4b65166a39606ce4-bucket-tfstate"
+   bucket  = "b855b462c9df25fc-bucket-tfstate"
    prefix  = "terraform/state"
  }
 }
