@@ -11,6 +11,9 @@ export async function fetchPlaylistFromAPI(model: PlaylistRequestModel, user: Us
 			body: JSON.stringify(model),
 			headers
 		});
+
+		const result = await response.json()
+		return await PlaylistResponseSchema.parseAsync(result)
 	}
 	catch (e) {
 		if(e instanceof Error){
@@ -21,7 +24,4 @@ export async function fetchPlaylistFromAPI(model: PlaylistRequestModel, user: Us
 		console.log(e)
 		throw e
 	}
-
-	const result = await response.json()
-	return await PlaylistResponseSchema.parseAsync(result)
 }
