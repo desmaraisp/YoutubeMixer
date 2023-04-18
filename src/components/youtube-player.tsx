@@ -10,7 +10,8 @@ interface YoutubePlayerProps {
 export function YoutubePlayer({ uri, onEnded = () => { }, onReady = () => { }, className = "" }: YoutubePlayerProps) {
 	const ref = useRef<HTMLDivElement>(null)
 	const [isReady, setIsReady] = useState(false)
-	const [player, setPlayer] = useState<YT.Player | null>(null)
+	const player = useRef<YT.Player | null>(null)
+	const uriRef = useRef('')
 
 	useEffect(() => {
 		if (!window?.YT?.Player) {
@@ -24,12 +25,23 @@ export function YoutubePlayer({ uri, onEnded = () => { }, onReady = () => { }, c
 	}, [])
 
 	useEffect(() => {
+		uriRef.current = uri
+		if (!player.current?.loadVideoById)
+			return
+
+		player.current.loadVideoById(uri)
+
+	}, [uri]);
+
+
+	useEffect(() => {
 		if (!isReady || !window?.YT?.Player || !ref.current)
 			return
 
-		setPlayer(new window.YT.Player(ref.current, {
+		player.current = new window.YT.Player(ref.current, {
 			width: '100%',
 			height: '100%',
+			videoId: uriRef.current,
 			events: {
 				onReady: (ev) => {
 					onReady(ev.target)
@@ -40,17 +52,10 @@ export function YoutubePlayer({ uri, onEnded = () => { }, onReady = () => { }, c
 					}
 				}
 			}
-		}))
+		})
+
+		return () => {player.current?.destroy()}
 	}, [isReady, onEnded, onReady])
-
-	useEffect(() => {
-		if (!player)
-			return
-
-		player.loadVideoById(uri)
-	}, [uri, player])
-
-
 
 	return (
 		<>
