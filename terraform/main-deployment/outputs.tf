@@ -23,3 +23,7 @@ output "Youtube_API_Key" {
   value = google_apikeys_key.youtube.key_string
   sensitive = true
 }
+
+output "SA_NAME" {
+	value = google_service_account.cloudrun-identity.email  
+}

@@ -3,7 +3,7 @@ resource "google_project_service" "container_registry" {
 }
 
 resource "google_artifact_registry_repository" "registry" {
-	repository_id = "nextjs-main"
+	repository_id = "main-registry"
 	location = var.region
 	format = "DOCKER"
 	
