@@ -51,7 +51,7 @@ jobs:
         SPOTIFY_CLIENT_ID: ${{ secrets.SPOTIFY_CLIENT_ID }}
         SPOTIFY_CLIENT_SECRET: ${{ secrets.SPOTIFY_CLIENT_SECRET }}
       run: |
-        export Youtube_API_Key=$(terraform -chdir=terraform/main-deployment output -raw Youtube_API_Key)
+        export YOUTUBE_API_KEY=$(terraform -chdir=terraform/main-deployment output -raw Youtube_API_Key)
         export SA_NAME=$(terraform -chdir=terraform/main-deployment output -raw SA_NAME)
         export IMAGE="$REGISTRY:$GITHUB_SHA"
         
