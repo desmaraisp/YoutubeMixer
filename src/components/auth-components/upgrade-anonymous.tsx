@@ -42,13 +42,7 @@ async function onEmailLink(data: LinkSchema, router: NextRouter, form: UseFormRe
 
 
 export function UpgradeAnonymousAccount({ user }: { user: User }) {
-	const form = useForm<LinkSchema>({ resolver: zodResolver(linkSchema) })
 	const router = useRouter()
-
-	const onSubmit: SubmitHandler<LinkSchema> = async (data) => {
-		await onEmailLink(data, router, form, user)
-	}
-
 
 	return (
 		<AuthenticationMenuWidget
@@ -65,7 +59,7 @@ export function UpgradeAnonymousAccount({ user }: { user: User }) {
 		>
 			<hr style={{ width: "100%" }} className={roundedSeparator} />
 
-			<EmailLinkForm form={form} onSubmit={onSubmit} />
+			<EmailLinkForm user={user} />
 			<GoogleUpgradeButton user={user} router={router} />
 
 			<hr style={{ width: "100%" }} className={roundedSeparator} />
@@ -99,7 +93,15 @@ function GoogleUpgradeButton({ user, router }: { user: User; router: NextRouter 
 	</>)
 }
 
-function EmailLinkForm({ form, onSubmit }: { form: UseFormReturn<LinkSchema, any>; onSubmit: SubmitHandler<LinkSchema>; }) {
+function EmailLinkForm({ user }: { user: User }) {
+	const form = useForm<LinkSchema>({ resolver: zodResolver(linkSchema) })
+	const router = useRouter()
+
+	const onSubmit: SubmitHandler<LinkSchema> = async (data) => {
+		await onEmailLink(data, router, form, user)
+	}
+
+
 	return <form className={flexboxVariants.centered} style={{ flexDirection: 'column' }} onSubmit={form.handleSubmit(onSubmit)}>
 		<input placeholder="Email" type="text" id="email" {...form.register("email")} />
 		{form.formState.errors.email && <p>{form.formState.errors.email?.message}</p>}

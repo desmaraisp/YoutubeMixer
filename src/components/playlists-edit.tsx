@@ -4,7 +4,7 @@ import { useAppDispatch, useAppSelector } from '../store/hooks'
 import { centeredText, centeredVariants } from '@/styles/shared/centered-item.css'
 import { savePlaylistsToExternalStorage } from '../store/saved-playlists-reducer';
 import { flexboxVariants } from '@/styles/shared/flexbox.css';
-import { AddNewPlaylistForm } from './add-new-paylist';
+import { AddNewPlaylistForm } from './add-new-playlist-form/main-form';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { setTracksListToExternalStorage } from '@/store/saved-tracks-reducer';

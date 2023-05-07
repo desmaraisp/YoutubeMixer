@@ -9,6 +9,7 @@ import { SubmitHandler, useForm, UseFormReturn } from 'react-hook-form';
 import { flexboxVariants } from '@/styles/shared/flexbox.css';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useState } from 'react';
+import { FormFieldError, FormRootError } from '../errors';
 
 const loginSchema = z.object({
 	password: z
@@ -128,18 +129,12 @@ function GoogleLoginButton({ router }: { router: NextRouter }) {
 function LoginForm({ form, onSubmit }: { form: UseFormReturn<LoginSchema, any>; onSubmit: SubmitHandler<LoginSchema>; }) {
 	return <form className={flexboxVariants.centered} style={{ flexDirection: 'column' }} onSubmit={form.handleSubmit(onSubmit)}>
 		<input placeholder="Email" type="text" id="email" {...form.register("email")} />
-		{
-			form.formState.errors.email && <p>{form.formState.errors.email?.message}</p>
-		}
+		<FormFieldError error={form.formState.errors.email} />
 
 		<input placeholder="Password" type="password" id="password" {...form.register("password")} />
-		{
-			form.formState.errors.password && <p>{form.formState.errors.password?.message}</p>
-		}
+		<FormFieldError error={form.formState.errors.password} />
 
 		<button type="submit">Login</button>
-		{
-			form.formState.errors.root && <p>{form.formState.errors.root.message}</p>
-		}
+		<FormRootError error={form.formState.errors.root} />
 	</form>
 }

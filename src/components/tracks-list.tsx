@@ -10,6 +10,7 @@ import { useContext } from "react";
 import { FirebaseAuthContext } from "./firebase-context";
 import { User } from "firebase/auth";
 import { unStyledButton } from "@/styles/shared/button.css";
+import { fullWidth } from "@/styles/shared/full-size.css";
 
 type TracksListRowType = {
 	playlistItem: PlaylistItem;
@@ -26,7 +27,7 @@ function TracksListRow({ playlistItem, isCurrentlyPlayingTrack, currentIndex, cu
 	return (
 		<button style={{alignItems: 'stretch'}} className={rowClassName} type="button" onClick={() => dispatch(setCurrentIndexToExternalStorage({ user: currentUser, newIndex: currentIndex }))}>
 			<div style={{ width: "90px", height: "90px", backgroundColor: "black", flexShrink: 0 }} className={`${flexboxVariants.centered} ${tableCell}`}>
-				<img width='100%' src={playlistItem.itemImageURL} alt={playlistItem.itemName} />
+				<img className={fullWidth} src={playlistItem.itemImageURL} alt={playlistItem.itemName} />
 			</div>
 
 			<div style={{ flexGrow: 1, overflow: 'hidden', padding: "10px" }} className={`${flexboxVariants.leftAligned} ${tableCell}`}>

@@ -8,6 +8,7 @@ import { clientAuth } from "@/firebase-config";
 import { SubmitHandler, useForm, UseFormReturn } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { flexboxVariants } from "@/styles/shared/flexbox.css";
+import { FormFieldError, FormRootError } from "../errors";
 
 const registerSchema = z.object({
 	confirmPassword: z.string(),
@@ -19,7 +20,7 @@ const registerSchema = z.object({
 	})
 }).refine((data) => data.confirmPassword === data.password, {
 	path: ["confirmPassword"],
-	message: "Password don't match",
+	message: "Passwords don't match",
 })
 interface RegisterSchema extends z.infer<typeof registerSchema> {}
 
@@ -40,18 +41,11 @@ async function onRegister(data: RegisterSchema, router: NextRouter, form: UseFor
 }
 
 export function Register() {
-	const form = useForm<RegisterSchema>({ resolver: zodResolver(registerSchema) })
-	const router = useRouter()
-
-	const onSubmit: SubmitHandler<RegisterSchema> = async (data) => {
-		await onRegister(data, router, form)
-	}
-
 	return (
 		<AuthenticationMenuWidget title="Register">
 			<hr style={{ width: "100%" }} className={roundedSeparator} />
 
-			<EmailRegisterForm form={form} onSubmit={onSubmit} />
+			<EmailRegisterForm />
 
 			<hr style={{ width: "100%" }} className={roundedSeparator} />
 			<Link href="/">Back</Link>
@@ -59,19 +53,27 @@ export function Register() {
 	)
 }
 
-function EmailRegisterForm({ form, onSubmit }: { form: UseFormReturn<RegisterSchema, any>; onSubmit: SubmitHandler<RegisterSchema>; }) {
+function EmailRegisterForm() {
+	const form = useForm<RegisterSchema>({ resolver: zodResolver(registerSchema) })
+	const router = useRouter()
+
+	const onSubmit: SubmitHandler<RegisterSchema> = async (data) => {
+		await onRegister(data, router, form)
+	}
+
+
 	return <form className={flexboxVariants.centered} style={{ flexDirection: 'column' }} onSubmit={form.handleSubmit(onSubmit)}>
 		<input placeholder="Email" type="text" id="email" {...form.register("email")} />
-		{form.formState.errors.email && <p>{form.formState.errors.email?.message}</p>}
+		<FormFieldError error={form.formState.errors.email} />
 
 		<input placeholder="Password" type="password" id="password" {...form.register("password")} />
-		{form.formState.errors.password && <p>{form.formState.errors.password?.message}</p>}
+		<FormFieldError error={form.formState.errors.password} />
 
 		<input placeholder="Confirm password" type="password" id="confirmPassword" {...form.register("confirmPassword")} />
-		{form.formState.errors.confirmPassword && <p>{form.formState.errors.confirmPassword?.message}</p>}
+		<FormFieldError error={form.formState.errors.confirmPassword} />
 
 		<button type="submit">Register</button>
-		{form.formState.errors.root && <p>{form.formState.errors.root.message}</p>}
+		<FormRootError error={form.formState.errors.root} />
 
 	</form>;
 }

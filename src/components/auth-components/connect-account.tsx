@@ -6,8 +6,8 @@ import { getIdToken, User } from "firebase/auth"
 import Link from "next/link"
 import { useRouter } from "next/router"
 import { useCallback, useEffect, useState } from "react"
-import { ErrorMessage } from "../error-message"
 import { AuthenticationMenuWidget } from "./authentication-menu-widget"
+import { ErrorMessage } from "../errors"
 
 
 export function ConnectAccount({ user }: { user: User }) {
@@ -68,7 +68,7 @@ function ProviderConnect({ isGoogleAccountLoggedIn, tokenID, authorizationState,
 	if (errorMessage) {
 		return (
 			<>
-				<ErrorMessage message={errorMessage} header='Something went wrong' />
+				<ErrorMessage message={errorMessage} />
 				<button type="button" name="try-again" onClick={retryHandler}>Try again</button>
 			</>
 		)

@@ -1,9 +1,13 @@
-name: Run integration test
+name: Deploy New Revision
 
 on:
   push:
     branches:
     - main
+    paths-ignore:
+      - .github/workflows/gcr-cleaner.yml
+      - "**/*.md"
+      - LICENSE
 
 permissions:
   id-token: write # This is required for requesting the JWT
