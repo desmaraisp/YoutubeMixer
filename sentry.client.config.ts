@@ -2,9 +2,9 @@
 // The config you add here will be used whenever a users loads a page in their browser.
 // https://docs.sentry.io/platforms/javascript/guides/nextjs/
 
-import Sentry from "@sentry/nextjs";
+import { init, Replay } from "@sentry/nextjs";
 
-Sentry.init({
+init({
 	dsn: process.env.SENTRY_DSN,
 
 	// Adjust this value in production, or use tracesSampler for greater control
@@ -22,7 +22,7 @@ Sentry.init({
 
 	// You can remove this option if you're not planning to use the Sentry Session Replay feature:
 	integrations: [
-		new Sentry.Replay({
+		new Replay({
 			// Additional Replay configuration goes in here, for example:
 			maskAllText: true,
 			blockAllMedia: true,

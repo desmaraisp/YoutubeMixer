@@ -2,9 +2,11 @@ import { credential, AppOptions } from "firebase-admin";
 import { getAuth } from 'firebase-admin/auth'
 import { getFirestore } from 'firebase-admin/firestore'
 import firebaseAdmin from 'firebase-admin'
-import { privateConfiguration, publicConfiguration } from "./configuration";
+import { getPrivateConfiguration, getPublicConfiguration } from "./configuration";
 
 if (!firebaseAdmin.apps.length) {
+	const privateConfiguration = getPrivateConfiguration()
+
 	if(!privateConfiguration.firebaseClientEmail || !privateConfiguration.firebasePrivateKey){
 		firebaseAdmin.initializeApp()
 	}
@@ -13,7 +15,7 @@ if (!firebaseAdmin.apps.length) {
 			credential: credential.cert({
 				clientEmail: privateConfiguration.firebaseClientEmail,
 				privateKey: privateConfiguration.firebasePrivateKey,
-				projectId: publicConfiguration.projectID
+				projectId: getPublicConfiguration().projectID
 			})
 		}
 		firebaseAdmin.initializeApp(adminConfig);

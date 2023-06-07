@@ -20,6 +20,12 @@ const privateConfigurationSchema = z.object({
 	youtubeApiKey: z.string().min(1)
 })
 export interface PrivateConfiguration extends z.infer<typeof privateConfigurationSchema>{}
-const { serverRuntimeConfig, publicRuntimeConfig } = getConfig();
-export const privateConfiguration = privateConfigurationSchema.parse(serverRuntimeConfig)
-export const publicConfiguration = publicConfigurationSchema.parse(publicRuntimeConfig)
+export function getPrivateConfiguration(){
+	const { serverRuntimeConfig } = getConfig();
+	return privateConfigurationSchema.parse(serverRuntimeConfig)
+}
+export function getPublicConfiguration(){
+	const { publicRuntimeConfig } = getConfig();
+	return publicConfigurationSchema.parse(publicRuntimeConfig)
+}
+
