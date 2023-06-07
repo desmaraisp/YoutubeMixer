@@ -4,7 +4,7 @@ resource "google_project_service" "firebase" {
 
 resource "google_firebase_project" "default" {
   provider = google-beta
-  project = var.ProjectID
+  project = var.GCP_PROJECT_ID
   depends_on = [
 	google_project_service.firebase
   ]
@@ -12,7 +12,7 @@ resource "google_firebase_project" "default" {
 
 resource "google_firebase_web_app" "default" {
   provider = google-beta
-  project = var.ProjectID
+  project = var.GCP_PROJECT_ID
 
   display_name = "Youtube randomizer website"
   deletion_policy = "DELETE"

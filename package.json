@@ -16,6 +16,7 @@
 		"@googleapis/youtube": "^8.0.2",
 		"@hookform/resolvers": "^3.0.1",
 		"@reduxjs/toolkit": "^1.9.3",
+		"@sentry/nextjs": "^7.51.0",
 		"@vanilla-extract/css": "^1.10.0",
 		"firebase": "^9.18.0",
 		"firebase-admin": "^11.5.0",

@@ -1,4 +1,7 @@
 FROM node:20.1-alpine AS base
+ARG SENTRY_DSN
+ARG SENTRY_ORG
+ARG SENTRY_PROJECT
 
 FROM base AS deps
 RUN apk add --no-cache libc6-compat
@@ -19,14 +22,15 @@ FROM base AS runner
 WORKDIR /app
 
 ENV NODE_ENV production
+ENV SENTRY_DSN SENTRY_DSN
+ENV SENTRY_ORG SENTRY_ORG
+ENV SENTRY_PROJECT SENTRY_PROJECT
 
 RUN addgroup --system --gid 1001 nodejs
 RUN adduser --system --uid 1001 nextjs
 
 COPY --from=builder /app/public ./public
 
-# Automatically leverage output traces to reduce image size
-# https://nextjs.org/docs/advanced-features/output-file-tracing
 COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
 COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
 

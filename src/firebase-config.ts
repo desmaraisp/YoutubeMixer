@@ -1,15 +1,15 @@
 import { FirebaseOptions, getApps, initializeApp, getApp } from "firebase/app";
 import { getAuth } from 'firebase/auth'
 import { getFirestore } from 'firebase/firestore'
-import { applicationConfig } from "./configuration";
+import { publicConfiguration } from "./configuration";
 
 const firebaseConfig: FirebaseOptions = {
-	apiKey: applicationConfig.publicAPIKey,
-	authDomain: applicationConfig.publicAuthDomain,
-	projectId: applicationConfig.publicProjectID,
-	storageBucket: applicationConfig.publicStorageBucket,
-	messagingSenderId: applicationConfig.publicMessagingSenderId,
-	appId: applicationConfig.publicAppID
+	apiKey: publicConfiguration.firebaseApiKey,
+	authDomain: publicConfiguration.firebaseAuthDomain,
+	projectId: publicConfiguration.projectID,
+	storageBucket: publicConfiguration.firebaseStorageBucket,
+	messagingSenderId: publicConfiguration.firebaseMessagingSenderId,
+	appId: publicConfiguration.firebaseAppID
 };
 
 if (!getApps().length) {

@@ -1,19 +1,25 @@
-export const throwValidationError = (key: string) => {
-	throw new Error(`Missing var ${key}`)
-}
+import getConfig from "next/config";
+import { z } from "zod";
 
-export const applicationConfig = {
-	clientEmail: process.env.FIREBASE_CLIENT_EMAIL,
-	privateKey: process.env.FIREBASE_PRIVATE_KEY,
-	publicProjectID: process.env.NEXT_PUBLIC_ProjectId ?? throwValidationError("NEXT_PUBLIC_ProjectId"),
-	publicAPIKey: process.env.NEXT_PUBLIC_ApiKey ?? throwValidationError("NEXT_PUBLIC_ProjectId"),
-	publicAuthDomain: process.env.NEXT_PUBLIC_AuthDomain ?? throwValidationError("NEXT_PUBLIC_ProjectId"),
-	publicStorageBucket: process.env.NEXT_PUBLIC_StorageBucket ?? throwValidationError("NEXT_PUBLIC_ProjectId"),
-	publicMessagingSenderId: process.env.NEXT_PUBLIC_MessagingSenderId ?? throwValidationError("NEXT_PUBLIC_ProjectId"),
-	publicAppID: process.env.NEXT_PUBLIC_AppId ?? throwValidationError("NEXT_PUBLIC_ProjectId"),
-	googleClientID: process.env.GOOGLE_CLIENT_ID,
-	googleClientSecret: process.env.GOOGLE_CLIENT_SECRET,
-	spotifyClientID: process.env.SPOTIFY_CLIENT_ID,
-	spotifyClientSecret: process.env.SPOTIFY_CLIENT_SECRET,
-	youtubeAPIKey: process.env.YOUTUBE_API_KEY
-}
+const publicConfigurationSchema = z.object({
+	projectID: z.string().min(1),
+	firebaseApiKey: z.string().min(1),
+	firebaseAuthDomain: z.string().min(1),
+	firebaseStorageBucket: z.string().min(1),
+	firebaseMessagingSenderId: z.string().min(1),
+	firebaseAppID: z.string().min(1)
+})
+export interface PublicConfiguration extends z.infer<typeof publicConfigurationSchema>{}
+const privateConfigurationSchema = z.object({
+	firebaseClientEmail: z.string().optional(),
+	firebasePrivateKey: z.string().optional(),
+	googleClientID: z.string().min(1),
+	googleClientSecret: z.string().min(1),
+	spotifyClientID: z.string().min(1),
+	spotifyClientSecret: z.string().min(1),
+	youtubeApiKey: z.string().min(1)
+})
+export interface PrivateConfiguration extends z.infer<typeof privateConfigurationSchema>{}
+const { serverRuntimeConfig, publicRuntimeConfig } = getConfig();
+export const privateConfiguration = privateConfigurationSchema.parse(serverRuntimeConfig)
+export const publicConfiguration = publicConfigurationSchema.parse(publicRuntimeConfig)

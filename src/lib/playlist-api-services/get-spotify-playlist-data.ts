@@ -3,11 +3,11 @@ import { PlaylistSuccessResponseModel } from "@/models/api-models/playlist-api-m
 import { PlaylistTypesEnum } from '@/models/playlist-types'
 import { v4 as uuidv4 } from 'uuid';
 import SpotifyWebApi from 'spotify-web-api-node'
-import { applicationConfig, throwValidationError } from '@/configuration';
+import { privateConfiguration } from '@/configuration';
 
 const spotifyApi = new SpotifyWebApi({
-	clientId: applicationConfig.spotifyClientID ?? throwValidationError("SPOTIFY_CLIENT_ID"),
-	clientSecret: applicationConfig.spotifyClientSecret ?? throwValidationError("SPOTIFY_CLIENT_SECRET"),
+	clientId: privateConfiguration.spotifyClientID,
+	clientSecret: privateConfiguration.spotifyClientSecret
 });
 
 export async function getSpotifyPlaylistData(PlaylistID: string, refreshToken: string | null): Promise<PlaylistSuccessResponseModel> {

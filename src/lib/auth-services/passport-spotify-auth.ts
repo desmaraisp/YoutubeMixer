@@ -2,13 +2,13 @@ import passport from "passport";
 import {Strategy as SpotifyStrategy, VerifyCallback, Profile, } from 'passport-spotify'
 import { Request } from 'express'
 import { setRefreshTokensToDB } from "../firestore/get-set-db-refresh-token";
-import { applicationConfig, throwValidationError } from "@/configuration";
+import { privateConfiguration } from "@/configuration";
 
 passport.use(
 	new SpotifyStrategy(
 		{
-			clientID: applicationConfig.spotifyClientID ?? throwValidationError("SPOTIFY_CLIENT_ID"),
-			clientSecret: applicationConfig.spotifyClientSecret ?? throwValidationError("SPOTIFY_CLIENT_SECRET"),
+			clientID: privateConfiguration.spotifyClientID,
+			clientSecret: privateConfiguration.spotifyClientSecret,
 			callbackURL: "/api/auth/oauth2/redirect/spotify",
 			passReqToCallback: true
 		},

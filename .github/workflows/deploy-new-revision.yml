@@ -5,13 +5,14 @@ on:
     branches:
     - main
     paths-ignore:
-      - .github/workflows/gcr-cleaner.yml
+      - .github/workflows/clean-images.yml
       - "**/*.md"
       - LICENSE
 
 permissions:
-  id-token: write # This is required for requesting the JWT
+  # id-token: write # This is required for requesting the JWT
   contents: read  # This is required for actions/checkout
+  packages: write
 
 jobs:
   build-and-deploy:
@@ -19,43 +20,44 @@ jobs:
     steps:
     - uses: actions/checkout@v3
 
-    - name: 'Authenticate to Google Cloud'
-      uses: 'google-github-actions/auth@v1'
-      with:
-        workload_identity_provider: ${{vars.WorkloadIDProvider}}
-        service_account: ${{vars.GCPServiceAccount}}
+    # - name: 'Authenticate to Google Cloud'
+    #   uses: 'google-github-actions/auth@v1'
+    #   with:
+    #     workload_identity_provider: ${{vars.WorkloadIDProvider}}
+    #     service_account: ${{vars.GCPServiceAccount}}
 
-    - name: 'Set up Cloud SDK'
-      uses: 'google-github-actions/setup-gcloud@v1'
+    # - name: 'Set up Cloud SDK'
+    #   uses: 'google-github-actions/setup-gcloud@v1'
 
-    - name: Set env vars
+    - name: set lower case repo name
+      id: repo-name
       run: |
-        echo "REGISTRY=us-central1-docker.pkg.dev/${{vars.GCPProjectID}}/main-registry/youtube-randomizer-main-release" >> $GITHUB_ENV
-    - name: deploy-infra
+        echo "repo-name=${Repo,,}" >> $GITHUB_OUTPUT
       env:
-        TF_VAR_ProjectID: ${{vars.GCPProjectID}}
-      run: |
-        terraform -chdir=terraform/main-deployment init
-        terraform -chdir=terraform/main-deployment apply -auto-approve
+        Repo: ghcr.io/${{ github.repository }}
 
-    - name: build-docker
-      run: |
-        gcloud auth configure-docker us-central1-docker.pkg.dev
-        docker build -t $REGISTRY:$GITHUB_SHA -t $REGISTRY:latest .
-        docker push $REGISTRY --all-tags
-    
-    - name: deploy-revision
+    - name: Publish image
+      id: publish
       env:
-        GOOGLE_CLIENT_ID: ${{ secrets.GOOGLE_CLIENT_ID }}
-        GOOGLE_CLIENT_SECRET: ${{ secrets.GOOGLE_CLIENT_SECRET }}
-        SPOTIFY_CLIENT_ID: ${{ secrets.SPOTIFY_CLIENT_ID }}
-        SPOTIFY_CLIENT_SECRET: ${{ secrets.SPOTIFY_CLIENT_SECRET }}
+        FULL_TAG: ${{steps.repo-name.outputs.repo-name}}:${{ github.sha }}
       run: |
-        export YOUTUBE_API_KEY=$(terraform -chdir=terraform/main-deployment output -raw Youtube_API_Key)
-        export SA_NAME=$(terraform -chdir=terraform/main-deployment output -raw SA_NAME)
-        export IMAGE="$REGISTRY:$GITHUB_SHA"
-        
-        gcloud config set run/region us-central1
-        envsubst < ./deployment/service.yaml > ./deployment/service.out.yaml
-        gcloud run services replace ./deployment/service.out.yaml
-        gcloud run services set-iam-policy youtube-randomizer-main-service ./deployment/policy.yaml
+        echo ${{secrets.GITHUB_TOKEN}} | docker login ghcr.io -u USERNAME --password-stdin
+
+        docker build -t $FULL_TAG -t ${{steps.repo-name.outputs.repo-name}}:latest \
+            --build-arg SENTRY_DSN=${{vars.SENTRY_DSN}} \
+            --build-arg SENTRY_ORG=${{vars.SENTRY_ORG}} \
+            --build-arg SENTRY_PROJECT=${{vars.SENTRY_PROJECT}} .
+        docker push ${{steps.repo-name.outputs.repo-name}} --all-tags
+        echo "image=$FULL_TAG" >> $GITHUB_OUPUT
+
+    # - name: Deploy
+    #   env:
+    #     TF_VAR_GOOGLE_CLIENT_ID: ${{ secrets.GOOGLE_CLIENT_ID }}
+    #     TF_VAR_GOOGLE_CLIENT_SECRET: ${{ secrets.GOOGLE_CLIENT_SECRET }}
+    #     TF_VAR_SPOTIFY_CLIENT_ID: ${{ secrets.SPOTIFY_CLIENT_ID }}
+    #     TF_VAR_SPOTIFY_CLIENT_SECRET: ${{ secrets.SPOTIFY_CLIENT_SECRET }}
+    #     TF_VAR_PROJECT_ID: ${{vars.GCPProjectID}}
+    #     TF_VAR_IMAGE: ${{steps.publish.outputs.image}}
+    #   run: |
+    #     terraform -chdir=terraform/main-deployment init
+    #     terraform -chdir=terraform/main-deployment apply -auto-approve

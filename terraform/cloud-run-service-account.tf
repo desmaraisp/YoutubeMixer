@@ -11,7 +11,7 @@ resource "google_project_iam_custom_role" "cloudrun-role" {
 
 
 resource "google_project_iam_member" "firebase-admin-iam" {
-  project = var.ProjectID
-  role     = google_project_iam_custom_role.cloudrun-role.name
-  member   = "serviceAccount:${google_service_account.cloudrun-identity.email}"
+  project = var.GCP_PROJECT_ID
+  role    = google_project_iam_custom_role.cloudrun-role.name
+  member  = "serviceAccount:${google_service_account.cloudrun-identity.email}"
 }
