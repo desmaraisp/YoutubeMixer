@@ -5,13 +5,13 @@ import { youtube } from '@googleapis/youtube'
 import { v4 as uuidv4 } from 'uuid';
 import { UserRefreshClient } from 'googleapis-common';
 import { ErrorWithHTTPCode } from '@/models/exceptions/custom-exceptions';
-import { privateConfiguration } from '@/configuration';
+import { getPrivateConfiguration } from '@/configuration';
 
 function clientFactory(refreshToken: string | null) {
 	if (!refreshToken)
 		return youtube({
 			version: 'v3',
-			auth: privateConfiguration.youtubeApiKey
+			auth: getPrivateConfiguration().youtubeApiKey
 		})
 
 	return youtube({
@@ -23,8 +23,8 @@ function clientFactory(refreshToken: string | null) {
 export async function getYoutubePlaylistData(PlaylistID: string, refreshToken: string | null): Promise<PlaylistSuccessResponseModel> {
 	const client = clientFactory(refreshToken)
 	const oauth = refreshToken ? new UserRefreshClient(
-		privateConfiguration.googleClientID,
-		privateConfiguration.googleClientSecret,
+		getPrivateConfiguration().googleClientID,
+		getPrivateConfiguration().googleClientSecret,
 		refreshToken,
 	) : undefined
 

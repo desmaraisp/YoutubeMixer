@@ -3,14 +3,17 @@ import { PlaylistSuccessResponseModel } from "@/models/api-models/playlist-api-m
 import { PlaylistTypesEnum } from '@/models/playlist-types'
 import { v4 as uuidv4 } from 'uuid';
 import SpotifyWebApi from 'spotify-web-api-node'
-import { privateConfiguration } from '@/configuration';
+import { getPrivateConfiguration } from '@/configuration';
 
-const spotifyApi = new SpotifyWebApi({
-	clientId: privateConfiguration.spotifyClientID,
-	clientSecret: privateConfiguration.spotifyClientSecret
-});
 
 export async function getSpotifyPlaylistData(PlaylistID: string, refreshToken: string | null): Promise<PlaylistSuccessResponseModel> {
+	const privateConfiguration = getPrivateConfiguration()
+	const spotifyApi = new SpotifyWebApi({
+		clientId: privateConfiguration.spotifyClientID,
+		clientSecret: privateConfiguration.spotifyClientSecret
+	});
+	
+
 	if(!refreshToken){
 		const response = await spotifyApi.clientCredentialsGrant()
 		spotifyApi.setAccessToken(response.body.access_token)

@@ -1,4 +1,4 @@
-import { clientAuth } from '../../firebase-config'
+import { getFirebaseConfig } from '../../firebase-config'
 import { GoogleAuthProvider, signInAnonymously, signInWithEmailAndPassword, signInWithPopup, User } from 'firebase/auth'
 import Link from "next/link";
 import { NextRouter, useRouter } from "next/router";
@@ -23,7 +23,7 @@ type LoginSchema = z.infer<typeof loginSchema>
 
 async function onEmailLogin(data: LoginSchema, router: NextRouter, form: UseFormReturn<LoginSchema, any>) {
 	try {
-		await signInWithEmailAndPassword(clientAuth, data.email, data.password)
+		await signInWithEmailAndPassword(getFirebaseConfig().clientAuth, data.email, data.password)
 	}
 	catch (error) {
 		if (error instanceof Error) {
@@ -83,7 +83,7 @@ function AnonymousLoginButton({ router }: { router: NextRouter }) {
 		<>
 			<button type="submit" onClick={async () => {
 				try{
-					await signInAnonymously(clientAuth)
+					await signInAnonymously(getFirebaseConfig().clientAuth)
 				}
 				catch(e){
 					if (e instanceof Error) {
@@ -108,7 +108,7 @@ function GoogleLoginButton({ router }: { router: NextRouter }) {
 			<button type="submit" onClick={async () => {
 				const provider = new GoogleAuthProvider();
 				try{
-					await signInWithPopup(clientAuth, provider)
+					await signInWithPopup(getFirebaseConfig().clientAuth, provider)
 				}
 				catch(e){
 					if (e instanceof Error) {

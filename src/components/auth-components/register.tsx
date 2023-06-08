@@ -4,7 +4,7 @@ import { roundedSeparator } from "@/styles/shared/separator.css";
 import { z } from "zod";
 import { NextRouter, useRouter } from "next/router";
 import { createUserWithEmailAndPassword } from "firebase/auth";
-import { clientAuth } from "@/firebase-config";
+import { getFirebaseConfig } from "@/firebase-config";
 import { SubmitHandler, useForm, UseFormReturn } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { flexboxVariants } from "@/styles/shared/flexbox.css";
@@ -27,7 +27,7 @@ interface RegisterSchema extends z.infer<typeof registerSchema> {}
 
 async function onRegister(data: RegisterSchema, router: NextRouter, form: UseFormReturn<RegisterSchema, any>) {
 	try {
-		await createUserWithEmailAndPassword(clientAuth, data.email, data.password)
+		await createUserWithEmailAndPassword(getFirebaseConfig().clientAuth, data.email, data.password)
 	}
 	catch (error) {
 		if (error instanceof Error) {

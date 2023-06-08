@@ -1,5 +1,5 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import { adminAuth } from '@/firebase-admin-config';
+import { getFirebaseAdminConfig } from '@/firebase-admin-config';
 import { NextHandler } from 'next-connect';
 import { UnauthorizedException } from '@/models/exceptions/custom-exceptions';
 
@@ -25,7 +25,7 @@ export function OptionalAuthorization() {
 
 
 async function internalMiddleware(req: NextApiRequest & { uid?: string | undefined; }, next: NextHandler, auth: string) {
-	const decodedToken = await adminAuth.verifyIdToken(auth);
+	const decodedToken = await getFirebaseAdminConfig().adminAuth.verifyIdToken(auth);
 
 	if (!decodedToken.uid) {
 		throw new UnauthorizedException();

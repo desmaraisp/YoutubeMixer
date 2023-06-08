@@ -2,7 +2,7 @@ import '../styles/global/css-reset.css'
 import '../styles/global/apply-theme.css'
 import '@fortawesome/fontawesome-svg-core/styles.css'
 import { store } from '@/store/store'
-import type { AppProps } from 'next/app'
+import type { AppContext, AppProps } from 'next/app'
 import { Provider } from 'react-redux'
 import { ThemeProvider } from 'next-themes'
 import { lightTheme } from '@/styles/theme/light-theme.css'
@@ -12,8 +12,9 @@ import Head from 'next/head'
 import { applicationWrapperStyle, bodyStyle, footerStyle } from '../styles/component-specific/main-layout-style.css'
 import { Footer } from '../components/footer'
 import { FirebaseProvider } from '@/components/firebase-context'
+import App from "next/app"
 
-export default function App({ Component, pageProps }: AppProps) {
+function MyApp({ Component, pageProps }: AppProps) {
 	return (
 		<>
 			<Head>
@@ -42,3 +43,10 @@ export default function App({ Component, pageProps }: AppProps) {
 		</>
 	)
 }
+
+MyApp.getInitialProps = async (appContext: AppContext) => {
+	const appProps = await App.getInitialProps(appContext)
+	return { ...appProps }
+}
+
+export default MyApp

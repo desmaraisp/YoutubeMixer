@@ -1,15 +1,15 @@
 import { applicationConstants } from "@/constants";
-import { adminDB } from "@/firebase-admin-config";
+import { getFirebaseAdminConfig } from "@/firebase-admin-config";
 import { DBAuthorizationsModel, DBAuthorizationsModelValidator } from "@/models/database/db-authorizations-model";
 
 
 export async function setRefreshTokensToDB(userID: string, refreshTokensModel: DBAuthorizationsModel){
-	await adminDB
+	await getFirebaseAdminConfig().adminDB
 			.collection(applicationConstants.fireStoreConstants.authorizationsCollection)
 			.doc(userID).set(refreshTokensModel, {merge: true})
 }
 export async function getRefreshTokensFromDB(userID: string): Promise<DBAuthorizationsModel> {
-	const result = await adminDB
+	const result = await getFirebaseAdminConfig().adminDB
 			.collection(applicationConstants.fireStoreConstants.authorizationsCollection)
 			.doc(userID).get()
 

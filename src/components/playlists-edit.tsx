@@ -9,7 +9,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { setTracksListToExternalStorage } from '@/store/saved-tracks-reducer';
 import { signInAnonymously } from 'firebase/auth'
-import { clientAuth } from '@/firebase-config';
+import { getFirebaseConfig } from '@/firebase-config';
 import { FirebaseAuthContext } from './firebase-context';
 import { PlaylistsMenuItem } from './playlists-menu-item';
 import { useEffect } from 'react';
@@ -87,7 +87,7 @@ function SavePlaylistsButton({ playlistsToSave, shuffle }: { playlistsToSave: Pl
 	const currentUser = useContext(FirebaseAuthContext).user
 
 	return <button type='submit' onClick={async () => {
-		var user = currentUser ?? (await signInAnonymously(clientAuth)).user
+		var user = currentUser ?? (await signInAnonymously(getFirebaseConfig().clientAuth)).user
 
 		dispatch(savePlaylistsToExternalStorage({ user: user, newPlaylists: playlistsToSave }));
 		dispatch(setTracksListToExternalStorage({

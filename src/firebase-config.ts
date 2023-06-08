@@ -3,19 +3,24 @@ import { getAuth } from 'firebase/auth'
 import { getFirestore } from 'firebase/firestore'
 import { getPublicConfiguration } from "./configuration";
 
-if (!getApps().length) {
-	const publicConfiguration = getPublicConfiguration()
 
-	const firebaseConfig: FirebaseOptions = {
-		apiKey: publicConfiguration.firebaseApiKey,
-		authDomain: publicConfiguration.firebaseAuthDomain,
-		projectId: publicConfiguration.projectID,
-		storageBucket: publicConfiguration.firebaseStorageBucket,
-		messagingSenderId: publicConfiguration.firebaseMessagingSenderId,
-		appId: publicConfiguration.firebaseAppID
-	};	
+export function getFirebaseConfig() {
+	if (!getApps().length) {
+		const publicConfiguration = getPublicConfiguration()
 
-	initializeApp(firebaseConfig);
+		const firebaseConfig: FirebaseOptions = {
+			apiKey: publicConfiguration.firebaseApiKey,
+			authDomain: publicConfiguration.firebaseAuthDomain,
+			projectId: publicConfiguration.projectID,
+			storageBucket: publicConfiguration.firebaseStorageBucket,
+			messagingSenderId: publicConfiguration.firebaseMessagingSenderId,
+			appId: publicConfiguration.firebaseAppID
+		};
+
+		initializeApp(firebaseConfig);
+	}
+	const clientAuth = getAuth(getApp())
+	const clientDB = getFirestore(getApp())
+
+	return { clientAuth, clientDB }
 }
-export const clientAuth = getAuth(getApp())
-export const clientDB = getFirestore(getApp())

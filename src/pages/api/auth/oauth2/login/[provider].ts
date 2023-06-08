@@ -1,5 +1,5 @@
-import googlePassport from "@/lib/auth-services/passport-google-auth";
-import spotifyPassport from "@/lib/auth-services/passport-spotify-auth";
+import { createGooglePassport } from "@/lib/auth-services/passport-google-auth";
+import { createSpotifyPassport } from "@/lib/auth-services/passport-spotify-auth";
 import { RequiredAuthorization } from "@/lib/middleware/firebase-auth-middleware";
 import { BadRequestException } from "@/models/exceptions/custom-exceptions";
 import { NextApiRequest, NextApiResponse } from "next";
@@ -19,7 +19,7 @@ router
 		const { provider } = req.query
 
 		if (provider === 'google') {
-			const authenticator = googlePassport.authenticate("google", {
+			const authenticator = createGooglePassport().authenticate("google", {
 				scope: ["profile", "email", "https://www.googleapis.com/auth/youtube.readonly"],
 				accessType: 'offline',
 				state: req.uid,
@@ -30,7 +30,7 @@ router
 		}
 
 		if (provider === 'spotify') {
-			const authenticator = spotifyPassport.authenticate("spotify", {
+			const authenticator = createSpotifyPassport().authenticate("spotify", {
 				scope: ['user-read-email', 'user-read-private'],
 				passReqToCallback: true,
 				state: req.uid

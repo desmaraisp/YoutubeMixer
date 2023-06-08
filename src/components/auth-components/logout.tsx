@@ -1,9 +1,9 @@
-import { clientAuth } from "@/firebase-config";
+import { getFirebaseConfig } from "@/firebase-config";
 
 export function Logout(){
 	return (
 		<>
-			<button type="button" onClick={async () => await clientAuth.signOut()}>Log out</button>
+			<button type="button" onClick={async () => await getFirebaseConfig().clientAuth.signOut()}>Log out</button>
 		</>
 	)
 }
