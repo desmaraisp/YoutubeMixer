@@ -1,48 +1,53 @@
-import { useAppDispatch, useAppSelector } from "@/store/hooks";
-import { decrementCurrentIndexToExternalStorage, incrementCurrentIndexToExternalStorage, shuffleTracksToExternalStorage } from "@/store/saved-tracks-reducer";
+import { PlayerContext } from "@/contexts/player-context";
+import { decrementPlayerIndex, incrementPlayerIndex } from "@/lib/frontend-services/player-state-functions";
+import { ShuffleArray } from "@/lib/shuffle-array";
 import { unStyledButton } from "@/styles/shared/button.css";
 import { ellipsisText } from "@/styles/shared/ellipsis-text.css";
 import { flexboxVariants } from "@/styles/shared/flexbox.css";
 import { faStepBackward, faStepForward, faShuffle } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useContext } from "react";
-import { FirebaseAuthContext } from "./firebase-context";
 
 export function TracksListHeader() {
-	const state = useAppSelector(state => state.playerReducer)
-	const currentUser = useContext(FirebaseAuthContext).user
-	const dispatch = useAppDispatch()
+	const { playerState, setPlayerState } = useContext(PlayerContext)
+	const savedTracks = playerState.tracks
+	const currentPlayerIndex = playerState.currentIndex
 
-	if (state.playlistItems.length == 0 || !state.playlistItems[state.currentIndex] || !currentUser) {
+	if (savedTracks.length == 0 || !savedTracks[currentPlayerIndex]) {
 		return (<></>)
 	}
 
 	return (
-		<div style={{paddingTop: "10px", borderBottom: "1px solid"}}>
+		<div style={{ paddingTop: "10px", borderBottom: "1px solid" }}>
 			<div className={flexboxVariants.gapped}>
 				<button className={unStyledButton} type="button" onClick={() => {
-					dispatch(decrementCurrentIndexToExternalStorage(currentUser))
+					setPlayerState(decrementPlayerIndex)
 				}}>
 					<FontAwesomeIcon
 						icon={faStepBackward} />
 				</button>
 				<button className={unStyledButton} type="button" onClick={() => {
-					dispatch(shuffleTracksToExternalStorage(currentUser))
+					setPlayerState((playerState) => {
+						return {
+							currentIndex: 0,
+							tracks: ShuffleArray(playerState.tracks)
+						}
+					})
 				}}>
 					<FontAwesomeIcon
 						icon={faShuffle} />
 				</button>
 				<button className={unStyledButton} type="button" onClick={() => {
-					dispatch(incrementCurrentIndexToExternalStorage(currentUser))
+					setPlayerState(incrementPlayerIndex)
 				}}>
 					<FontAwesomeIcon
 						icon={faStepForward} />
 				</button>
 
 			</div>
-			<div style={{margin: "0px 40px"}} className={flexboxVariants.even}>
-				<span className={ellipsisText}>{state.playlistItems[state.currentIndex].itemName}</span>
-				<span>{state.currentIndex + 1}/{state.playlistItems.length}</span>
+			<div style={{ margin: "0px 40px" }} className={flexboxVariants.even}>
+				<span className={ellipsisText}>{savedTracks[currentPlayerIndex].itemName}</span>
+				<span>{currentPlayerIndex + 1}/{savedTracks.length}</span>
 			</div>
 
 		</div>

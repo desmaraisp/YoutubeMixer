@@ -1,47 +1,31 @@
 import { isApiError } from "@/models/api-models/api-error-response"
-import { GetLoggedInCustomProvidersSuccessResponse, GetLoggedInCustomProvidersResponseSchema } from "@/models/api-models/get-logged-in-custom-providers-model"
 import { roundedSeparator } from "@/styles/shared/separator.css"
 import { spinner } from "@/styles/shared/spinner.css"
-import { getIdToken, User } from "firebase/auth"
+import { User } from "next-auth"
 import Link from "next/link"
 import { useRouter } from "next/router"
 import { useCallback, useEffect, useState } from "react"
 import { AuthenticationMenuWidget } from "./authentication-menu-widget"
 import { ErrorMessage } from "../errors"
+import { fetchLoggedInProvidersFromAPI } from "@/lib/frontend-services/fetch-services/fetch-logged-in-providers-from-api"
+import { TokensApiResponseModel } from "@/models/api-models/user-refresh-tokens"
 
 
 export function ConnectAccount({ user }: { user: User }) {
-	const [authorizationState, setAuthorizationState] = useState<GetLoggedInCustomProvidersSuccessResponse | null>(null)
-	const [tokenID, setTokenID] = useState('')
+	const [authorizationState, setAuthorizationState] = useState<TokensApiResponseModel|null>(null)
 	const [errorMessage, setErrorMessage] = useState<string | null>(null)
-	const isGoogleAccountLoggedIn = user.providerData.some((profile) => profile.providerId === "google.com")
+	const isGoogleAccountLoggedIn = user.provider === "google.com"
 
 	const fetchLoggedInProviders = useCallback(async () => {
 		setErrorMessage(null)
-		try {
-			var response = await fetch("/api/auth/get-logged-in-custom-providers", {
-				headers: {
-					Authorization: await getIdToken(user)
-				}
-			})
-		}
-		catch (e) {
-			if (e instanceof Error) {
-				setErrorMessage(e.message)
-				return
-			}
-			throw e
-		}
-
-		const result = GetLoggedInCustomProvidersResponseSchema.parse(await response.json())
+		const result = await fetchLoggedInProvidersFromAPI()
 		if (isApiError(result)) {
 			setErrorMessage(result.message)
 			return
 		}
 
 		setAuthorizationState(result)
-		setTokenID(await getIdToken(user))
-	}, [user])
+	}, [setErrorMessage, setAuthorizationState])
 
 	useEffect(() => {
 		fetchLoggedInProviders()
@@ -54,7 +38,6 @@ export function ConnectAccount({ user }: { user: User }) {
 			<ProviderConnect
 				authorizationState={authorizationState}
 				isGoogleAccountLoggedIn={isGoogleAccountLoggedIn}
-				tokenID={tokenID}
 				errorMessage={errorMessage}
 				retryHandler={fetchLoggedInProviders} />
 
@@ -64,7 +47,7 @@ export function ConnectAccount({ user }: { user: User }) {
 	)
 }
 
-function ProviderConnect({ isGoogleAccountLoggedIn, tokenID, authorizationState, errorMessage, retryHandler }: { authorizationState: GetLoggedInCustomProvidersSuccessResponse | null; isGoogleAccountLoggedIn: boolean; tokenID: string, errorMessage: string | null, retryHandler: () => void }) {
+function ProviderConnect({ isGoogleAccountLoggedIn, authorizationState, errorMessage, retryHandler }: { authorizationState: TokensApiResponseModel | null; isGoogleAccountLoggedIn: boolean, errorMessage: string | null, retryHandler: () => void }) {
 	if (errorMessage) {
 		return (
 			<>
@@ -80,8 +63,8 @@ function ProviderConnect({ isGoogleAccountLoggedIn, tokenID, authorizationState,
 
 	return (
 		<>
-			<SpotifyConnect isSpotifyAuthorized={authorizationState.isSpotifyLoggedIn} tokenID={tokenID} />
-			<GoogleConnect isGoogleAuthorized={authorizationState.isGoogleLoggedIn} isGoogleAccountLoggedIn={isGoogleAccountLoggedIn} tokenID={tokenID} />
+			<SpotifyConnect isSpotifyAuthorized={authorizationState.isSpotifyLoggedIn} />
+			<GoogleConnect isGoogleAuthorized={authorizationState.isGoogleLoggedIn} isGoogleAccountLoggedIn={isGoogleAccountLoggedIn} />
 
 		</>
 	)
@@ -90,31 +73,31 @@ function ProviderConnect({ isGoogleAccountLoggedIn, tokenID, authorizationState,
 
 }
 
-function GoogleConnect({ isGoogleAuthorized, isGoogleAccountLoggedIn, tokenID }: { isGoogleAuthorized: boolean; isGoogleAccountLoggedIn: boolean; tokenID: string }) {
+function GoogleConnect({ isGoogleAuthorized, isGoogleAccountLoggedIn }: { isGoogleAuthorized: boolean; isGoogleAccountLoggedIn: boolean }) {
 	const router = useRouter()
 
 	if (isGoogleAuthorized) return <span>Your google account is already connected</span>
 
 	if (isGoogleAccountLoggedIn) return (
 		<button
-			onClick={() => router.push(`/api/auth/oauth2/login/google?tokenID=${tokenID}`)}
+			onClick={() => router.push(`/api/auth/oauth2/login/google`)}
 		>You are already logged in with google, but the application requires additional permissions to access your youtube account</button>
 	)
 
 	return (
 		<button
-			onClick={() => router.push(`/api/auth/oauth2/login/google?tokenID=${tokenID}`)}
+			onClick={() => router.push(`/api/auth/oauth2/login/google`)}
 		>Connect with Google</button>
 	)
 }
-function SpotifyConnect({ isSpotifyAuthorized, tokenID }: { isSpotifyAuthorized: boolean; tokenID: string }) {
+function SpotifyConnect({ isSpotifyAuthorized }: { isSpotifyAuthorized: boolean }) {
 	const router = useRouter()
 
 	if (isSpotifyAuthorized) return <span>Your spotify account is already connected</span>
 
 	return (
 		<button
-			onClick={() => router.push(`/api/auth/oauth2/login/spotify?tokenID=${tokenID}`)}
+			onClick={() => router.push(`/api/auth/oauth2/login/spotify`)}
 		>Connect with spotify</button>
 	)
 }

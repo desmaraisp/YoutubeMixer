@@ -5,24 +5,7 @@ const withVanillaExtract = createVanillaExtractPlugin();
 /** @type {import('next').NextConfig} */
 const nextConfig = {
 	reactStrictMode: true,
-	output: 'standalone',
-	publicRuntimeConfig: {
-		projectID: process.env.PUBLIC_PROJECT_ID,
-		firebaseApiKey: process.env.PUBLIC_FIREBASE_API_KEY,
-		firebaseAuthDomain: process.env.PUBLIC_FIREBASE_AUTH_DOMAIN,
-		firebaseStorageBucket: process.env.PUBLIC_FIREBASE_STORAGE_BUCKET,
-		firebaseMessagingSenderId: process.env.PUBLIC_FIREBASE_MESSAGING_SENDER_ID,
-		firebaseAppID: process.env.PUBLIC_FIREBASE_APPID,
-	},
-	serverRuntimeConfig: {
-		firebasePrivateKey: process.env.FIREBASE_PRIVATE_KEY,
-		firebaseClientEmail: process.env.FIREBASE_CLIENT_EMAIL,
-		googleClientID: process.env.GOOGLE_CLIENT_ID,
-		googleClientSecret: process.env.GOOGLE_CLIENT_SECRET,
-		spotifyClientID: process.env.SPOTIFY_CLIENT_ID,
-		spotifyClientSecret: process.env.SPOTIFY_CLIENT_SECRET,
-		youtubeApiKey: process.env.YOUTUBE_API_KEY
-	}
+	output: 'standalone'
 }
 
 module.exports = withVanillaExtract(nextConfig);

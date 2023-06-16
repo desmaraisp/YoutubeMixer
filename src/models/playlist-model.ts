@@ -1,10 +1,10 @@
 import { PlaylistTypesEnum } from './playlist-types';
-import { PlaylistItemValidator } from './playlist-item'
+import { trackSchema } from './track-model'
 import {z} from 'zod'
 
 export const PlaylistModelValidator = z.object({
 	playlistName: z.string(),
-	playlistItems: z.array(PlaylistItemValidator),
+	playlistItems: z.array(trackSchema),
 	enabled: z.boolean(),
 	uuid: z.string(),
 	playlistType: PlaylistTypesEnum,

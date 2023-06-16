@@ -1,6 +1,6 @@
 import { createGooglePassport } from "@/lib/auth-services/passport-google-auth";
 import { createSpotifyPassport } from "@/lib/auth-services/passport-spotify-auth";
-import { RequiredAuthorization } from "@/lib/middleware/firebase-auth-middleware";
+import { RequiredAuthorization } from "@/lib/middleware/auth-middleware";
 import { BadRequestException } from "@/models/exceptions/custom-exceptions";
 import { NextApiRequest, NextApiResponse } from "next";
 import { createRouter } from "next-connect";

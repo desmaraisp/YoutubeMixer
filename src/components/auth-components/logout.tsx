@@ -1,9 +1,9 @@
-import { getFirebaseConfig } from "@/firebase-config";
+import { signOut } from "next-auth/react"
 
 export function Logout(){
 	return (
 		<>
-			<button type="button" onClick={async () => await getFirebaseConfig().clientAuth.signOut()}>Log out</button>
+			<button type="button" onClick={async () => signOut()}>Log out</button>
 		</>
 	)
 }

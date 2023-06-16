@@ -1,14 +1,15 @@
-import React from 'react'
-import { useAppSelector } from '../store/hooks'
+import React, { useContext } from 'react'
 import Link from 'next/link';
 import { flexboxVariants } from '@/styles/shared/flexbox.css';
 import { centeredText, centeredVariants } from '@/styles/shared/centered-item.css'
 import { PlaylistsMenuItem } from './playlists-menu-item';
 import { PlaylistLink } from './playlist-menu-controls/playlist-link';
+import { UserPlaylistsContext } from '@/contexts/user-playlists-context';
 
 
 export function PlaylistsDisplay() {
-	const playlists = useAppSelector(state => state.playlistsReducer.playlists)
+	const { userPlaylists } = useContext(UserPlaylistsContext)
+	const playlists = userPlaylists.playlists
 
 	return (
 		<div className={centeredVariants.p90}>

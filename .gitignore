@@ -42,3 +42,5 @@ terraform/*/.terraform/
 *.tfstate*
 # Sentry Auth Token
 .sentryclirc
+firebase-debug.log
+firestore-debug.log

@@ -1,14 +1,13 @@
 import { PlaylistModel } from '@/models/playlist-model';
-import { PlaylistRequestModel } from "@/models/api-models/playlist-api-models";
-import React, { useContext, useState } from 'react';
+import { PlaylistContentsRequestModel } from "@/models/api-models/playlist-contents";
+import React, { useState } from 'react';
 import { PlaylistTypesEnum } from '@/models/playlist-types';
 import { v4 as uuidv4 } from 'uuid';
 import { flexboxVariants } from '@/styles/shared/flexbox.css';
 import { centeredVariants } from '@/styles/shared/centered-item.css';
 import { borderedPadded } from '@/styles/shared/bordered-padded.css';
-import { fetchPlaylistFromAPI } from '@/lib/fetch-playlist-from-api';
+import { fetchPlaylistContentsFromAPI } from '../../lib/frontend-services/fetch-services/fetch-playlist-contents-from-api'
 import { verticalMargins } from '@/styles/shared/vertical-margins.css';
-import { FirebaseAuthContext } from '../firebase-context';
 import { spinner } from '@/styles/shared/spinner.css';
 import { isApiError } from '@/models/api-models/api-error-response';
 import { YoutubeDoc } from './youtube-documentation';
@@ -22,16 +21,15 @@ import { FormFieldError, FormRootError } from '../errors';
 export function AddNewPlaylistForm({ onNewItemAccepted }: { onNewItemAccepted: (newPlaylist: PlaylistModel) => void }) {
 	const form = useForm<FormSchema>({ resolver: zodResolver(formSchema) })
 	const [newPlaylistModel, setNewPlaylistModel] = useState<PlaylistModel | null>(null)
-	const currentUser = useContext(FirebaseAuthContext)
 	const currentPlaylistType = form.watch("playlistType");
 
 
 	const onSubmit: SubmitHandler<FormSchema> = async (data) => {
-		const requestPayload: PlaylistRequestModel = {
+		const requestPayload: PlaylistContentsRequestModel = {
 			playlistID: data.playlistID,
 			playlistType: data.playlistType,
 		};
-		const result = await fetchPlaylistFromAPI(requestPayload, currentUser.user)
+		const result = await fetchPlaylistContentsFromAPI(requestPayload)
 
 		if (isApiError(result)) {
 			form.setError('root', { message: result.message });

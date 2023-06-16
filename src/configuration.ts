@@ -2,17 +2,10 @@ import getConfig from "next/config";
 import { z } from "zod";
 
 const publicConfigurationSchema = z.object({
-	projectID: z.string().min(1),
-	firebaseApiKey: z.string().min(1),
-	firebaseAuthDomain: z.string().min(1),
-	firebaseStorageBucket: z.string().min(1),
-	firebaseMessagingSenderId: z.string().min(1),
-	firebaseAppID: z.string().min(1)
+
 })
 export interface PublicConfiguration extends z.infer<typeof publicConfigurationSchema>{}
 const privateConfigurationSchema = z.object({
-	firebaseClientEmail: z.string().optional(),
-	firebasePrivateKey: z.string().optional(),
 	googleClientID: z.string().min(1),
 	googleClientSecret: z.string().min(1),
 	spotifyClientID: z.string().min(1),
@@ -20,9 +13,15 @@ const privateConfigurationSchema = z.object({
 	youtubeApiKey: z.string().min(1)
 })
 export interface PrivateConfiguration extends z.infer<typeof privateConfigurationSchema>{}
+
 export function getPrivateConfiguration(){
-	const { serverRuntimeConfig } = getConfig();
-	return privateConfigurationSchema.parse(serverRuntimeConfig)
+	return privateConfigurationSchema.parse({
+		googleClientID: process.env.GOOGLE_CLIENT_ID,
+		googleClientSecret: process.env.GOOGLE_CLIENT_SECRET,
+		spotifyClientID: process.env.SPOTIFY_CLIENT_ID,
+		spotifyClientSecret: process.env.SPOTIFY_CLIENT_SECRET,
+		youtubeApiKey: process.env.YOUTUBE_API_KEY
+	})
 }
 export function getPublicConfiguration(){
 	const { publicRuntimeConfig } = getConfig();

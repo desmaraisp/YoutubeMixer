@@ -1,40 +1,39 @@
-import { PlaylistItem } from "@/models/playlist-item";
-import { useAppDispatch, useAppSelector } from "@/store/hooks"
-import { setCurrentIndexToExternalStorage } from "@/store/saved-tracks-reducer";
+import { TrackModel } from "@/models/track-model";
 import { alternatingBackgroundTable, tableCell, tableRow } from "@/styles/shared/tables.css";
 import { ellipsisText } from "@/styles/shared/ellipsis-text.css";
 import { flexboxVariants } from "@/styles/shared/flexbox.css";
 import { highlighted } from "@/styles/shared/highlighted.css";
 import { TracksListHeader } from "./tracks-list-header";
-import { useContext } from "react";
-import { FirebaseAuthContext } from "./firebase-context";
-import { User } from "firebase/auth";
 import { unStyledButton } from "@/styles/shared/button.css";
 import { fullWidth } from "@/styles/shared/full-size.css";
+import { useContext } from "react";
+import { PlayerContext } from "@/contexts/player-context";
+import { setCurrentIndex } from "@/lib/frontend-services/player-state-functions";
 
 type TracksListRowType = {
-	playlistItem: PlaylistItem;
+	playlistItem: TrackModel;
 	isCurrentlyPlayingTrack: boolean;
 	currentIndex: number;
-	currentUser: User
 };
 
-function TracksListRow({ playlistItem, isCurrentlyPlayingTrack, currentIndex, currentUser }: TracksListRowType) {
-	const dispatch = useAppDispatch()
+function TracksListRow({ playlistItem, isCurrentlyPlayingTrack, currentIndex }: TracksListRowType) {
 	const baseRowClass = `${tableRow} ${flexboxVariants.leftAligned} ${unStyledButton}`
 	const rowClassName = isCurrentlyPlayingTrack ? `${highlighted} ${baseRowClass}` : baseRowClass
+	const { setPlayerState } = useContext(PlayerContext)
 
 	return (
-		<button style={{alignItems: 'stretch'}} className={rowClassName} type="button" onClick={() => dispatch(setCurrentIndexToExternalStorage({ user: currentUser, newIndex: currentIndex }))}>
+		<button style={{ alignItems: 'stretch' }} className={rowClassName} type="button" onClick={ () => {
+			setPlayerState((playerState) => { return setCurrentIndex(playerState, currentIndex) })
+		}}>
 			<div style={{ width: "90px", height: "90px", backgroundColor: "black", flexShrink: 0 }} className={`${flexboxVariants.centered} ${tableCell}`}>
 				<img className={fullWidth} src={playlistItem.itemImageURL} alt={playlistItem.itemName} />
 			</div>
 
 			<div style={{ flexGrow: 1, overflow: 'hidden', padding: "10px" }} className={`${flexboxVariants.leftAligned} ${tableCell}`}>
-				<div style={{ textAlign: 'left'}} className={ellipsisText}>
+				<div style={{ textAlign: 'left' }} className={ellipsisText}>
 					{playlistItem.itemName}
 				</div>
-				
+
 			</div>
 
 		</button>
@@ -44,17 +43,17 @@ function TracksListRow({ playlistItem, isCurrentlyPlayingTrack, currentIndex, cu
 }
 
 export function TracksList({ className }: { className?: string }) {
-	const savedTracks = useAppSelector(state => state.playerReducer.playlistItems)
-	const currentPlayerIndex = useAppSelector(state => state.playerReducer.currentIndex)
-	const currentUser = useContext(FirebaseAuthContext).user
+	const { playerState } = useContext(PlayerContext)
+	const savedTracks = playerState.tracks
+	const currentPlayerIndex = playerState.currentIndex
 
-	if (savedTracks.length == 0 || !savedTracks[currentPlayerIndex] || !currentUser) {
+	if (savedTracks.length == 0 || !savedTracks[currentPlayerIndex]) {
 		return (<></>)
 	}
 
 	return (
 		<div className={`${className}`}>
-			<div className={flexboxVariants.vertical} style={{minHeight: "100%"}}>
+			<div className={flexboxVariants.vertical} style={{ minHeight: "100%" }}>
 				<TracksListHeader />
 				<div style={{ overflowY: "scroll", maxHeight: "90vh", flexGrow: 1 }}>
 
@@ -63,7 +62,6 @@ export function TracksList({ className }: { className?: string }) {
 							return <TracksListRow
 								currentIndex={index}
 								key={item.uuid}
-								currentUser={currentUser}
 								playlistItem={item}
 								isCurrentlyPlayingTrack={index === currentPlayerIndex}
 							/>

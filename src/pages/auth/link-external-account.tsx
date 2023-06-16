@@ -7,7 +7,6 @@ export default function LinkExternalAccountPage() {
 	return (
 		<AuthenticationGuard
 			authenticatedNode={(currentUser) => <ConnectAccount user={currentUser}/>}
-			anonymousNode={(currentUser) => <ConnectAccount user={currentUser}/>}
 			unauthenticatedNode={() => <ClientSideRedirect path='/' />}
 		/>
 	)
