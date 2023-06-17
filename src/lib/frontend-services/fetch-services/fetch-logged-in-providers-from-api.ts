@@ -5,7 +5,7 @@ import { z } from "zod";
 
 export async function fetchLoggedInProvidersFromAPI(): Promise<ApiErrorModel|TokensApiResponseModel> {
 	try {
-		var response = await fetch("/api/auth/get-logged-in-custom-providers")
+		var response = await fetch("/api/user-refresh-tokens")
 
 		const result = await response.json()
 		return await z.union([ApiErrorSchema, TokensApiResponseSchema]).parseAsync(result)

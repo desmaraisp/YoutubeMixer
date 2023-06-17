@@ -5,7 +5,6 @@ import { flexboxVariants } from '@/styles/shared/flexbox.css';
 import { AddNewPlaylistForm } from './add-new-playlist-form/main-form';
 import Link from 'next/link';
 import { PlaylistsMenuItem } from './playlists-menu-item';
-import { useEffect } from 'react';
 import { PlaylistLink } from './playlist-menu-controls/playlist-link';
 import { DeletePlaylistButton } from './playlist-menu-controls/delete-playlist-button';
 import { UserPlaylistsContext } from '@/contexts/user-playlists-context';
@@ -16,12 +15,8 @@ import { pushUserPlaylists } from '@/lib/frontend-services/fetch-services/push-u
 
 export function PlaylistsEdit() {
 	const { userPlaylists } = useContext(UserPlaylistsContext)
-	const [tempPlaylists, setTempPlaylists] = useState<PlaylistModel[]>([])
+	const [tempPlaylists, setTempPlaylists] = useState<PlaylistModel[]>(userPlaylists.playlists)
 	const [shuffle, setShuffle] = useState(true)
-
-	useEffect(() => {
-		setTempPlaylists(userPlaylists.playlists)
-	}, [userPlaylists.playlists])
 
 	return (
 		<div className={centeredVariants.p90}>
@@ -81,21 +76,38 @@ export function PlaylistsEdit() {
 
 function SavePlaylistsButton({ playlistsToSave, shuffle }: { playlistsToSave: PlaylistModel[], shuffle: boolean }) {
 	const router = useRouter()
+	const [message, setMessage] = useState<string | null>();
 
 
-	return <button type='submit' onClick={async () => {
-		const enabledPlaylists = playlistsToSave.filter(x => x.enabled === true)
-		const playlistItems = enabledPlaylists.flatMap((playlist) => {
-			return playlist.playlistItems
-		})
+	return <>
+		<button type='submit' onClick={async () => {
+			const enabledPlaylists = playlistsToSave.filter(x => x.enabled === true)
+			const playlistItems = enabledPlaylists.flatMap((playlist) => {
+				return playlist.playlistItems
+			})
 
-		pushPlayerState({
-			currentIndex: 0,
-			tracks: shuffle ? ShuffleArray(playlistItems) : playlistItems
-		})
-		pushUserPlaylists(playlistsToSave)
+			const result = await Promise.all([
+				pushPlayerState({
+					currentIndex: 0,
+					tracks: shuffle ? ShuffleArray(playlistItems) : playlistItems
+				}),
+				pushUserPlaylists({
+					playlists: playlistsToSave
+				})
+			]);
+			if (result[0] !== null) {
+				setMessage(result[0].message)
+				return
+			}
+			if (result[1] !== null) {
+				setMessage(result[1].message)
+				return
+			}
 
-		router.push("/");
-	}}>Save changes</button>;
+			router.push("/")
+
+		}}>Save changes</button>
+		{message && <div>{message}</div>}
+	</>
 }
 

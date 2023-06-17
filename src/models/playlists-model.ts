@@ -1,7 +1,7 @@
 import { z } from "zod";
-import { PlaylistModelValidator } from "./playlist-model";
+import { playlistSchema } from "./playlist-model";
 
-export const PlaylistsModelValidator = z.object({
-	playlists: z.array(PlaylistModelValidator),
+export const playlistsSchema = z.object({
+	playlists: z.array(playlistSchema),
 })
-export interface PlaylistsModel extends z.infer<typeof PlaylistsModelValidator>{}
+export interface PlaylistsModel extends z.infer<typeof playlistsSchema>{}

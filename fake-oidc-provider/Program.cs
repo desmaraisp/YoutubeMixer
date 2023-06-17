@@ -17,16 +17,7 @@ internal class Program
 		builder.Services.AddRazorPages();
 
 		builder.Services
-			.AddIdentityServer(c =>
-			{
-				var keysLocation = builder.Configuration.GetValue<string>("IdentityServer:KeysLocation");
-				if (!string.IsNullOrWhiteSpace(
-					keysLocation
-				))
-				{
-					c.KeyManagement.KeyPath = keysLocation;
-				}
-			})
+			.AddIdentityServer()
 			.AddDeveloperSigningCredential(persistKey: false)
 			.AddInMemoryIdentityResources(new List<IdentityResource>() {
 					new IdentityResources.OpenId(),

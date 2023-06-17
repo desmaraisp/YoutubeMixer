@@ -1,7 +1,7 @@
 import { ApiErrorModel, ApiErrorSchema } from "@/models/api-models/api-error-response";
-import { PlaylistModel } from "@/models/playlist-model";
+import { PlaylistsModel } from "@/models/playlists-model";
 
-export async function pushUserPlaylists(model: PlaylistModel[]): Promise<ApiErrorModel | null> {
+export async function pushUserPlaylists(model: PlaylistsModel): Promise<ApiErrorModel | null> {
 	try {
 		var response = await fetch('/api/user-playlists', {
 			method: 'Put',

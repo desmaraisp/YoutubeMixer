@@ -5,7 +5,7 @@ import { Provider } from "next-auth/providers"
 export function getAuthOptions() {
 	var providers: Provider[];
 
-	if(process.env.NODE_ENV == 'development'){
+	if (process.env.NODE_ENV == 'development') {
 		providers = [{
 			id: "customProvider",
 			name: "customProvider",
@@ -13,6 +13,9 @@ export function getAuthOptions() {
 			clientSecret: "bar",
 			type: "oauth",
 			wellKnown: "http://localhost:5227/.well-known/openid-configuration",
+			httpOptions: {
+				timeout: 6000
+			},
 			authorization: {
 				params: { scope: "openid email profile" },
 			},
@@ -20,19 +23,19 @@ export function getAuthOptions() {
 				return {
 					id: profile.sub,
 					name: profile.name,
-					email: profile.email, 
+					email: profile.email,
 					image: profile?.picture ?? "",
 				}
 			}
 		}]
 	}
 
-	else{
+	else {
 		providers = [
-			
+
 		]
 	}
-	
+
 
 
 
@@ -40,7 +43,7 @@ export function getAuthOptions() {
 		providers: providers,
 		callbacks: {
 			session: async ({ session, user, token }) => {
-				if(session.user){
+				if (session.user) {
 					session.user.id = (token?.provider ?? "") + (token?.sub ?? "")
 				}
 

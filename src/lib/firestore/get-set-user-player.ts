@@ -16,6 +16,13 @@ export async function setUserPlayer(userID: string, playerState: DBPlayerModel) 
 		.doc(userID).set(playerState, { merge: true })
 }
 
+export async function setUserPlayerIndex(userID: string, newIndex: number) {
+	await getFirebaseAdminConfig()
+		.collection(applicationConstants.fireStoreConstants.playerCollection)
+		.doc(userID).set({currentIndex: newIndex} as DBPlayerModel, { merge: true })
+}
+
+
 export async function getUserPlayer(userID: string): Promise<DBPlayerModel> {
 	const result = await getFirebaseAdminConfig()
 		.collection(applicationConstants.fireStoreConstants.playerCollection)

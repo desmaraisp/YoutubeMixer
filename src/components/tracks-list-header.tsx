@@ -1,4 +1,5 @@
 import { PlayerContext } from "@/contexts/player-context";
+import { pushPlayerIndex, pushPlayerState } from "@/lib/frontend-services/fetch-services/push-player-state";
 import { decrementPlayerIndex, incrementPlayerIndex } from "@/lib/frontend-services/player-state-functions";
 import { ShuffleArray } from "@/lib/shuffle-array";
 import { unStyledButton } from "@/styles/shared/button.css";
@@ -21,24 +22,30 @@ export function TracksListHeader() {
 		<div style={{ paddingTop: "10px", borderBottom: "1px solid" }}>
 			<div className={flexboxVariants.gapped}>
 				<button className={unStyledButton} type="button" onClick={() => {
-					setPlayerState(decrementPlayerIndex)
+					pushPlayerIndex({ newIndex: decrementPlayerIndex(playerState)})
+					setPlayerState((playerState) => {
+						return {...playerState, currentIndex: decrementPlayerIndex(playerState)}
+					})
 				}}>
 					<FontAwesomeIcon
 						icon={faStepBackward} />
 				</button>
 				<button className={unStyledButton} type="button" onClick={() => {
-					setPlayerState((playerState) => {
-						return {
-							currentIndex: 0,
-							tracks: ShuffleArray(playerState.tracks)
-						}
-					})
+					const newState = {
+						currentIndex: 0,
+						tracks: ShuffleArray(playerState.tracks)
+					}
+					pushPlayerState(newState)
+					setPlayerState(newState)
 				}}>
 					<FontAwesomeIcon
 						icon={faShuffle} />
 				</button>
 				<button className={unStyledButton} type="button" onClick={() => {
-					setPlayerState(incrementPlayerIndex)
+					pushPlayerIndex({ newIndex: incrementPlayerIndex(playerState)})
+					setPlayerState((playerState) => {
+						return {...playerState, currentIndex: incrementPlayerIndex(playerState)}
+					})
 				}}>
 					<FontAwesomeIcon
 						icon={faStepForward} />

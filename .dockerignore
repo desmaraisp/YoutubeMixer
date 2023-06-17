@@ -25,3 +25,6 @@
 LICENSE
 README.md
 .env*
+**/*.jwk
+**/obj
+**/keys

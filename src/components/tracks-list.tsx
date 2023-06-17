@@ -8,7 +8,7 @@ import { unStyledButton } from "@/styles/shared/button.css";
 import { fullWidth } from "@/styles/shared/full-size.css";
 import { useContext } from "react";
 import { PlayerContext } from "@/contexts/player-context";
-import { setCurrentIndex } from "@/lib/frontend-services/player-state-functions";
+import { pushPlayerIndex } from "@/lib/frontend-services/fetch-services/push-player-state";
 
 type TracksListRowType = {
 	playlistItem: TrackModel;
@@ -22,8 +22,11 @@ function TracksListRow({ playlistItem, isCurrentlyPlayingTrack, currentIndex }: 
 	const { setPlayerState } = useContext(PlayerContext)
 
 	return (
-		<button style={{ alignItems: 'stretch' }} className={rowClassName} type="button" onClick={ () => {
-			setPlayerState((playerState) => { return setCurrentIndex(playerState, currentIndex) })
+		<button style={{ alignItems: 'stretch' }} className={rowClassName} type="button" onClick={() => {
+			pushPlayerIndex({ newIndex: currentIndex })
+			setPlayerState((playerState) => {
+				return { ...playerState, currentIndex: currentIndex }
+			})
 		}}>
 			<div style={{ width: "90px", height: "90px", backgroundColor: "black", flexShrink: 0 }} className={`${flexboxVariants.centered} ${tableCell}`}>
 				<img className={fullWidth} src={playlistItem.itemImageURL} alt={playlistItem.itemName} />

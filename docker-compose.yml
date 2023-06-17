@@ -10,3 +10,14 @@ services:
       dockerfile: fake-oidc-provider/Dockerfile
     ports:
       - 5227:5227
+  emulators:
+    image: emulators
+    build:
+      context: firebase-emulator/.
+      dockerfile: Dockerfile
+    ports:
+      - 8080:8080
+      - 9150:9150
+      - 4000:4000
+      - 4500:4500
+      - 4400:4400

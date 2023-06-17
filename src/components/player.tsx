@@ -5,6 +5,7 @@ import { YoutubePlayer } from "./youtube-player";
 import { EmbedController } from "spotify.d";
 import { PlayerContext } from "@/contexts/player-context";
 import { incrementPlayerIndex } from "@/lib/frontend-services/player-state-functions";
+import { pushPlayerIndex } from "@/lib/frontend-services/fetch-services/push-player-state";
 
 function spotifyPlay(emb: EmbedController) {
 	emb.play()
@@ -20,8 +21,11 @@ export function Player({ className }: { className?: string }) {
 	const currentTrack = savedTracks[currentPlayerIndex]
 
 	const onEnded = useCallback(() => {
-		setPlayerState(incrementPlayerIndex)
-	}, [setPlayerState])
+		pushPlayerIndex({ newIndex: incrementPlayerIndex(playerState)})
+		setPlayerState((playerState) => {
+			return {...playerState, currentIndex: incrementPlayerIndex(playerState)}
+		})
+	}, [setPlayerState, playerState])
 
 	if (savedTracks.length == 0 || !currentTrack) {
 		return <></>

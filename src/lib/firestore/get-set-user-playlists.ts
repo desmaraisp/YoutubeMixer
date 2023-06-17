@@ -1,6 +1,6 @@
 import { applicationConstants } from "@/constants";
 import { getFirebaseAdminConfig } from "@/firebase-admin-config";
-import { PlaylistModelValidator as PlaylistModelSchema } from "@/models/playlist-model";
+import { playlistSchema as PlaylistModelSchema } from "@/models/playlist-model";
 import { z } from "zod";
 
 export const DBPlaylistsModelSchema = z.object({

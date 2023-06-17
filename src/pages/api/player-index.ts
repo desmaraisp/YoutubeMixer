@@ -2,24 +2,17 @@ import type { NextApiRequest, NextApiResponse } from 'next'
 import { createRouter } from "next-connect";
 import { RequiredAuthorization } from "@/lib/middleware/auth-middleware";
 import { onApiError } from '@/lib/middleware/on-api-error';
-import { getUserPlaylists, setUserPlaylists } from '@/lib/firestore/get-set-user-playlists';
-import { playlistsSchema } from '@/models/playlists-model';
+import { setUserPlayerIndex } from '@/lib/firestore/get-set-user-player';
+import { setPlayerIndexRequestSchema } from '@/models/api-models/set-player-index';
 
 const router = createRouter<NextApiRequest & { uid: string }, NextApiResponse>();
 
 router
 	.use(RequiredAuthorization())
-	.get(
-		async (req, res, _next) => {
-			const userPlaylists = await getUserPlaylists(req.uid)
-
-			res.status(200).json(userPlaylists)
-		},
-	)
 	.put(
 		async (req, res, _next) => {
-			const userPlaylists = await playlistsSchema.parseAsync(JSON.parse(req.body))
-			await setUserPlaylists(req.uid, userPlaylists)
+			const payload = await setPlayerIndexRequestSchema.parseAsync(JSON.parse(req.body))
+			await setUserPlayerIndex(req.uid, payload.newIndex)
 
 			res.status(200).end()
 		},
