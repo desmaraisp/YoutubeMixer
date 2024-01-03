@@ -34,7 +34,7 @@ export const ProviderIcon = ({ provider }: { provider: Provider }) => {
 }
 
 export function SocialAuth({
-	providers,
+	providers = ['google', 'facebook', 'twitter', 'apple', 'github', 'gitlab', 'linkedin', 'spotify', 'twitch'],
 	providerScopes,
 	queryParams,
 	redirectTo,

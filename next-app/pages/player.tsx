@@ -6,15 +6,23 @@ import { TracksListDisplayTable } from "@/features/playlist-track/components/tra
 import { PlayerContextProvider } from "@/features/player/components/player-context-component/player-context";
 import { PlayerMenu } from "@/features/player/components/player-menu/menu";
 import { PlayerMainDisplay } from "@/features/player/components/player-display/main-display";
+import { createSupabaseClientForServerSideProps } from "@/lib/supabase-client-factory";
+import { ErrorWithHTTPCode } from "@/exceptions/error-with-http-code";
 
 export const getServerSideProps = async (_context: GetServerSidePropsContext) => {
+	const supabase = createSupabaseClientForServerSideProps(_context)
+	const user = (await supabase.auth.getSession()).data.session?.user
+
+	if(!user) throw new ErrorWithHTTPCode('Unauthorized', 403)
+
 	const playerResult = await prismaClient.player.findFirst({
-		where: { userId: 'null' },
+		where: { userId: user.id },
 	})
 	const tracksResult = await prismaClient.playlistTrack.findMany({
 		where: {
 			playlist: {
 				enabled: true,
+				userId: user.id
 			}
 		},
 		include: {

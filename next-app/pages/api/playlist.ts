@@ -6,8 +6,10 @@ import { RouteConfig } from "@asteasolutions/zod-to-openapi";
 import { contentTypeFilterMiddleware } from "@/middleware/content-type-filter";
 import { PlaylistModelWithId, PlaylistSchema, PlaylistSchemaWithId } from "@/features/playlist/playlist-schema";
 import { PlaylistTrackModelWithId } from "@/features/playlist-track/playlist-track-schema";
+import { RequiredAuthorization } from "@/middleware/api-auth-middleware";
+import { User } from "@supabase/supabase-js";
 
-const router = createRouter<NextApiRequest, NextApiResponse>();
+const router = createRouter<NextApiRequest & {user: User}, NextApiResponse>();
 export const playlistsRouteConfig: RouteConfig = {
 	method: 'post',
 	path: '/api/playlist',
@@ -35,11 +37,13 @@ export const playlistsRouteConfig: RouteConfig = {
 router
 	.post(
 		contentTypeFilterMiddleware('application/json'),
+		RequiredAuthorization(),
 		async (req, res, _next) => {
 			const payload = await PlaylistSchema.parseAsync(req.body)
 
 			const createdPlaylist = await prismaClient.playlist.create({
 				data: {
+					userId: req.user.id,
 					playlistName: payload.playlistName,
 					playlistType: payload.playlistType,
 					enabled: payload.enabled,
@@ -55,7 +59,7 @@ router
 				},
 				include: {
 					playlistItems: true
-				}
+				},
 			})
 
 			const response: PlaylistModelWithId = {

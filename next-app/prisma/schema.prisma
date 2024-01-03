@@ -26,6 +26,7 @@ model Playlist {
 	playlistId String @id @default(cuid())
 	remotePlaylistId String
 	playlistName String
+	userId String
 	enabled Boolean @default(true)
 	playlistType PlaylistType
 	playlistItems PlaylistTrack[]

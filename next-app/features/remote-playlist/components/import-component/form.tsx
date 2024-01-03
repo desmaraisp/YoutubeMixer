@@ -8,7 +8,6 @@ import { AllowedPlaylistTypes } from "@/lib/playlist-type-enum";
 import { RemotePlaylistModel, RemotePlaylistModelWithDetails, RemotePlaylistSchema } from "../../remote-playlist-schema";
 
 export function RemotePlaylistForm({ onRemotePlaylistDataReceived }: { onRemotePlaylistDataReceived: (data: RemotePlaylistModelWithDetails) => void }) {
-	const router = useRouter();
 	const form = useForm<RemotePlaylistModel>({
 		validate: zodResolver(RemotePlaylistSchema),
 		initialValues: {

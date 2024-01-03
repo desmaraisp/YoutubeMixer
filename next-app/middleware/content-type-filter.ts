@@ -9,8 +9,6 @@ export function contentTypeFilterMiddleware(allowedContentType: String) {
 			res.status(415).json({ message: "Invalid content-type" } as ApiErrorResponseModel);
 			return;
 		}
-
 		await next()
 	}
-
 }

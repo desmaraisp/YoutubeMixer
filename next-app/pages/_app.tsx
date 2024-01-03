@@ -29,7 +29,7 @@ function AuthButton() {
 		return unsubscribe.data.subscription.unsubscribe
 	}, [router, session])
 
-	if (!session) return <Anchor mx='sm' underline='never' component={Link} href={"/login"}>Log in</Anchor>
+	if (!session) return <Anchor mx='sm' underline='never' component={Link} href={"/sign-in"}>Sign in</Anchor>
 
 	return <Button onClick={async () => await supabaseBrowserClient.auth.signOut()}>Sign Out</Button>
 }

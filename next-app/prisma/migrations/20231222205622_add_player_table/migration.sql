@@ -1,10 +1,3 @@
-/*
-  Warnings:
-
-  - You are about to drop the column `isPlaying` on the `PlaylistTrack` table. All the data in the column will be lost.
-  - You are about to drop the column `orderId` on the `PlaylistTrack` table. All the data in the column will be lost.
-
-*/
 -- DropIndex
 DROP INDEX "PlaylistTrack_isPlaying_key";
 

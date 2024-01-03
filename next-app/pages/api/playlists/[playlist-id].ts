@@ -6,8 +6,10 @@ import { z } from "zod";
 import { RouteConfig } from "@asteasolutions/zod-to-openapi";
 import { PlaylistModelWithId, PlaylistSchema, PlaylistSchemaWithId } from "@/features/playlist/playlist-schema";
 import { PlaylistTrackModelWithId } from "@/features/playlist-track/playlist-track-schema";
+import { RequiredAuthorization } from "@/middleware/api-auth-middleware";
+import { User } from "@supabase/supabase-js";
 
-const router = createRouter<NextApiRequest, NextApiResponse>();
+const router = createRouter<NextApiRequest & {user: User}, NextApiResponse>();
 export const playlistDeleteRouteConfig: RouteConfig = {
 	method: 'delete',
 	path: '/api/playlist/{playlist-id}',
@@ -51,13 +53,14 @@ export const playlistPutRouteConfig: RouteConfig = {
 
 
 router
+	.use(RequiredAuthorization())
 	.delete(
 		async (req, res, _next) => {
 			const playlistId = req.query["playlist-id"]
 			const singlePlaylistId = Array.isArray(playlistId) ? playlistId[0] : playlistId;
 
 			await prismaClient.$transaction(async (tr) => {
-				await tr.player.delete({ where: { userId: 'null' } })
+				await tr.player.delete({ where: { userId: req.user.id } })
 				await tr.playlistTrack.deleteMany({
 					where: {
 						playlistId: singlePlaylistId
@@ -80,7 +83,7 @@ router
 
 			const singlePlaylistId = Array.isArray(playlistId) ? playlistId[0] : playlistId;
 			
-			await prismaClient.player.delete({ where: { userId: 'null' } })
+			await prismaClient.player.delete({ where: { userId: req.user.id } })
 			const updatedPlaylist = await prismaClient.playlist.update({
 				where: {
 					playlistId: singlePlaylistId

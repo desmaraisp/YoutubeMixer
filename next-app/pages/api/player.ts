@@ -5,8 +5,10 @@ import { prismaClient } from "@/globals/prisma-client";
 import { RouteConfig } from "@asteasolutions/zod-to-openapi";
 import { contentTypeFilterMiddleware } from "@/middleware/content-type-filter";
 import { PlayerModel, PlayerSchema } from "@/features/player/player-schema";
+import { User } from "@supabase/supabase-js";
+import { RequiredAuthorization } from "@/middleware/api-auth-middleware";
 
-const router = createRouter<NextApiRequest, NextApiResponse>();
+const router = createRouter<NextApiRequest & { user: User }, NextApiResponse>();
 export const playerRouteConfig: RouteConfig = {
 	method: 'put',
 	path: '/api/player',
@@ -34,18 +36,19 @@ export const playerRouteConfig: RouteConfig = {
 router
 	.put(
 		contentTypeFilterMiddleware('application/json'),
+		RequiredAuthorization(),
 		async (req, res, _next) => {
 			const payload = await PlayerSchema.parseAsync(req.body)
 
 			const createdPlayer = await prismaClient.player.upsert({
 				where: {
-					userId: 'null'
+					userId: req.user.id
 				},
 				update: {
 					currentTrackId: payload.currentTrackId
 				},
 				create: {
-					userId: 'null',
+					userId: req.user.id,
 					currentTrackId: payload.currentTrackId,
 				}
 			})
