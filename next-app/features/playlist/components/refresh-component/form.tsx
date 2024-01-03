@@ -29,8 +29,8 @@ export function AcceptPlaylistUpdateForm({ newPlaylistData, currentPlaylistData,
 			return
 		}
 
-		form.reset()
 		router.replace(router.asPath);
+		cancelCallback()
 	}
 
 	return (

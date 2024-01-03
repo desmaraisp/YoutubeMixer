@@ -1,5 +1,5 @@
 import { PlaylistTrackModelWithId } from "@/features/playlist-track/playlist-track-schema";
-import { Alert, Card, Table } from "@mantine/core";
+import { Alert, Table } from "@mantine/core";
 import { useContext } from "react";
 import { PlayerContext } from "../../../player/components/player-context-component/player-context";
 

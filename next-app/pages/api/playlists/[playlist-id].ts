@@ -9,7 +9,7 @@ import { PlaylistTrackModelWithId } from "@/features/playlist-track/playlist-tra
 import { RequiredAuthorization } from "@/middleware/api-auth-middleware";
 import { User } from "@supabase/supabase-js";
 
-const router = createRouter<NextApiRequest & {user: User}, NextApiResponse>();
+const router = createRouter<NextApiRequest & { user: User }, NextApiResponse>();
 export const playlistDeleteRouteConfig: RouteConfig = {
 	method: 'delete',
 	path: '/api/playlist/{playlist-id}',
@@ -59,19 +59,10 @@ router
 			const playlistId = req.query["playlist-id"]
 			const singlePlaylistId = Array.isArray(playlistId) ? playlistId[0] : playlistId;
 
-			await prismaClient.$transaction(async (tr) => {
-				await tr.player.delete({ where: { userId: req.user.id } })
-				await tr.playlistTrack.deleteMany({
-					where: {
-						playlistId: singlePlaylistId
-					}
-				})
-
-				await tr.playlist.delete({
-					where: {
-						playlistId: singlePlaylistId
-					}
-				})
+			await prismaClient.playlist.delete({
+				where: {
+					playlistId: singlePlaylistId
+				}
 			})
 			res.status(200).json(null)
 		},
@@ -82,8 +73,7 @@ router
 			const payload = await PlaylistSchema.parseAsync(req.body)
 
 			const singlePlaylistId = Array.isArray(playlistId) ? playlistId[0] : playlistId;
-			
-			await prismaClient.player.delete({ where: { userId: req.user.id } })
+
 			const updatedPlaylist = await prismaClient.playlist.update({
 				where: {
 					playlistId: singlePlaylistId

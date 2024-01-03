@@ -13,7 +13,7 @@ export const getServerSideProps = async (_context: GetServerSidePropsContext) =>
 	const supabase = createSupabaseClientForServerSideProps(_context)
 	const user = (await supabase.auth.getSession()).data.session?.user
 
-	if(!user) throw new ErrorWithHTTPCode('Unauthorized', 403)
+	if (!user) throw new ErrorWithHTTPCode('Unauthorized', 403)
 
 	const playerResult = await prismaClient.player.findFirst({
 		where: { userId: user.id },
@@ -30,7 +30,9 @@ export const getServerSideProps = async (_context: GetServerSidePropsContext) =>
 				select: { playlistType: true }
 			}
 		},
-		orderBy: { playlistTrackId: 'asc' }
+		orderBy: {
+			orderingKey: 'asc'
+		}
 	})
 
 	return {
@@ -58,7 +60,7 @@ export default function Transactions({
 					<div style={{ flex: 2, aspectRatio: '16/9', minWidth: '400px' }}>
 						<PlayerMainDisplay />
 					</div>
-					<Stack style={{flex: 1}}>
+					<Stack style={{ flex: 1 }}>
 						<PlayerMenu />
 						<TracksListDisplayTable tracks={tracksResult} />
 					</Stack>

@@ -6,7 +6,7 @@ import { PlayerModel } from "../../player-schema";
 
 type ContextReturnType = {
 	currentTrackId: string,
-	setCurrentTrackId: (dispatchAction: SetStateAction<string>) => Promise<void>
+	setCurrentTrackId: (newTrackId: string) => Promise<void>
 	tracksList: PlaylistTrackModelWithTrackType[],
 	getCurrentTrackFromId: () => PlaylistTrackModelWithTrackType
 };
@@ -45,10 +45,10 @@ function InnerProvider({ currentPlayingTrack, currentTracks, children }: { curre
 	return (
 		<PlayerContext.Provider value={{
 			currentTrackId: currentlyPlayingTrack,
-			setCurrentTrackId: async (dispatchAction) => {
-				setCurrentlyPlayingTrack(dispatchAction)
+			setCurrentTrackId: async (newTrackId) => {
+				setCurrentlyPlayingTrack(newTrackId)
 				await SendJsonRequest(
-					{ currentTrackId: currentlyPlayingTrack } as PlayerModel,
+					{ currentTrackId: newTrackId } as PlayerModel,
 					"/api/player",
 					"put"
 				);
