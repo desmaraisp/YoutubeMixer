@@ -35,7 +35,7 @@ export function PlayerMainDisplay() {
 
 
 	return (
-		<YoutubePlayer key={currentTrack.trackId} uri={currentTrack.remoteTrackId}
+		<YoutubePlayer uri={currentTrack.remoteTrackId}
 			onEnded={onEnded}
 			onReady={youtubePlay}
 		/>

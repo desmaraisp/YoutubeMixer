@@ -55,7 +55,7 @@ function InnerProvider({ currentPlayingTrack, currentTracks, children }: { curre
 			},
 			tracksList: currentTracks,
 			getCurrentTrackFromId: () => {
-				const result = currentTracks.find(x => x.trackId === currentPlayingTrack)
+				const result = currentTracks.find(x => x.trackId === currentlyPlayingTrack)
 				if(!result)  throw new Error('Could not find current track')
 				return result
 			}

@@ -13,13 +13,13 @@ export function PlayerMenu() {
 			<Group justify="space-evenly">
 				<Button variant="transparent" onClick={async () => {
 					const trackIndex = tracksList.findIndex(x => x.trackId === currentTrackId)
-					setCurrentTrackId(tracksList.at(trackIndex + 1)?.trackId ?? tracksList[0].trackId)
+					setCurrentTrackId(tracksList.at(trackIndex - 1)?.trackId ?? tracksList[-1].trackId)
 				}}>
 					<FontAwesomeIcon icon={faFastBackward} />
 				</Button>
 				<Button variant="transparent" onClick={async () => {
 					const trackIndex = tracksList.findIndex(x => x.trackId === currentTrackId)
-					setCurrentTrackId(tracksList.at(trackIndex - 1)?.trackId ?? tracksList[-1].trackId)
+					setCurrentTrackId(tracksList.at(trackIndex + 1)?.trackId ?? tracksList[0].trackId)
 				}}>
 					<FontAwesomeIcon icon={faFastForward} />
 				</Button>

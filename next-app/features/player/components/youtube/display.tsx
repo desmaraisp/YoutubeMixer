@@ -11,7 +11,6 @@ export function YoutubePlayer({ uri, onEnded = () => { }, onReady = () => { }, c
 	const ref = useRef<HTMLDivElement>(null)
 	const [isReady, setIsReady] = useState(false)
 	const player = useRef<YT.Player | null>(null)
-	const uriRef = useRef('')
 
 	useEffect(() => {
 		if (!window?.YT?.Player) {
@@ -25,23 +24,14 @@ export function YoutubePlayer({ uri, onEnded = () => { }, onReady = () => { }, c
 	}, [])
 
 	useEffect(() => {
-		uriRef.current = uri
-		if (!player.current?.loadVideoById)
-			return
-
-		player.current.loadVideoById(uri)
-
-	}, [uri]);
-
-
-	useEffect(() => {
 		if (!isReady || !window?.YT?.Player || !ref.current)
 			return
 
 		player.current = new window.YT.Player(ref.current, {
 			width: '100%',
 			height: '100%',
-			videoId: uriRef.current,
+			videoId: uri,
+			host: 'https://www.youtube-nocookie.com',
 			events: {
 				onReady: (ev) => {
 					onReady(ev.target)
@@ -54,8 +44,8 @@ export function YoutubePlayer({ uri, onEnded = () => { }, onReady = () => { }, c
 			}
 		})
 
-		return () => {player.current?.destroy()}
-	}, [isReady, onEnded, onReady])
+		return () => { player.current?.destroy() }
+	}, [isReady, onEnded, onReady, uri])
 
 	return (
 		<>
