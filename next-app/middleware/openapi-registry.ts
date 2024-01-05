@@ -1,4 +1,5 @@
 import { playlistsRouteConfig } from '@/pages/api/playlist';
+import { playlistItemsPatchRouteConfig } from '@/pages/api/playlist-items';
 import { playlistDeleteRouteConfig, playlistPutRouteConfig } from '@/pages/api/playlists/[playlist-id]';
 import { OpenAPIRegistry, OpenApiGeneratorV3, extendZodWithOpenApi } from '@asteasolutions/zod-to-openapi';
 import { z } from 'zod';
@@ -10,6 +11,7 @@ export function createOpenApiRegistry() {
 	registry.registerPath(playlistsRouteConfig)
 	registry.registerPath(playlistPutRouteConfig)
 	registry.registerPath(playlistDeleteRouteConfig)
+	registry.registerPath(playlistItemsPatchRouteConfig)
 
 	const generator = new OpenApiGeneratorV3(registry.definitions);
 	return generator.generateDocument({

@@ -36,7 +36,7 @@ function AuthButton() {
 
 export default function App({ Component, pageProps, router }: AppProps) {
 	if (router.pathname === '/swagger-ui') {
-		return <Component {...pageProps} />
+		return <MantineProvider forceColorScheme='light'><Component {...pageProps} /></MantineProvider>
 	}
 
 	return <MantineProvider>

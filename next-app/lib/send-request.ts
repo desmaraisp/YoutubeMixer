@@ -1,7 +1,7 @@
 import { ApiErrorResponseModel, ApiErrorResponseSchema } from "@/lib/api-error-response";
 
 
-export async function SendJsonRequest<T, R>(data: T, route: string, method: string): Promise<ApiErrorResponseModel | null> {
+export async function SendJsonRequest<T>(data: T, route: string, method: string): Promise<ApiErrorResponseModel | null> {
 	try {
 		var response = await fetch(route, {
 			body: JSON.stringify(data),

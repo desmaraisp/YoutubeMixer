@@ -76,7 +76,8 @@ router
 
 			const updatedPlaylist = await prismaClient.playlist.update({
 				where: {
-					playlistId: singlePlaylistId
+					playlistId: singlePlaylistId,
+					userId: req.user.id
 				},
 				data: {
 					playlistName: payload.playlistName,

@@ -1,11 +1,16 @@
-import { faFastBackward, faFastForward } from "@fortawesome/free-solid-svg-icons";
+import { faFastBackward, faFastForward, faShuffle } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Button, Text, Group, Stack } from "@mantine/core";
 import { useContext } from "react";
 import { PlayerContext } from "../player-context-component/player-context";
+import { PlaylistTrackModelForPatch } from "@/features/playlist-track/playlist-track-schema";
+import { v4 } from "uuid";
+import { PatchPlaylistItems } from "@/features/playlist-track/components/tracks-shuffle/fetcher";
+import { useRouter } from "next/router";
 
 export function PlayerMenu() {
 	const { setCurrentTrackId, tracksList, currentTrackId, getCurrentTrackFromId } = useContext(PlayerContext)
+	const router = useRouter()
 
 	return (
 		<Stack>
@@ -13,13 +18,21 @@ export function PlayerMenu() {
 			<Group justify="space-evenly">
 				<Button variant="transparent" onClick={async () => {
 					const trackIndex = tracksList.findIndex(x => x.trackId === currentTrackId)
-					setCurrentTrackId(tracksList.at(trackIndex - 1)?.trackId ?? tracksList[-1].trackId)
+					await setCurrentTrackId(tracksList.at(trackIndex - 1)?.trackId ?? tracksList[-1].trackId)
 				}}>
 					<FontAwesomeIcon icon={faFastBackward} />
 				</Button>
 				<Button variant="transparent" onClick={async () => {
+					const payload = tracksList.map<PlaylistTrackModelForPatch>(x => ({ orderingKey: v4(), trackId: x.trackId }))
+
+					await PatchPlaylistItems(payload)
+					router.push(router.asPath)
+				}}>
+					<FontAwesomeIcon icon={faShuffle} />
+				</Button>
+				<Button variant="transparent" onClick={async () => {
 					const trackIndex = tracksList.findIndex(x => x.trackId === currentTrackId)
-					setCurrentTrackId(tracksList.at(trackIndex + 1)?.trackId ?? tracksList[0].trackId)
+					await setCurrentTrackId(tracksList.at(trackIndex + 1)?.trackId ?? tracksList[0].trackId)
 				}}>
 					<FontAwesomeIcon icon={faFastForward} />
 				</Button>

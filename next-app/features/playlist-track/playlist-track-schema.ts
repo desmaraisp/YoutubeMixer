@@ -17,3 +17,10 @@ export const PlaylistTrackSchemaWithTrackType = z.object({
 	trackType: PlaylistTypesEnum,
 }).merge(PlaylistTrackSchemaWithId);
 export interface PlaylistTrackModelWithTrackType extends z.infer<typeof PlaylistTrackSchemaWithTrackType> { }
+
+
+export const PlaylistTrackSchemaForPatch = z.object({
+	trackId: z.string().min(1),
+	orderingKey: z.string()
+})
+export interface PlaylistTrackModelForPatch extends z.infer<typeof PlaylistTrackSchemaForPatch> { }
