@@ -1,6 +1,5 @@
 import { createOpenApiRegistry } from '@/middleware/openapi-registry';
 import { InferGetStaticPropsType } from 'next';
-import dynamic from 'next/dynamic';
 import 'swagger-ui-react/swagger-ui.css';
 import SwaggerUI from 'swagger-ui-react'
 import { NoSsr } from '@/components/no-ssr';
