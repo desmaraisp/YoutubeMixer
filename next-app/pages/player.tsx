@@ -55,7 +55,7 @@ export default function Transactions({
 	return (
 		<PlayerContextProvider tracksList={tracksResult} currentPlayingTrackId={playerResult?.currentTrackId ?? null}>
 			<Title>Player</Title>
-			<Card>
+			<Card shadow="xl">
 				<Group justify="space-evenly" wrap="wrap" align="stretch">
 					<div style={{ flex: 2, aspectRatio: '16/9', minWidth: '400px' }}>
 						<PlayerMainDisplay />

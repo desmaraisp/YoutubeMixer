@@ -1,15 +1,16 @@
 import { PlaylistTrackModelWithId } from "@/features/playlist-track/playlist-track-schema";
-import { Alert, Table } from "@mantine/core";
+import { Alert, Table, useMantineTheme } from "@mantine/core";
 import { useContext } from "react";
 import { PlayerContext } from "../../../player/components/player-context-component/player-context";
 
 export function TracksListDisplayTable({ tracks }: { tracks: PlaylistTrackModelWithId[] }) {
 	const { currentTrackId, setCurrentTrackId } = useContext(PlayerContext)
+
 	if (tracks.length === 0) {
 		return <Alert>No items to display</Alert>
 	}
-	
-	return <Table>
+
+	return <Table withTableBorder withRowBorders>
 		<Table.Tbody>
 			{
 				tracks.map(x => (
