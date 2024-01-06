@@ -55,17 +55,15 @@ export default function Transactions({
 	return (
 		<PlayerContextProvider tracksList={tracksResult} currentPlayingTrackId={playerResult?.currentTrackId ?? null}>
 			<Title>Player</Title>
-			<Card shadow="xl">
-				<Group justify="space-evenly" wrap="wrap" align="stretch">
-					<div style={{ flex: 2, aspectRatio: '16/9', minWidth: '400px' }}>
-						<PlayerMainDisplay />
-					</div>
-					<Stack style={{ flex: 1 }}>
-						<PlayerMenu />
-						<TracksListDisplayTable tracks={tracksResult} />
-					</Stack>
-				</Group>
-			</Card>
+			<Group justify="space-evenly" wrap="wrap" align="stretch">
+				<Card shadow="xl" style={{ flex: 2, aspectRatio: '16/9', minWidth: '400px' }}>
+					<PlayerMainDisplay />
+				</Card>
+				<Stack style={{ flex: 1 }}>
+					<PlayerMenu />
+					<TracksListDisplayTable tracks={tracksResult} />
+				</Stack>
+			</Group>
 		</PlayerContextProvider>
 	)
 }
