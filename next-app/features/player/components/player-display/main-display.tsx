@@ -1,4 +1,4 @@
-import { useContext, useCallback } from "react"
+import { useCallback, useContext } from "react"
 import { EmbedController } from "spotify.d"
 import { PlayerContext } from "../player-context-component/player-context"
 import { SpotifyPlayer } from "../spotify/display"
@@ -15,12 +15,13 @@ export function PlayerMainDisplay() {
 	const { setCurrentTrackId, getCurrentTrackFromId, tracksList, currentTrackId } = useContext(PlayerContext)
 	const currentTrack = getCurrentTrackFromId()
 
-	if (tracksList.length == 0) {
-		return <></>
-	}
-	const onEnded = async () => {
+	const onEnded = useCallback(async () => {
 		const trackIndex = tracksList.findIndex(x => x.trackId === currentTrackId)
 		await setCurrentTrackId(tracksList.at(trackIndex + 1)?.trackId ?? tracksList[0].trackId)
+	}, [currentTrackId, setCurrentTrackId, tracksList])
+
+	if (tracksList.length == 0) {
+		return <></>
 	}
 
 	if (currentTrack.remoteTrackId === "Spotify") {
