@@ -7,7 +7,6 @@ import { Provider } from "@supabase/supabase-js"
 import { useCallback, useContext, useState } from "react"
 
 interface SocialAuthProps {
-	providers?: Provider[]
 	providerScopes?: Partial<ProviderScopes>
 	queryParams?: { [key: string]: string }
 	redirectTo?: undefined | string
@@ -33,8 +32,18 @@ export const ProviderIcon = ({ provider }: { provider: Provider }) => {
 	return <FontAwesomeIcon icon={icon} />
 }
 
+const providers: Provider[] = [
+	// 'google',
+	// 'facebook',
+	// 'twitter',
+	// 'apple',
+	// 'github',
+	// 'gitlab',
+	// 'linkedin',
+	// 'spotify',
+	// 'twitch'
+]
 export function SocialAuth({
-	providers = ['google', 'facebook', 'twitter', 'apple', 'github', 'gitlab', 'linkedin', 'spotify', 'twitch'],
 	providerScopes,
 	queryParams,
 	redirectTo,
