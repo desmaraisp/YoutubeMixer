@@ -10,7 +10,6 @@ on:
       - LICENSE
 
 permissions:
-  # id-token: write # This is required for requesting the JWT
   contents: read  # This is required for actions/checkout
   packages: write
 
@@ -19,15 +18,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
-
-    # - name: 'Authenticate to Google Cloud'
-    #   uses: 'google-github-actions/auth@v1'
-    #   with:
-    #     workload_identity_provider: ${{vars.WorkloadIDProvider}}
-    #     service_account: ${{vars.GCPServiceAccount}}
-
-    # - name: 'Set up Cloud SDK'
-    #   uses: 'google-github-actions/setup-gcloud@v1'
 
     - name: set lower case repo name
       id: repo-name
@@ -43,21 +33,13 @@ jobs:
       run: |
         echo ${{secrets.GITHUB_TOKEN}} | docker login ghcr.io -u USERNAME --password-stdin
 
-        docker build -t $FULL_TAG -t ${{steps.repo-name.outputs.repo-name}}:latest \
-            --build-arg SENTRY_DSN=${{vars.SENTRY_DSN}} \
-            --build-arg SENTRY_ORG=${{vars.SENTRY_ORG}} \
-            --build-arg SENTRY_PROJECT=${{vars.SENTRY_PROJECT}} .
+        docker build -t $FULL_TAG -t ${{steps.repo-name.outputs.repo-name}}:latest ./next-app/
         docker push ${{steps.repo-name.outputs.repo-name}} --all-tags
         echo "image=$FULL_TAG" >> $GITHUB_OUPUT
 
-    # - name: Deploy
-    #   env:
-    #     TF_VAR_GOOGLE_CLIENT_ID: ${{ secrets.GOOGLE_CLIENT_ID }}
-    #     TF_VAR_GOOGLE_CLIENT_SECRET: ${{ secrets.GOOGLE_CLIENT_SECRET }}
-    #     TF_VAR_SPOTIFY_CLIENT_ID: ${{ secrets.SPOTIFY_CLIENT_ID }}
-    #     TF_VAR_SPOTIFY_CLIENT_SECRET: ${{ secrets.SPOTIFY_CLIENT_SECRET }}
-    #     TF_VAR_PROJECT_ID: ${{vars.GCPProjectID}}
-    #     TF_VAR_IMAGE: ${{steps.publish.outputs.image}}
-    #   run: |
-    #     terraform -chdir=terraform/main-deployment init
-    #     terraform -chdir=terraform/main-deployment apply -auto-approve
+    - uses: actions/delete-package-versions@v4
+      with:
+        package-name: 'youtubemixer'
+        package-type: 'container'
+        min-versions-to-keep: 6
+        delete-only-untagged-versions: false

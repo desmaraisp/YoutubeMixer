@@ -37,28 +37,33 @@ export function PlayerContextProvider({ children, currentPlayingTrackId, tracksL
 }
 
 function InnerProvider({ initialPlayingTrack, currentTracks, children }: { initialPlayingTrack: string; currentTracks: PlaylistTrackModelWithTrackType[]; children: ReactNode; }) {
-	const router = useRouter()
+	const [currentlyPlayingTrack, setCurrentlyPlayingTrack] = useState<string>(initialPlayingTrack);
+	useEffect(() => {
+		setCurrentlyPlayingTrack(initialPlayingTrack)
+	}, [initialPlayingTrack, setCurrentlyPlayingTrack])
+
 	const setCurrentTrackId = useCallback<(string: string) => Promise<void>>(async (newTrackId) => {
+		setCurrentlyPlayingTrack(newTrackId)
 		await SendJsonRequest(
 			{ currentTrackId: newTrackId } as PlayerModel,
 			"/api/player",
 			"put"
 		);
-		router.push(router.asPath)
-	}, [router])
+	}, [setCurrentlyPlayingTrack])
+
 	const getCurrentTrackFromId = useCallback(() => {
-		const result = currentTracks.find(x => x.trackId === initialPlayingTrack)
+		const result = currentTracks.find(x => x.trackId === currentlyPlayingTrack)
 		if(!result)  throw new Error('Could not find current track')
 		return result
-	}, [currentTracks, initialPlayingTrack])
+	}, [currentTracks, currentlyPlayingTrack])
 
-	if (!currentTracks.filter(x => x.remoteTrackId === initialPlayingTrack)) {
+	if (!currentTracks.filter(x => x.remoteTrackId === currentlyPlayingTrack)) {
 		<Alert>Your local status is out of sync with the centralized player status. To fix this, refresh the page</Alert>;
 	}
 
 	return (
 		<PlayerContext.Provider value={{
-			currentTrackId: initialPlayingTrack,
+			currentTrackId: currentlyPlayingTrack,
 			setCurrentTrackId: setCurrentTrackId,
 			tracksList: currentTracks,
 			getCurrentTrackFromId: getCurrentTrackFromId
