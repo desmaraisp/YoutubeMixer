@@ -9,11 +9,27 @@ on:
       - "**/*.md"
       - LICENSE
 
+permissions: 
+  contents: read
+  id-token: write
+
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
+
+    - uses: Scalr/scalr-action@v1
+      with:
+        scalr_hostname: ${{vars.SCALR_HOSTNAME}}
+        scalr_token: ${{ secrets.SCALR_TOKEN }}
+        scalr_workspace: ${{vars.SCALR_WS}}
+
+    - name: 'Authenticate to Google Cloud'
+      uses: 'google-github-actions/auth@v1'
+      with:
+        workload_identity_provider: ${{vars.WORKLOAD_ID_PROVIDER}}
+        service_account: ${{vars.GCP_SERVICE_ACCOUNT}}
 
     - name: Publish image
       id: publish
@@ -29,3 +45,14 @@ jobs:
       run: |
         docker build -t migrations -f ./next-app/migrations.Dockerfile ./next-app/
         docker run -e DATABASE_URL=${{secrets.SUPABASE_DB_URI}} migrations
+
+    - name: Deploy TF infra
+      env:
+        TF_VAR_ProjectID: "${{vars.GCP_PROJECT_ID}}"
+        TF_VAR_Image: "docker.io/desmaraisp/youtube-randomizer:${{ github.sha }}"
+        TF_VAR_DATABASE_URL: "${{secrets.SUPABASE_DB_URI}}"
+        TF_VAR_PUBLIC_SUPABASE_URL: "${{vars.SUPABASE_URL}}"
+        TF_VAR_PUBLIC_SUPABASE_ANON_KEY: "${{vars.SUPABASE_ANON_KEY}}"
+      run: |
+        terraform -chdir=terraform init
+        terraform -chdir=terraform apply -auto-approve

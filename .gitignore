@@ -44,3 +44,4 @@ terraform/*/.terraform/
 .sentryclirc
 firebase-debug.log
 firestore-debug.log
+**/.terraform/
