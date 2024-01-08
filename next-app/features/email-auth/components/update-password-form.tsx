@@ -1,7 +1,8 @@
 import { FormRootError, SetRootFormError } from "@/components/errors"
-import { supabaseBrowserClient } from "@/globals/supabase-client"
+import { SupabaseContext } from "@/features/supabase-helpers/supabase-client-context-provider"
 import { Card, Stack, TextInput, Button, PasswordInput } from "@mantine/core"
 import { useForm } from "@mantine/form"
+import { useCallback, useContext } from "react"
 
 
 type FormType = {
@@ -10,14 +11,16 @@ type FormType = {
 }
 
 export function UpdatePasswordForm() {
+	const { supabaseAuthClient } = useContext(SupabaseContext)
+
 	const form = useForm<FormType>({
 		validate: {
 			passwordConfirmation: (value, values) => value !== values.password ? 'Passwords did not match' : null
 		}
 	})
 
-	const handler = async (data: FormType) => {
-		const { error: signUpError } = await supabaseBrowserClient.auth.updateUser({
+	const handler = useCallback(async (data: FormType) => {
+		const { error: signUpError } = await supabaseAuthClient.updateUser({
 			password: data.password
 		})
 
@@ -25,7 +28,7 @@ export function UpdatePasswordForm() {
 			SetRootFormError(form, signUpError.message)
 			return
 		}
-	}
+	}, [form, supabaseAuthClient])
 
 	return (
 		<Card withBorder>

@@ -1,10 +1,10 @@
-import { supabaseBrowserClient } from "@/globals/supabase-client"
+import { SupabaseContext } from "@/features/supabase-helpers/supabase-client-context-provider"
 import { IconDefinition, faApple, faBitbucket, faDiscord, faFacebook, faGithub, faGitlab, faGoogle, faLinkedin, faSlack, faSpotify, faTwitch, faTwitter } from "@fortawesome/free-brands-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { Button, Stack, Text } from "@mantine/core"
 import { ProviderScopes } from "@supabase/auth-ui-shared"
 import { Provider } from "@supabase/supabase-js"
-import { useState } from "react"
+import { useCallback, useContext, useState } from "react"
 
 interface SocialAuthProps {
 	providers?: Provider[]
@@ -40,10 +40,11 @@ export function SocialAuth({
 	redirectTo,
 }: SocialAuthProps) {
 	const [loading, setLoading] = useState(false)
+	const { supabaseAuthClient } = useContext(SupabaseContext)
 
-	const handleProviderSignIn = async (provider: Provider) => {
+	const handleProviderSignIn = useCallback(async (provider: Provider) => {
 		setLoading(true)
-		const { error } = await supabaseBrowserClient.auth.signInWithOAuth({
+		const { error } = await supabaseAuthClient.signInWithOAuth({
 			provider,
 			options: {
 				redirectTo,
@@ -53,7 +54,7 @@ export function SocialAuth({
 		})
 		if (error) throw error
 		setLoading(false)
-	}
+	}, [providerScopes, queryParams, redirectTo, supabaseAuthClient])
 
 	return (
 		<>

@@ -1,7 +1,8 @@
 import { FormRootError, SetRootFormError } from "@/components/errors"
-import { supabaseBrowserClient } from "@/globals/supabase-client"
+import { SupabaseContext } from "@/features/supabase-helpers/supabase-client-context-provider"
 import { Card, Stack, TextInput, Button } from "@mantine/core"
 import { useForm } from "@mantine/form"
+import { useContext } from "react"
 
 
 type FormType = {
@@ -10,9 +11,10 @@ type FormType = {
 
 export function ForgotPasswordForm() {
 	const form = useForm<FormType>()
+	const { supabaseAuthClient } = useContext(SupabaseContext)
 
 	const handler = async (data: FormType) => {
-		const { error: signInError } = await supabaseBrowserClient.auth.resetPasswordForEmail(data.email, {
+		const { error: signInError } = await supabaseAuthClient.resetPasswordForEmail(data.email, {
 			redirectTo: "http://localhost:3000/update-password"
 		})
 
