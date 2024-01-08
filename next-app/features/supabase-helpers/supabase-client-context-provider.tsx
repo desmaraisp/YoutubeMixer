@@ -1,7 +1,6 @@
 import { createBrowserClient } from "@supabase/ssr";
-import { Session, SupabaseClient } from "@supabase/supabase-js";
+import { Session } from "@supabase/supabase-js";
 import { SupabaseAuthClient } from "@supabase/supabase-js/dist/module/lib/SupabaseAuthClient";
-import router from "next/router";
 import { ReactNode, createContext, useEffect, useMemo, useState } from "react";
 
 type ContextReturnType = {

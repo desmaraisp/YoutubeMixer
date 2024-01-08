@@ -22,7 +22,7 @@ export function EmailSignUp() {
 	const router = useRouter()
 
 	const handler = useCallback(async (data: FormType) => {
-		const { error: signUpError } = await supabaseAuthClient.signUp({
+		const { error: signUpError, data: signUpData } = await supabaseAuthClient.signUp({
 			email: data.email,
 			password: data.password
 		})
@@ -32,7 +32,12 @@ export function EmailSignUp() {
 			return
 		}
 
-		router.reload()
+		router.push({
+			pathname: "/sign-up-verify",
+			query: {
+				email: signUpData.user?.email
+			}
+		})
 	}, [form, router, supabaseAuthClient])
 
 	return (
