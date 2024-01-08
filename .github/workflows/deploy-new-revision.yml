@@ -9,41 +9,23 @@ on:
       - "**/*.md"
       - LICENSE
 
-permissions:
-  contents: read  # This is required for actions/checkout
-  packages: write
-
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
 
-    - name: set lower case repo name
-      id: repo-name
-      run: |
-        echo "repo-name=${Repo,,}" >> $GITHUB_OUTPUT
-      env:
-        Repo: ghcr.io/${{ github.repository }}
-
     - name: Publish image
       id: publish
       env:
-        FULL_TAG: ${{steps.repo-name.outputs.repo-name}}:${{ github.sha }}
+        FULL_TAG: docker.io/desmaraisp/youtube-randomizer:${{ github.sha }}
       run: |
-        echo ${{secrets.GITHUB_TOKEN}} | docker login ghcr.io -u USERNAME --password-stdin
+        echo ${{secrets.DOCKER_ACCESS_TOKEN}} | docker login -u ${{secrets.DOCKER_USERNAME}} --password-stdin
 
-        docker build -t $FULL_TAG -t ${{steps.repo-name.outputs.repo-name}}:latest ./next-app/
-        docker push ${{steps.repo-name.outputs.repo-name}} --all-tags
+        docker build -t $FULL_TAG -t docker.io/desmaraisp/youtube-randomizer:latest ./next-app/
+        docker push docker.io/desmaraisp/youtube-randomizer --all-tags
 
     - name: Apply Supabase migrations
       run: |
         docker build -t migrations -f ./next-app/migrations.Dockerfile ./next-app/
         docker run -e DATABASE_URL=${{secrets.SUPABASE_DB_URI}} migrations
-
-    - uses: actions/delete-package-versions@v4
-      with:
-        package-name: 'youtubemixer'
-        package-type: 'container'
-        min-versions-to-keep: 6
-        delete-only-untagged-versions: false
