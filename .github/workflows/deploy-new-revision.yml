@@ -35,7 +35,11 @@ jobs:
 
         docker build -t $FULL_TAG -t ${{steps.repo-name.outputs.repo-name}}:latest ./next-app/
         docker push ${{steps.repo-name.outputs.repo-name}} --all-tags
-        echo "image=$FULL_TAG" >> $GITHUB_OUPUT
+
+    - name: Apply Supabase migrations
+      run: |
+        docker build -t migrations -f ./next-app/migrations.Dockerfile ./next-app/
+        docker run -e DATABASE_URL=${{secrets.SUPABASE_DB_URI}} migrations
 
     - uses: actions/delete-package-versions@v4
       with:
