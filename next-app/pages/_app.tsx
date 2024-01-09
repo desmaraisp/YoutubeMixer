@@ -1,7 +1,8 @@
 import { ThemeSelector } from '@/components/theme-selector'
 import { Anchor, AppShell, Burger, Flex, MantineProvider } from '@mantine/core'
-import type { AppContext, AppInitialProps, AppProps } from 'next/app'
+import type { AppContext, AppProps } from 'next/app'
 import '@/styles/globals.css'
+import '@fortawesome/fontawesome-svg-core/styles.css'
 import '@mantine/core/styles.css';
 import { NoSsr } from '@/components/no-ssr';
 import Link from 'next/link';

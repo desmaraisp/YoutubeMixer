@@ -24,10 +24,9 @@ export function PlayerMainDisplay() {
 		return <></>
 	}
 
-	if (currentTrack.remoteTrackId === "Spotify") {
+	if (currentTrack.trackType === "Spotify") {
 		return (
 			<SpotifyPlayer uri={currentTrack.remoteTrackId}
-				key={currentTrack.trackId}
 				onEnded={onEnded}
 				onReady={spotifyPlay}
 			/>

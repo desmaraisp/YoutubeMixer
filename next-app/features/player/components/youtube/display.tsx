@@ -5,9 +5,8 @@ interface YoutubePlayerProps {
 	uri: string,
 	onEnded?: () => void
 	onReady?: (player: YT.Player) => void
-	className?: string
 }
-export function YoutubePlayer({ uri, onEnded = () => { }, onReady = () => { }, className = "" }: YoutubePlayerProps) {
+export function YoutubePlayer({ uri, onEnded = () => { }, onReady = () => { } }: YoutubePlayerProps) {
 	const ref = useRef<HTMLDivElement>(null)
 	const [isReady, setIsReady] = useState(false)
 	const player = useRef<YT.Player | null>(null)
@@ -50,7 +49,7 @@ export function YoutubePlayer({ uri, onEnded = () => { }, onReady = () => { }, c
 	return (
 		<>
 			<Script src="https://www.youtube.com/iframe_api" async />
-			<div className={className} style={{ width: '100%', height: '100%' }}>
+			<div style={{ width: '100%', height: '100%' }}>
 				<div ref={ref} />
 			</div>
 		</>

@@ -14,17 +14,16 @@ interface SpotifyPlayerProps {
 	uri: string,
 	onEnded?: () => void
 	onReady?: (emb: EmbedController) => void
-	className?: string
 }
-export function SpotifyPlayer({ uri, onEnded = () => { }, onReady = () => { }, className = "" }: SpotifyPlayerProps) {
+export function SpotifyPlayer({ uri, onEnded = () => { }, onReady = () => { } }: SpotifyPlayerProps) {
 	const ref = useRef<HTMLDivElement>(null)
 	const [isReady, setIsReady] = useState(false)
 	const embedController = useRef<EmbedController | null>(null)
-	const uriRef = useRef('')
 
 	useEffect(() => {
 		if (!window?.SpotifyIframeApi) {
-			window.onSpotifyIframeApiReady = () => {
+			window.onSpotifyIframeApiReady = (api) => {
+				window.SpotifyIframeApi = api
 				setIsReady(true)
 			}
 		}
@@ -32,15 +31,6 @@ export function SpotifyPlayer({ uri, onEnded = () => { }, onReady = () => { }, c
 			setIsReady(true)
 		}
 	}, [])
-
-	useEffect(() => {
-		uriRef.current = uri
-		if (!embedController.current)
-			return
-
-		embedController.current.loadUri(uri)
-	}, [uri]);
-
 
 	useEffect(() => {
 		if (!isReady || !window?.SpotifyIframeApi || !ref.current)
@@ -51,22 +41,27 @@ export function SpotifyPlayer({ uri, onEnded = () => { }, onReady = () => { }, c
 			{},
 			(emb) => {
 				embedController.current = emb
-				emb.loadUri(uriRef.current)
-				emb.addListener("ready", () => onReady(emb))
-				emb.addListener("playback_update", (e) => onStateChange(e, onEnded))
+				emb.loadUri(`spotify:track:${uri}`)
+				emb.addListener("ready", () => {
+					if(window.hasStartedSpotifyGesture) onReady(emb)
+				})
+				emb.addListener("playback_update", (e) => {
+					if(!window.hasStartedSpotifyGesture) window.hasStartedSpotifyGesture = true
+					onStateChange(e, onEnded)
+				})
 			}
 		)
 
-		return () => {embedController.current?.destroy()}
+		return () => { embedController.current?.destroy() }
 
-	}, [isReady, onEnded, onReady])
+	}, [isReady, onEnded, onReady, uri])
 
 
 
 	return (
 		<>
 			<Script src="https://open.spotify.com/embed-podcast/iframe-api/v1" async />
-			<div className={className} style={{ width: '100%', height: '100%' }}>
+			<div style={{ width: '100%', height: '100%' }}>
 				<div>
 					<div ref={ref} />
 				</div>
