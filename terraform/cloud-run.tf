@@ -18,13 +18,26 @@ resource "google_cloud_run_v2_service" "default" {
         name  = "PUBLIC_SUPABASE_ANON_KEY"
         value = var.PUBLIC_SUPABASE_ANON_KEY
       }
+      env {
+        name  = "SPOTIFY_CLIENT_ID"
+        value = var.SPOTIFY_CLIENT_ID
+      }
+      env {
+        name  = "SPOTIFY_CLIENT_SECRET"
+        value = var.SPOTIFY_CLIENT_SECRET
+      }
+      env {
+        name  = "YOUTUBE_API_KEY"
+        value = google_apikeys_key.youtube.key_string
+      }
+
     }
   }
 }
 
 resource "google_cloud_run_service_iam_binding" "allow-unanthenticated-access" {
-  service  = google_cloud_run_v2_service.default.name
-  role     = "roles/run.invoker"
+  service = google_cloud_run_v2_service.default.name
+  role    = "roles/run.invoker"
   members = [
     "allUsers"
   ]

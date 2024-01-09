@@ -1,26 +1,15 @@
 import { PlaylistTrackModel } from "@/features/playlist-track/playlist-track-schema";
+import { getSpotifyPlaylistData } from "./get-spotify-playlist";
+import { getYoutubePlaylistData } from "./get-youtube-playlist";
 
-export async function GetPlaylistData(remotePlaylistId: string, playlistType: string) {
-	// if(payload.playlistType === 'Spotify') {
-	// 	return getSpotifyPlaylistData(payload.remotePlaylistId, null)
-	// }
-	// else if(payload.playlistType === 'Youtube'){
-	// 	return getYoutubePlaylistData(payload.remotePlaylistId, null)
-	// }
-	// else{
-	// 	throw new Error("")
-	// }
-	return {
-		playlistName: 'test',
-		playlistTracks: [
-			{
-				remoteTrackId: 'vad1wAe5mB4',
-				trackName: 'ligma',
-			} as PlaylistTrackModel,
-			{
-				remoteTrackId: 'fNjaUw8wR2c',
-				trackName: 'balls',
-			} as PlaylistTrackModel
-		],
+export async function GetPlaylistData(remotePlaylistId: string, playlistType: string): Promise<{ playlistName: string; playlistTracks: PlaylistTrackModel[]; }> {
+	if(playlistType === 'Spotify') {
+		return getSpotifyPlaylistData(remotePlaylistId)
+	}
+	else if(playlistType === 'Youtube'){
+		return getYoutubePlaylistData(remotePlaylistId)
+	}
+	else{
+		throw new Error(`${remotePlaylistId} isn't supported`)
 	}
 }

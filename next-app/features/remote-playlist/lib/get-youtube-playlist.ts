@@ -1,80 +1,50 @@
-// import { TrackModel } from '@/models/track-model'
-// import { PlaylistTypesEnum } from '@/models/playlist-types'
-// import { youtube } from '@googleapis/youtube'
-// import { v4 as uuidv4 } from 'uuid';
-// import { UserRefreshClient } from 'googleapis-common';
-// import { ErrorWithHTTPCode } from '@/models/exceptions/custom-exceptions';
-// import { getPrivateConfiguration } from '@/configuration';
-// import { PlaylistContentsResponseModel } from "@/models/api-models/playlist-contents";
+import { ErrorWithHTTPCode } from "@/exceptions/error-with-http-code";
+import { PlaylistTrackModel } from "@/features/playlist-track/playlist-track-schema";
+import { youtube } from '@googleapis/youtube'
 
-// function clientFactory(refreshToken: string | null) {
-// 	if (!refreshToken)
-// 		return youtube({
-// 			version: 'v3',
-// 			auth: getPrivateConfiguration().youtubeApiKey
-// 		})
+export async function getYoutubePlaylistData(PlaylistID: string): Promise<{ playlistName: string; playlistTracks: PlaylistTrackModel[]; }> {
+	const client = youtube({
+		version: 'v3',
+		auth: process.env.YOUTUBE_API_KEY!
+	})
 
-// 	return youtube({
-// 		version: 'v3',
-// 	})
-// }
+	const [playlistItemsResult, playlistResult] = await Promise.all([
+		client.playlistItems.list({
+			part: ["snippet"],
+			playlistId: PlaylistID,
+			maxResults: 50
+		}),
+		client.playlists.list({
+			id: [PlaylistID],
+			part: ["snippet"]
+		})
+	]);
 
+	while (playlistItemsResult.data.nextPageToken) {
+		const nextPage = await client.playlistItems.list({
+			part: ["snippet"],
+			playlistId: PlaylistID,
+			maxResults: 50,
+			pageToken: playlistItemsResult.data.nextPageToken
+		})
 
-// export async function getYoutubePlaylistData(PlaylistID: string, refreshToken: string | null): Promise<PlaylistContentsResponseModel> {
-// 	const client = clientFactory(refreshToken)
-// 	const oauth = refreshToken ? new UserRefreshClient(
-// 		getPrivateConfiguration().googleClientID,
-// 		getPrivateConfiguration().googleClientSecret,
-// 		refreshToken,
-// 	) : undefined
+		playlistItemsResult.data.items = [...(playlistItemsResult.data.items ?? []), ...(nextPage.data.items ?? [])]
 
-// 	const [playlistItemsResult, playlistResult] = await Promise.all([
-// 		client.playlistItems.list({
-// 			auth: oauth,
-// 			part: ["snippet"],
-// 			playlistId: PlaylistID,
-// 			maxResults: 50
-// 		}),
-// 		client.playlists.list({
-// 			auth: oauth,
-// 			id: [PlaylistID],
-// 			part: ["snippet"]
-// 		})
-// 	]);
+		playlistItemsResult.data.nextPageToken = nextPage.data.nextPageToken
+	}
 
-// 	while (playlistItemsResult.data.nextPageToken) {
-// 		const nextPage = await client.playlistItems.list({
-// 			part: ["snippet"],
-// 			auth: oauth,
-// 			playlistId: PlaylistID,
-// 			maxResults: 50,
-// 			pageToken: playlistItemsResult.data.nextPageToken
-// 		})
+	if (!playlistItemsResult.data.items || !playlistResult.data.items) throw new ErrorWithHTTPCode("No items found", 404)
 
-// 		playlistItemsResult.data.items = [...(playlistItemsResult.data.items ?? []), ...(nextPage.data.items ?? [])]
+	const playlistItems = playlistItemsResult.data.items.map((item) => {
+		const playlistItemResult: PlaylistTrackModel = {
+			trackName: item.snippet?.title!,
+			remoteTrackId: item.snippet?.resourceId?.videoId!,
+		};
+		return playlistItemResult
+	}).filter(item => item.trackName !== "Deleted video")
 
-// 		playlistItemsResult.data.nextPageToken = nextPage.data.nextPageToken
-// 	}
-
-// 	if (!playlistItemsResult.data.items || !playlistResult.data.items) throw new ErrorWithHTTPCode("No items found", 404)
-
-// 	const playlistItems = playlistItemsResult.data.items.map((item) => {
-// 		const playlistItemResult: TrackModel = {
-// 			itemImageURL: item.snippet?.thumbnails?.high?.url!,
-// 			itemName: item.snippet?.title!,
-// 			itemID: item.snippet?.resourceId?.videoId!,
-// 			type: PlaylistTypesEnum.Enum.Youtube,
-// 			uuid: uuidv4()
-// 		};
-// 		return playlistItemResult
-// 	}).filter(item => item.itemName !== "Deleted video")
-
-// 	return {
-// 		playlistID: PlaylistID,
-// 		playlistItems: playlistItems,
-// 		playlistName: playlistResult.data.items[0].snippet?.title!,
-// 		playlistType: 'Youtube',
-// 		playlistURL: `https://www.youtube.com/playlist?list=${PlaylistID}`,
-// 		playlistImage: playlistResult.data.items[0].snippet?.thumbnails?.high?.url!
-// 	}
-// }
+	return {
+		playlistTracks: playlistItems,
+		playlistName: playlistResult.data.items[0].snippet?.title ?? "",
+	}
+}

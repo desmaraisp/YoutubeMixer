@@ -9,7 +9,15 @@ variable "Image" {
   type = string
 }
 variable "DATABASE_URL" {
-  type = string
+  type      = string
+  sensitive = true
+}
+variable "SPOTIFY_CLIENT_ID" {
+  type      = string
+  sensitive = true
+}
+variable "SPOTIFY_CLIENT_SECRET" {
+  type      = string
   sensitive = true
 }
 variable "PUBLIC_SUPABASE_URL" {

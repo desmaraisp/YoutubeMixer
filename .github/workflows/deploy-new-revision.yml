@@ -51,6 +51,8 @@ jobs:
         TF_VAR_ProjectID: "${{vars.GCP_PROJECT_ID}}"
         TF_VAR_Image: "docker.io/desmaraisp/youtube-randomizer:${{ github.sha }}"
         TF_VAR_DATABASE_URL: "${{secrets.SUPABASE_DB_URI}}"
+        TF_VAR_SPOTIFY_CLIENT_ID: "${{secrets.SPOTIFY_CLIENT_ID}}"
+        TF_VAR_SPOTIFY_CLIENT_SECRET: "${{secrets.SPOTIFY_CLIENT_SECRET}}"
         TF_VAR_PUBLIC_SUPABASE_URL: "${{vars.SUPABASE_URL}}"
         TF_VAR_PUBLIC_SUPABASE_ANON_KEY: "${{vars.SUPABASE_ANON_KEY}}"
       run: |
