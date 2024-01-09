@@ -4,7 +4,6 @@ import { Button, Text, Group, Stack, Paper } from "@mantine/core";
 import { useContext } from "react";
 import { PlayerContext } from "../player-context-component/player-context";
 import { PlaylistTrackModelForPatch } from "@/features/playlist-track/playlist-track-schema";
-import { v4 } from "uuid";
 import { PatchPlaylistItems } from "@/features/playlist-track/components/tracks-shuffle/fetcher";
 import { useRouter } from "next/router";
 
@@ -24,7 +23,7 @@ export function PlayerMenu() {
 						<FontAwesomeIcon icon={faFastBackward} />
 					</Button>
 					<Button variant="transparent" onClick={async () => {
-						const payload = tracksList.map<PlaylistTrackModelForPatch>(x => ({ orderingKey: v4(), trackId: x.trackId }))
+						const payload = tracksList.map<PlaylistTrackModelForPatch>(x => ({ orderingKey: Math.random().toString(36).substring(3,9), trackId: x.trackId }))
 
 						await PatchPlaylistItems(payload)
 						router.push(router.asPath)

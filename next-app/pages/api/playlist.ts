@@ -52,6 +52,7 @@ router
 						createMany: {
 							data: payload.playlistItems.map(x => ({
 								itemName: x.trackName,
+								orderingKey: Math.random().toString(36).substring(3,9),
 								remoteTrackId: x.remoteTrackId
 							}))
 						}

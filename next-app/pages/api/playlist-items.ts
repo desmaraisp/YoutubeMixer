@@ -7,6 +7,7 @@ import { RouteConfig } from "@asteasolutions/zod-to-openapi";
 import { PlaylistTrackModelWithTrackType, PlaylistTrackSchemaForPatch, PlaylistTrackSchemaWithTrackType } from "@/features/playlist-track/playlist-track-schema";
 import { RequiredAuthorization } from "@/middleware/api-auth-middleware";
 import { User } from "@supabase/supabase-js";
+import { Prisma } from "@prisma/client";
 
 const router = createRouter<NextApiRequest & { user: User }, NextApiResponse>();
 export const playlistItemsPatchRouteConfig: RouteConfig = {
@@ -26,7 +27,7 @@ export const playlistItemsPatchRouteConfig: RouteConfig = {
 			description: 'Success.',
 			content: {
 				'application/json': {
-					schema: z.array(PlaylistTrackSchemaWithTrackType)
+					schema: z.object({itemsUpdated: z.number()})
 				}
 			}
 		}
@@ -44,29 +45,26 @@ router
 				await tr.player.deleteMany({
 					where: { userId: req.user.id },
 				})
-				return await Promise.all(
-					payload.map(async (x) => await tr.playlistTrack.update({
-						where: {
-							playlist: { userId: req.user.id },
-							playlistTrackId: x.trackId
-						},
-						data: {
-							orderingKey: x.orderingKey
-						},
-						include: {
-							playlist: { select: { playlistType: true } }
-						}
-					}))
-				)
+				return await tr.$executeRaw`
+					WITH updated(id, orderingKey) AS (VALUES
+						${Prisma.join(
+							payload.map((item) => Prisma.sql`(${item.trackId}, ${item.orderingKey})`)
+						)}
+					), userPlaylistTracks as (
+						select * from "private"."PlaylistTrack"
+						join "private"."Playlist" on "private"."PlaylistTrack"."playlistId"="private"."Playlist"."playlistId"
+						join updated on "private"."PlaylistTrack"."playlistTrackId"=updated.id
+						where "private"."Playlist"."userId"=${req.user.id}
+					)
+
+					UPDATE "private"."PlaylistTrack"
+					SET "orderingKey" = userPlaylistTracks.orderingKey
+					FROM userPlaylistTracks
+					WHERE "private"."PlaylistTrack"."playlistTrackId" = userPlaylistTracks.id
+				`
 			})
 
-			const response: PlaylistTrackModelWithTrackType[] = result.map(x => ({
-				remoteTrackId: x.remoteTrackId,
-				trackId: x.playlistTrackId,
-				trackName: x.itemName,
-				trackType: x.playlist.playlistType
-			}))
-			res.status(200).json(response)
+			res.status(200).json({itemsUpdated: result})
 		},
 	)
 
