@@ -11,19 +11,20 @@ export function PlayerMenu() {
 	const { setCurrentTrackId, tracksList, currentTrackId, getCurrentTrackFromId } = useContext(PlayerContext)
 	const router = useRouter()
 
+	const currentTrackIndex = tracksList.findIndex(x => x.trackId === currentTrackId)
+
 	return (
 		<Paper withBorder p={'xs'}>
 			<Stack gap={0}>
-				<Text truncate ta='center'>{getCurrentTrackFromId().trackName}</Text>
+				<Text truncate ta='center'>{`(${currentTrackIndex + 1}/${tracksList.length}) ${getCurrentTrackFromId().trackName}`}</Text>
 				<Group justify="space-evenly">
 					<Button variant="transparent" onClick={async () => {
-						const trackIndex = tracksList.findIndex(x => x.trackId === currentTrackId)
-						await setCurrentTrackId(tracksList.at(trackIndex - 1)?.trackId ?? tracksList[-1].trackId)
+						await setCurrentTrackId(tracksList.at(currentTrackIndex - 1)?.trackId ?? tracksList[-1].trackId)
 					}}>
 						<FontAwesomeIcon icon={faFastBackward} />
 					</Button>
 					<Button variant="transparent" onClick={async () => {
-						const payload = tracksList.map<PlaylistTrackModelForPatch>(x => ({ orderingKey: Math.random().toString(36).substring(3,9), trackId: x.trackId }))
+						const payload = tracksList.map<PlaylistTrackModelForPatch>(x => ({ orderingKey: Math.random().toString(36).substring(3, 9), trackId: x.trackId }))
 
 						await PatchPlaylistItems(payload)
 						router.push(router.asPath)
@@ -31,8 +32,7 @@ export function PlayerMenu() {
 						<FontAwesomeIcon icon={faShuffle} />
 					</Button>
 					<Button variant="transparent" onClick={async () => {
-						const trackIndex = tracksList.findIndex(x => x.trackId === currentTrackId)
-						await setCurrentTrackId(tracksList.at(trackIndex + 1)?.trackId ?? tracksList[0].trackId)
+						await setCurrentTrackId(tracksList.at(currentTrackIndex + 1)?.trackId ?? tracksList[0].trackId)
 					}}>
 						<FontAwesomeIcon icon={faFastForward} />
 					</Button>
