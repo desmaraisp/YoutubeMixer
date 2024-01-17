@@ -39,9 +39,9 @@ This project uses the following technologies, among others:
 
 - Create `env.local` file in `next-app` dir with content:
 ```
-SPOTIFY_CLIENT_ID="d9fc68df059041e9bed6b9c217611541"
-SPOTIFY_CLIENT_SECRET="4d0be00170194283908b7a382a42f421"
-YOUTUBE_API_KEY="AIzaSyA9pZidzfLhj-UH-7WWDvadKeEaLwt4SHI"
+SPOTIFY_CLIENT_ID="XXXXXX"
+SPOTIFY_CLIENT_SECRET="XXXXX"
+YOUTUBE_API_KEY="XXXXX"
 ```
 
 - Start application

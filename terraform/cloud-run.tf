@@ -28,7 +28,7 @@ resource "google_cloud_run_v2_service" "default" {
       }
       env {
         name  = "YOUTUBE_API_KEY"
-        value = google_apikeys_key.youtube.key_string
+        value = google_apikeys_key.youtube2.key_string
       }
 
     }
