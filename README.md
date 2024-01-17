@@ -4,17 +4,18 @@
 [![Stargazers][stars-shield]][stars-url]
 [![Issues][issues-shield]][issues-url]
 [![MIT License][license-shield]][license-url]
+[![Docker Image Version (latest semver)][docker-shield]][docker-url]
 
 
 <!-- PROJECT LOGO -->
 <br />
 <div align="center">
-  <a href="https://github.com/desmaraisp/YoutubeRandomizer">
+  <a href="https://github.com/desmaraisp/YoutubeMixer">
     <img style="border-radius:10px;" src="next-app/public/favicon.svg" alt="Logo" width="120" height="120">
   </a>
 
   <p align="center">Seamlessly merge playlists together across both spotify and youtube in one easy-to-use interface.</p>
-  <p><a href="https://github.com/desmaraisp/YoutubeRandomizer/issues">Report Bug or Request Feature</a></p>
+  <p><a href="https://github.com/desmaraisp/YoutubeMixer/issues">Report Bug or Request Feature</a></p>
 </div>
 
 - [About The Project](#about-the-project)
@@ -94,20 +95,22 @@ Distributed under the MIT License. See `LICENSE` for more information.
 
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
-[contributors-shield]: https://img.shields.io/github/contributors/desmaraisp/YoutubeRandomizer.svg?style=flat
-[contributors-url]: https://github.com/desmaraisp/YoutubeRandomizer/graphs/contributors
-[forks-shield]: https://img.shields.io/github/forks/desmaraisp/YoutubeRandomizer.svg?style=flat
-[forks-url]: https://github.com/desmaraisp/YoutubeRandomizer/network/members
-[stars-shield]: https://img.shields.io/github/stars/desmaraisp/YoutubeRandomizer.svg?style=flat
-[stars-url]: https://github.com/desmaraisp/YoutubeRandomizer/stargazers
-[issues-shield]: https://img.shields.io/github/issues/desmaraisp/YoutubeRandomizer.svg?style=flat
-[issues-url]: https://github.com/desmaraisp/YoutubeRandomizer/issues
-[license-shield]: https://img.shields.io/github/license/desmaraisp/YoutubeRandomizer.svg?style=flat
-[license-url]: https://github.com/desmaraisp/YoutubeRandomizer/blob/master/LICENSE
+[contributors-shield]: https://img.shields.io/github/contributors/desmaraisp/YoutubeMixer.svg?style=flat
+[contributors-url]: https://github.com/desmaraisp/YoutubeMixer/graphs/contributors
+[forks-shield]: https://img.shields.io/github/forks/desmaraisp/YoutubeMixer.svg?style=flat
+[forks-url]: https://github.com/desmaraisp/YoutubeMixer/network/members
+[stars-shield]: https://img.shields.io/github/stars/desmaraisp/YoutubeMixer.svg?style=flat
+[stars-url]: https://github.com/desmaraisp/YoutubeMixer/stargazers
+[issues-shield]: https://img.shields.io/github/issues/desmaraisp/YoutubeMixer.svg?style=flat
+[issues-url]: https://github.com/desmaraisp/YoutubeMixer/issues
+[license-shield]: https://img.shields.io/github/license/desmaraisp/YoutubeMixer.svg?style=flat
+[license-url]: https://github.com/desmaraisp/YoutubeMixer/blob/master/LICENSE
+[docker-shield]: https://img.shields.io/docker/v/desmaraisp/youtube-randomizer
+[docker-url]: https://hub.docker.com/r/desmaraisp/youtube-randomizer
 
-[nextjs-shield]: https://img.shields.io/badge/nextjs-000000?style=for-the-badge&logo=nextjs&logoColor=white
+[nextjs-shield]: https://img.shields.io/badge/next.js-000000?style=for-the-badge&logo=nextdotjs&logoColor=white
 [nextjs-url]: https://nextjs.org/
 [prisma-shield]: https://img.shields.io/badge/Prisma-3982CE?style=for-the-badge&logo=prisma&logoColor=white
 [prisma-url]: https://prisma.io/
-[supabase-shield]: https://img.shields.io/badge/supabase-black?style=for-the-badge&logo=python&logoColor=white
+[supabase-shield]: https://shields.io/badge/supabase-black?logo=supabase&style=for-the-badge
 [supabase-url]: https://supabase.com/
