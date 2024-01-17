@@ -28,7 +28,7 @@ function RefreshButtonDropdownInner({ playlistData, cancelCallback }: { playlist
 
 	useEffect(() => {
 		const callback = async () => {
-			const result = await GetRemotePlaylistContents({ playlistType: playlistData.playlistType, remotePlaylistId: playlistData.playlistId })
+			const result = await GetRemotePlaylistContents({ playlistType: playlistData.playlistType, remotePlaylistId: playlistData.remotePlaylistId })
 
 			if (isApiError(result)) {
 				throw new Error(`Remote api returned error ${result.message}`)
