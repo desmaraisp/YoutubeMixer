@@ -1,5 +1,5 @@
 import { ThemeSelector } from '@/components/theme-selector'
-import { Anchor, AppShell, Burger, Flex, MantineProvider } from '@mantine/core'
+import { Anchor, AppShell, Burger, Divider, Flex, Group, MantineProvider, Space, Stack, Title } from '@mantine/core'
 import type { AppContext, AppProps } from 'next/app'
 import '@/styles/globals.css'
 import '@fortawesome/fontawesome-svg-core/styles.css'
@@ -11,6 +11,7 @@ import { AuthButton } from '../features/header/components/auth-button';
 import DefaultApp from 'next/app'
 import { SupabaseClientContextProvider } from '@/features/supabase-helpers/supabase-client-context-provider';
 import Head from 'next/head';
+import Image from 'next/image'
 
 App.getInitialProps = async (
 	context: AppContext
@@ -40,11 +41,11 @@ export default function App({ Component, pageProps, router, PUBLIC_SUPABASE_ANON
 		</Head>
 		<MantineProvider>
 			<SupabaseClientContextProvider PUBLIC_SUPABASE_ANON_KEY={PUBLIC_SUPABASE_ANON_KEY} PUBLIC_SUPABASE_URL={PUBLIC_SUPABASE_URL}>
-				<AppShell padding="xl" header={{ height: 40 }} navbar={{
+				<AppShell style={{ minHeight: 'calc(100dvh - 30px)' }} padding="xl" header={{ height: 40 }} navbar={{
 					width: 300,
 					breakpoint: 'sm',
 					collapsed: { mobile: !opened, desktop: !opened },
-				}}>
+				}} footer={{ offset: true, height: 25 }}>
 					<AppShell.Header>
 						<Flex justify={'end'} align={'center'} gap={'lg'} style={{ height: '100%' }}>
 							<Burger
@@ -63,15 +64,34 @@ export default function App({ Component, pageProps, router, PUBLIC_SUPABASE_ANON
 						</Flex>
 					</AppShell.Header>
 					<AppShell.Navbar p='md'>
-						<Anchor mx='sm' underline='never' component={Link} href={"/"}>Home</Anchor>
-						<Anchor mx='sm' underline='never' component={Link} href={"/player"}>Player</Anchor>
-						<Anchor mx='sm' underline='never' component={Link} href={"/playlists"}>Playlists</Anchor>
+						<Space h={'lg'} />
+						<Divider my={'lg'} />
+
+						<AppShell.Section grow>
+							<Stack align='center'>
+								<Anchor mx='sm' underline='never' component={Link} href={"/"}>Home</Anchor>
+								<Anchor mx='sm' underline='never' component={Link} href={"/player"}>Player</Anchor>
+								<Anchor mx='sm' underline='never' component={Link} href={"/playlists"}>Playlists</Anchor>
+							</Stack>
+						</AppShell.Section>
+
+						<AppShell.Section>
+							<Group justify='center'>
+								<Link href={"/"}>
+									<Image width={45} height={45} src={"/favicon.svg"} alt='site-icon' />
+								</Link>
+							</Group>
+						</AppShell.Section>
 					</AppShell.Navbar>
 
 					<AppShell.Main>
 						<Component {...pageProps} />
 					</AppShell.Main>
 				</AppShell>
+				<Group h={'30px'} justify='center' gap={30}>
+					<Anchor mx='sm' underline='never' component={Link} href="https://github.com/desmaraisp/YoutubeMixer">Source code</Anchor>
+					<Anchor mx='sm' underline='never' component={Link} href={"https://philippedesmarais.netlify.app/"}>About me</Anchor>
+				</Group>
 			</SupabaseClientContextProvider>
 		</MantineProvider>
 	</>

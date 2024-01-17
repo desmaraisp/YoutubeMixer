@@ -7,14 +7,20 @@ import { AcceptPlaylistImportForm } from "@/features/playlist/components/accept-
 import { RemotePlaylistForm } from "@/features/remote-playlist/components/import-component/form";
 import { useState } from "react";
 import { RemotePlaylistModelWithDetails } from "@/features/remote-playlist/remote-playlist-schema";
-import { ErrorWithHTTPCode } from "@/exceptions/error-with-http-code";
 import { createSupabaseClientForServerSideProps } from "@/lib/supabase-client-factory";
 
 export const getServerSideProps = async (_context: GetServerSidePropsContext) => {
 	const supabase = createSupabaseClientForServerSideProps(_context)
 	const user = (await supabase.auth.getSession()).data.session?.user
 
-	if(!user) throw new ErrorWithHTTPCode('Unauthorized', 403)
+	if (!user) {
+		return {
+			redirect: {
+				destination: '/sign-in',
+				permanent: false
+			}
+		}
+	}
 
 	const result = await prismaClient.playlist.findMany({
 		where: {

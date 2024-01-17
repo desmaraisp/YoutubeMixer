@@ -7,13 +7,19 @@ import { PlayerContextProvider } from "@/features/player/components/player-conte
 import { PlayerMenu } from "@/features/player/components/player-menu/menu";
 import { PlayerMainDisplay } from "@/features/player/components/player-display/main-display";
 import { createSupabaseClientForServerSideProps } from "@/lib/supabase-client-factory";
-import { ErrorWithHTTPCode } from "@/exceptions/error-with-http-code";
 
 export const getServerSideProps = async (_context: GetServerSidePropsContext) => {
 	const supabase = createSupabaseClientForServerSideProps(_context)
 	const user = (await supabase.auth.getSession()).data.session?.user
 
-	if (!user) throw new ErrorWithHTTPCode('Unauthorized', 403)
+	if (!user) {
+		return {
+			redirect: {
+				destination: '/sign-in',
+				permanent: false
+			}
+		}
+	}
 
 	const playerResult = await prismaClient.player.findFirst({
 		where: { userId: user.id },
