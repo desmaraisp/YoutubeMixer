@@ -36,24 +36,21 @@ export function SpotifyPlayer({ uri, onEnded = () => { }, onReady = () => { } }:
 		if (!isReady || !window?.SpotifyIframeApi || !ref.current)
 			return
 
+		if(embedController.current){
+			embedController.current.loadUri(`spotify:track:${uri}`)
+			return
+		}
+
 		window.SpotifyIframeApi.createController(
 			ref.current,
 			{},
 			(emb) => {
 				embedController.current = emb
 				emb.loadUri(`spotify:track:${uri}`)
-				emb.addListener("ready", () => {
-					if(window.hasStartedSpotifyGesture) onReady(emb)
-				})
-				emb.addListener("playback_update", (e) => {
-					if(!window.hasStartedSpotifyGesture) window.hasStartedSpotifyGesture = true
-					onStateChange(e, onEnded)
-				})
+				emb.addListener("ready", () => onReady(emb))
+				emb.addListener("playback_update", (e) => onStateChange(e, onEnded))
 			}
 		)
-
-		return () => { embedController.current?.destroy() }
-
 	}, [isReady, onEnded, onReady, uri])
 
 
