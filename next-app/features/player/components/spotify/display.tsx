@@ -47,7 +47,10 @@ export function SpotifyPlayer({ uri, onEnded = () => { }, onReady = () => { } }:
 			(emb) => {
 				embedController.current = emb
 				emb.loadUri(`spotify:track:${uri}`)
-				emb.addListener("ready", () => onReady(emb))
+				emb.addListener("ready", async () => {
+					await new Promise(r => setTimeout(r, 1000));
+					onReady(emb)
+				})
 				emb.addListener("playback_update", (e) => onStateChange(e, onEnded))
 			}
 		)
