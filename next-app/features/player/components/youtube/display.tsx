@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from 'react'
 interface YoutubePlayerProps {
 	uri: string,
 	onEnded?: () => void
-	onReady?: (player: YT.Player) => void
+	onReady?: (player: YT.Player, onEnded: () => void) => void
 }
 export function YoutubePlayer({ uri, onEnded = () => { }, onReady = () => { } }: YoutubePlayerProps) {
 	const ref = useRef<HTMLDivElement>(null)
@@ -33,7 +33,7 @@ export function YoutubePlayer({ uri, onEnded = () => { }, onReady = () => { } }:
 			host: 'https://www.youtube-nocookie.com',
 			events: {
 				onReady: (ev) => {
-					onReady(ev.target)
+					onReady(ev.target, onEnded)
 				},
 				onStateChange: (ev) => {
 					if (ev.data === YT.PlayerState.ENDED) {

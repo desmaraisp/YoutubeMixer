@@ -7,7 +7,12 @@ import { YoutubePlayer } from "../youtube/display"
 function spotifyPlay(emb: EmbedController) {
 	emb.play()
 }
-function youtubePlay(player: YT.Player) {
+function youtubePlay(player: YT.Player, onEnded: () => void) {
+	if(player.getDuration() === 0){
+		onEnded();
+		return
+	}
+
 	player.playVideo()
 }
 
