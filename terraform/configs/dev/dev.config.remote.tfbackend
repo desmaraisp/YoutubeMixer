@@ -1,0 +1,3 @@
+workspaces { name = "dev" }
+hostname     = "desmaraisp.scalr.io"
+organization = "YoutubeRandomizer"

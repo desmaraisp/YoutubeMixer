@@ -1,0 +1,2 @@
+GCPProjectId="Randomizer"
+EnvironmentName="prod"
