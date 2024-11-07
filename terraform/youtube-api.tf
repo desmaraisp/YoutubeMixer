@@ -7,4 +7,5 @@ resource "google_apikeys_key" "youtube2" {
       service = "youtube.googleapis.com"
     }
   }
+  depends_on = [google_project_service.default]
 }

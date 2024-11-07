@@ -17,11 +17,21 @@ terraform {
       source  = "hashicorp/google"
       version = "6.10.0"
     }
+    google-beta = {
+      source  = "hashicorp/google-beta"
+      version = "6.10.0"
+    }
   }
 }
 
 
 provider "google" {
+  project               = var.GCPProjectId
+  billing_project       = var.GCPProjectId
+  region                = var.GCPDefaultRegion
+  user_project_override = true
+}
+provider "google-beta" {
   project               = var.GCPProjectId
   billing_project       = var.GCPProjectId
   region                = var.GCPDefaultRegion

@@ -9,6 +9,7 @@ resource "google_cloud_run_v2_service" "default" {
       image = var.Image
     }
   }
+  depends_on = [ google_project_service.default ]
 }
 
 resource "google_cloud_run_service_iam_binding" "allow-unanthenticated-access" {
