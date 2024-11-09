@@ -9,6 +9,7 @@ internal class Program
 		var builder = WebApplication.CreateBuilder(args);
 
 		builder.RegisterAuthenticationFeature()
+				.RegisterDatabase();
 		builder.Services.AddControllers();
 		builder.Services.AddEndpointsApiExplorer();
 		builder.Services.AddSwaggerGen();
