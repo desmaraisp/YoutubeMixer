@@ -1,0 +1,48 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{6B93855F-8D97-41FB-9046-7B96F37FC4F9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Randomizer.Api", "src\Randomizer.Api\Randomizer.Api.csproj", "{ED155192-CF62-40D4-9D88-79B11B6D89DF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Randomizer.Dal", "src\Randomizer.Dal\Randomizer.Dal.csproj", "{0A461487-58FA-44D6-9A8B-C6B4C2B6648F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Randomizer.Dal.Migrations.Postgresql", "src\Randomizer.Dal.Migrations.Postgresql\Randomizer.Dal.Migrations.Postgresql.csproj", "{EFCE7FB9-7CB6-489A-A150-42C1A5A51392}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Randomizer.Dal.Migrations.SqlServer", "src\Randomizer.Dal.Migrations.SqlServer\Randomizer.Dal.Migrations.SqlServer.csproj", "{658A7AD5-1DEA-4381-939D-3DC9C392CEAE}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{ED155192-CF62-40D4-9D88-79B11B6D89DF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ED155192-CF62-40D4-9D88-79B11B6D89DF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ED155192-CF62-40D4-9D88-79B11B6D89DF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ED155192-CF62-40D4-9D88-79B11B6D89DF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0A461487-58FA-44D6-9A8B-C6B4C2B6648F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0A461487-58FA-44D6-9A8B-C6B4C2B6648F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0A461487-58FA-44D6-9A8B-C6B4C2B6648F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0A461487-58FA-44D6-9A8B-C6B4C2B6648F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EFCE7FB9-7CB6-489A-A150-42C1A5A51392}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EFCE7FB9-7CB6-489A-A150-42C1A5A51392}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EFCE7FB9-7CB6-489A-A150-42C1A5A51392}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EFCE7FB9-7CB6-489A-A150-42C1A5A51392}.Release|Any CPU.Build.0 = Release|Any CPU
+		{658A7AD5-1DEA-4381-939D-3DC9C392CEAE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{658A7AD5-1DEA-4381-939D-3DC9C392CEAE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{658A7AD5-1DEA-4381-939D-3DC9C392CEAE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{658A7AD5-1DEA-4381-939D-3DC9C392CEAE}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{ED155192-CF62-40D4-9D88-79B11B6D89DF} = {6B93855F-8D97-41FB-9046-7B96F37FC4F9}
+		{0A461487-58FA-44D6-9A8B-C6B4C2B6648F} = {6B93855F-8D97-41FB-9046-7B96F37FC4F9}
+		{EFCE7FB9-7CB6-489A-A150-42C1A5A51392} = {6B93855F-8D97-41FB-9046-7B96F37FC4F9}
+		{658A7AD5-1DEA-4381-939D-3DC9C392CEAE} = {6B93855F-8D97-41FB-9046-7B96F37FC4F9}
+	EndGlobalSection
+EndGlobal
