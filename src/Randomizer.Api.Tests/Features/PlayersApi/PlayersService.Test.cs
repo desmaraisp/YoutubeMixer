@@ -83,7 +83,7 @@ public class PlayerServiceTests
 			Playlists = [
 				new PlayerPlaylist {
 					PlaylistName = "TestPlaylist",
-					RemotePlaylistType = RemotePlaylistType.Youtube,
+					RemotePlaylistType = MusicProvider.Youtube,
 					RemotePlaylistId = "",
 					PlaylistTracks = [
 						new PlaylistTrack {
@@ -149,7 +149,7 @@ public class PlayerServiceTests
 					new PlayerPlaylist {
 						PlaylistName = "",
 						RemotePlaylistId = "",
-						RemotePlaylistType = RemotePlaylistType.Spotify
+						RemotePlaylistType = MusicProvider.Spotify
 					}
 				]
 			}

@@ -3,12 +3,6 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Randomizer.Dal;
 
-public enum RemotePlaylistType
-{
-	Youtube,
-	Spotify
-}
-
 public class PlayerPlaylist
 {
 	[DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -18,9 +12,9 @@ public class PlayerPlaylist
 	public Guid PlaylistId { get; init; }
 
 	public required string RemotePlaylistId { get; set; }
-	public required RemotePlaylistType RemotePlaylistType { get; set; }
+	public required MusicProvider RemotePlaylistType { get; set; }
     public required string PlaylistName { get; set; }
-	public bool IsEnabled { get; set; }
+	public bool IsDisabled { get; set; }
 
 	[ForeignKey(nameof(Player))]
 	public Guid PlayerId { get; set; }
