@@ -11,11 +11,13 @@ public class UserIdAuthorizationFilterAttribute : Attribute, IAsyncAuthorization
 	{
 		var userIdInUrl = context.RouteData.Values["userId"]?.ToString();
 
-		if(string.IsNullOrWhiteSpace(userIdInUrl)){
+		if (string.IsNullOrWhiteSpace(userIdInUrl))
+		{
 			context.Result = new UnauthorizedObjectResult("No userId found in uri");
 			return Task.CompletedTask;
 		}
-		var userId = context.HttpContext.User.Identities.First().Claims.Single(x => x.Type == ClaimTypes.NameIdentifier).Value;
+
+		var userId = context.HttpContext.User.GetUserId();
 		if (userIdInUrl != userId)
 		{
 			context.Result = new UnauthorizedObjectResult("UserId in uri does not match userId in claims");
