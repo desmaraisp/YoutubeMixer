@@ -2,17 +2,24 @@ using Microsoft.EntityFrameworkCore;
 using Randomizer.Api.Features.Auth;
 using Randomizer.Api.Features.DatabaseRegistration;
 using Randomizer.Api.Features.PlayersApi;
+using Serilog;
 
 internal class Program
 {
 	private static void Main(string[] args)
 	{
 		var builder = WebApplication.CreateBuilder(args);
+		builder.Host.UseSerilog((context, config) =>
+		{
+			Environment.SetEnvironmentVariable("BASEDIR", AppDomain.CurrentDomain.BaseDirectory);
+			config.ReadFrom.Configuration(context.Configuration);
+		});
+
 
 		builder.RegisterAuthenticationFeature()
 				.RegisterPlayersApiFeature()
 				.RegisterDatabase();
-				
+
 		builder.Services.AddControllers();
 		builder.Services.AddEndpointsApiExplorer();
 		builder.Services.AddSwaggerGen();
