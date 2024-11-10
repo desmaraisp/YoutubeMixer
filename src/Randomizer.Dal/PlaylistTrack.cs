@@ -6,10 +6,10 @@ namespace Randomizer.Dal;
 public class PlaylistTrack
 {
 	[DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-	public required int Id { get; init; }
+	public int Id { get; init; }
 
 	[Key]
-	public required Guid TrackId { get; init; }
+	public Guid TrackId { get; init; }
 	public required string RemoteTrackId { get; set; }
 	public required string TrackName { get; set; }
 

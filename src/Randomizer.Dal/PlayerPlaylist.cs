@@ -12,10 +12,10 @@ public enum RemotePlaylistType
 public class PlayerPlaylist
 {
 	[DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-	public required int Id { get; init; }
+	public int Id { get; init; }
 
 	[Key]
-	public required Guid PlaylistId { get; init; }
+	public Guid PlaylistId { get; init; }
 
 	public required string RemotePlaylistId { get; set; }
 	public required RemotePlaylistType RemotePlaylistType { get; set; }
@@ -23,7 +23,7 @@ public class PlayerPlaylist
 	public bool IsEnabled { get; set; }
 
 	[ForeignKey(nameof(Player))]
-	public required Guid PlayerId { get; set; }
+	public Guid PlayerId { get; set; }
 	public Player Player { get; set; } = null!;
 
 
