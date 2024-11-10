@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Randomizer.Dal.Migrations.P
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Randomizer.Dal.Migrations.SqlServer", "src\Randomizer.Dal.Migrations.SqlServer\Randomizer.Dal.Migrations.SqlServer.csproj", "{658A7AD5-1DEA-4381-939D-3DC9C392CEAE}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Randomizer.Api.Tests", "src\Randomizer.Api.Tests\Randomizer.Api.Tests.csproj", "{C84F386D-6E95-4EB5-AA2D-859729CB4127}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -38,11 +40,16 @@ Global
 		{658A7AD5-1DEA-4381-939D-3DC9C392CEAE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{658A7AD5-1DEA-4381-939D-3DC9C392CEAE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{658A7AD5-1DEA-4381-939D-3DC9C392CEAE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C84F386D-6E95-4EB5-AA2D-859729CB4127}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C84F386D-6E95-4EB5-AA2D-859729CB4127}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C84F386D-6E95-4EB5-AA2D-859729CB4127}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C84F386D-6E95-4EB5-AA2D-859729CB4127}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{ED155192-CF62-40D4-9D88-79B11B6D89DF} = {6B93855F-8D97-41FB-9046-7B96F37FC4F9}
 		{0A461487-58FA-44D6-9A8B-C6B4C2B6648F} = {6B93855F-8D97-41FB-9046-7B96F37FC4F9}
 		{EFCE7FB9-7CB6-489A-A150-42C1A5A51392} = {6B93855F-8D97-41FB-9046-7B96F37FC4F9}
 		{658A7AD5-1DEA-4381-939D-3DC9C392CEAE} = {6B93855F-8D97-41FB-9046-7B96F37FC4F9}
+		{C84F386D-6E95-4EB5-AA2D-859729CB4127} = {6B93855F-8D97-41FB-9046-7B96F37FC4F9}
 	EndGlobalSection
 EndGlobal
