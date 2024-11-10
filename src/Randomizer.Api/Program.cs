@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Randomizer.Api.Features.Auth;
 using Randomizer.Api.Features.DatabaseRegistration;
+using Randomizer.Api.Features.PlayersApi;
 
 internal class Program
 {
@@ -9,7 +10,9 @@ internal class Program
 		var builder = WebApplication.CreateBuilder(args);
 
 		builder.RegisterAuthenticationFeature()
+				.RegisterPlayersApiFeature()
 				.RegisterDatabase();
+				
 		builder.Services.AddControllers();
 		builder.Services.AddEndpointsApiExplorer();
 		builder.Services.AddSwaggerGen();
