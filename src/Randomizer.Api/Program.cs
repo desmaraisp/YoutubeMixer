@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using Randomizer.Api.Features.Auth;
 using Randomizer.Api.Features.DatabaseRegistration;
 using Randomizer.Api.Features.PlayersApi;
+using Randomizer.Api.Features.PlayerTracksApi;
 using Serilog;
 
 internal class Program
@@ -18,6 +19,7 @@ internal class Program
 
 		builder.RegisterAuthenticationFeature()
 				.RegisterPlayersApiFeature()
+				.RegisterPlayerTracksApiFeature()
 				.RegisterDatabase();
 
 		builder.Services.AddControllers();
