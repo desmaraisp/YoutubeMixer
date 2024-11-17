@@ -20,7 +20,7 @@ public class PlayersService : IPlayersService
 		PlaylistsCount = player.Playlists.Count(),
 		TracksCount = player.Playlists.Sum(y => y.PlaylistTracks.Count())
 	};
-	private static readonly Func<Player, GetPlayerDto> PlayerProjectionLambda = PlayerProjectionExpression.Compile();
+	private static readonly Func<Player, GetPlayerDto> ConvertPlayerToDto = PlayerProjectionExpression.Compile();
 
 	public async Task<GetPlayerDto> CreateNewPlayer(string UserId, string Name)
 	{
@@ -35,7 +35,7 @@ public class PlayersService : IPlayersService
 			UserId = UserId
 		});
 		await randomizerContext.SaveChangesAsync();
-		return PlayerProjectionLambda.Invoke(entity.Entity);
+		return ConvertPlayerToDto(entity.Entity);
 	}
 
 	public async Task DeletePlayer(string UserId, Guid PlayerId)
@@ -65,19 +65,19 @@ public class PlayersService : IPlayersService
 
 	public async Task<GetPlayerDto> UpsertPlayer(string UserId, Guid PlayerId, string NewName)
 	{
-		var player = await randomizerContext.Players
-				.SingleOrDefaultAsync(x => x.UserId == UserId && x.PlayerId == PlayerId);
-
 		bool nameIsAlreadyUsed = await randomizerContext.Players.AnyAsync(x =>
 					x.UserId == UserId &&
 					x.PlayerId != PlayerId &&
 					x.PlayerName == NewName
 		);
-
 		if (nameIsAlreadyUsed)
 		{
 			throw new PlayerNameAlreadyUsedException("This name is already used by another player for this user");
 		}
+
+
+		var player = await randomizerContext.Players
+				.SingleOrDefaultAsync(x => x.UserId == UserId && x.PlayerId == PlayerId);
 		if (player == null)
 		{
 			player = randomizerContext.Players.Add(new()
@@ -94,6 +94,6 @@ public class PlayersService : IPlayersService
 
 		await randomizerContext.SaveChangesAsync();
 
-		return PlayerProjectionLambda.Invoke(player);
+		return ConvertPlayerToDto(player);
 	}
 }
