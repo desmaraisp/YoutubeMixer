@@ -13,7 +13,7 @@ public class PlayerPlaylist
 
 	public required string RemotePlaylistId { get; set; }
 	public required MusicProvider RemotePlaylistType { get; set; }
-    public required string PlaylistName { get; set; }
+	public required string PlaylistName { get; set; }
 	public bool IsDisabled { get; set; }
 
 	[ForeignKey(nameof(Player))]

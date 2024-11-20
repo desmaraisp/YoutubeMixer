@@ -1,8 +1,5 @@
-using Google.Apis.Auth.OAuth2;
-using Google.Apis.Services;
 using Google.Apis.YouTube.v3;
 using Google.Apis.YouTube.v3.Data;
-using Randomizer.Dal;
 
 namespace Randomizer.Api.Features.RemotePlaylistsApi.RemotePlaylistsService;
 

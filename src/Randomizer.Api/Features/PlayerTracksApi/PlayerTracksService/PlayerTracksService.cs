@@ -18,7 +18,7 @@ public class PlayerTracksService : IPlayerTracksService
 			.SelectMany(x =>
 				x.Playlists.Where(y => !y.IsDisabled)
 					.SelectMany(playlist =>
-						playlist.PlaylistTracks.Select(track => 
+						playlist.PlaylistTracks.Select(track =>
 							new GetPlayerTracksDto
 							{
 								TrackType = track.Playlist.RemotePlaylistType,

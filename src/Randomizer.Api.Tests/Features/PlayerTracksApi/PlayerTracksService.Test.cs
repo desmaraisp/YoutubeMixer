@@ -1,6 +1,5 @@
-using Randomizer.Dal;
-using Randomizer.Api.Features.PlayersApi.PlayersService;
 using Randomizer.Api.Features.PlayerTracksApi.PlayerTracksService;
+using Randomizer.Dal;
 
 namespace Randomizer.Api.Tests.Features.PlayerTracksApi;
 
@@ -25,16 +24,19 @@ public class PlayerTracksServiceTests
 			PlayerName = "test",
 			UserId = "User",
 			Playlists = [
-				new PlayerPlaylist {
+				new PlayerPlaylist
+				{
 					PlaylistName = "",
 					RemotePlaylistId = "",
 					RemotePlaylistType = MusicProvider.Spotify,
 					PlaylistTracks = [
-						new PlaylistTrack {
+						new PlaylistTrack
+						{
 							RemoteTrackId = "remoteTrackId",
 							TrackName = "trackName",
 							TrackId = trackId,
-							TrackWeight = new(){
+							TrackWeight = new()
+							{
 								WeightValue = .5f,
 							}
 						}
@@ -65,36 +67,44 @@ public class PlayerTracksServiceTests
 			PlayerName = "test",
 			UserId = "User",
 			Playlists = [
-				new PlayerPlaylist {
+				new PlayerPlaylist
+				{
 					PlaylistName = "",
 					RemotePlaylistId = "",
 					RemotePlaylistType = MusicProvider.Spotify,
 					PlaylistTracks = [
-						new PlaylistTrack {
+						new PlaylistTrack
+						{
 							RemoteTrackId = "remoteTrackId",
 							TrackName = "trackName",
-							TrackWeight = new(){
+							TrackWeight = new()
+							{
 								WeightValue = .5f,
 							}
 						},
-						new PlaylistTrack {
+						new PlaylistTrack
+						{
 							RemoteTrackId = "remoteTrackId2",
 							TrackName = "trackName2",
-							TrackWeight = new(){
+							TrackWeight = new()
+							{
 								WeightValue = .6f,
 							}
 						}
 					]
 				},
-				new PlayerPlaylist {
+				new PlayerPlaylist
+				{
 					PlaylistName = "",
 					RemotePlaylistId = "",
 					RemotePlaylistType = MusicProvider.Youtube,
 					PlaylistTracks = [
-						new PlaylistTrack {
+						new PlaylistTrack
+						{
 							RemoteTrackId = "remoteTrackId3",
 							TrackName = "trackName3",
-							TrackWeight = new(){
+							TrackWeight = new()
+							{
 								WeightValue = .4f,
 							}
 						}
@@ -125,16 +135,19 @@ public class PlayerTracksServiceTests
 			PlayerName = "test",
 			UserId = "User",
 			Playlists = [
-				new PlayerPlaylist {
+				new PlayerPlaylist
+				{
 					PlaylistName = "",
 					RemotePlaylistId = "",
 					RemotePlaylistType = MusicProvider.Spotify,
 					PlaylistTracks = [
-						new PlaylistTrack {
+						new PlaylistTrack
+						{
 							RemoteTrackId = "",
 							TrackName = "",
 							TrackId = trackId,
-							TrackWeight = new(){
+							TrackWeight = new()
+							{
 								WeightValue = .5f,
 							}
 						}
@@ -158,17 +171,20 @@ public class PlayerTracksServiceTests
 			PlayerName = "test",
 			UserId = "User",
 			Playlists = [
-				new PlayerPlaylist {
+				new PlayerPlaylist
+				{
 					IsDisabled = true,
 					PlaylistName = "",
 					RemotePlaylistId = "",
 					RemotePlaylistType = MusicProvider.Spotify,
 					PlaylistTracks = [
-						new PlaylistTrack {
+						new PlaylistTrack
+						{
 							RemoteTrackId = "",
 							TrackName = "",
 							TrackId = trackId,
-							TrackWeight = new(){
+							TrackWeight = new()
+							{
 								WeightValue = .5f,
 							}
 						}

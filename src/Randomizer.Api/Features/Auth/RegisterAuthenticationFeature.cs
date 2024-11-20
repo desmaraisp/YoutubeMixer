@@ -3,14 +3,17 @@ using Microsoft.Extensions.Options;
 
 namespace Randomizer.Api.Features.Auth;
 
-public static class WebApplicationBuilderExtensions {
-	public static WebApplicationBuilder RegisterAuthenticationFeature(this WebApplicationBuilder builder) {
+public static class WebApplicationBuilderExtensions
+{
+	public static WebApplicationBuilder RegisterAuthenticationFeature(this WebApplicationBuilder builder)
+	{
 		builder.Services.AddOptions<AuthOptions>()
 			.BindConfiguration("Authentication")
 			.ValidateDataAnnotations()
 			.ValidateOnStart();
 
-		builder.Services.AddOptions<JwtBearerOptions>(JwtBearerDefaults.AuthenticationScheme).Configure<IOptions<AuthOptions>>((c, options) => {
+		builder.Services.AddOptions<JwtBearerOptions>(JwtBearerDefaults.AuthenticationScheme).Configure<IOptions<AuthOptions>>((c, options) =>
+		{
 			c.MetadataAddress = options.Value.MetadataAddress;
 		});
 

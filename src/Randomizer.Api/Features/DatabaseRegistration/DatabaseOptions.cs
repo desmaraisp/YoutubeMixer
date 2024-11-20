@@ -1,8 +1,7 @@
-using System.ComponentModel.DataAnnotations;
-
 namespace Randomizer.Api.Features.DatabaseRegistration;
 
-public enum DatabaseType {
+public enum DatabaseType
+{
 	SqlServer,
 	PostgreSQl
 }

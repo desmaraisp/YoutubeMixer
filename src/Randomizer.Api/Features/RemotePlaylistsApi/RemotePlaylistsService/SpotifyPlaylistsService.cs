@@ -88,4 +88,3 @@ public class SpotifyPlaylistsService : IRemotePlaylistsService
 		public required string Uri { get; init; }
 	}
 }
-

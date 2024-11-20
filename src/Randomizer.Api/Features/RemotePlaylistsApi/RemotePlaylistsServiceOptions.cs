@@ -2,7 +2,8 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Randomizer.Api.Features.RemotePlaylistsApi;
 
-public class RemotePlaylistsServiceOptions {
+public class RemotePlaylistsServiceOptions
+{
 	[Required]
 	public required string ClientId { get; init; }
 

@@ -33,7 +33,8 @@ public class RemotePlaylistsApiController : ControllerBase
 			PlaylistId = playlistId,
 			MusicProvider = musicProvider,
 			PlaylistName = res.PlaylistName,
-			Tracks = res.Tracks.ConvertAll<PlaylistTrackApiModel>(x => new() {
+			Tracks = res.Tracks.ConvertAll<PlaylistTrackApiModel>(x => new()
+			{
 				RemoteTrackId = x.RemoteTrackId,
 				TrackName = x.TrackName
 			})

@@ -1,6 +1,7 @@
 namespace Randomizer.Api.Features.PlayersApi.PlayersService;
 
-public interface IPlayersService {
+public interface IPlayersService
+{
 	public Task<List<GetPlayerDto>> GetUserPlayers(string UserId);
 	public Task<GetPlayerDto> CreateNewPlayer(string UserId, string Name);
 	public Task<GetPlayerDto> UpsertPlayer(string UserId, Guid PlayerId, string NewName);

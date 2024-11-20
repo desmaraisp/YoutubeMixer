@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore;
-using Randomizer.Dal;
 using Randomizer.Api.Features.PlayersApi.PlayersService;
+using Randomizer.Dal;
 
 namespace Randomizer.Api.Tests.Features.PlayersApi;
 
@@ -9,6 +9,7 @@ public class PlayerServiceTests
 {
 	private readonly RandomizerContext context;
 	private readonly IPlayersService service;
+
 	public PlayerServiceTests()
 	{
 		context = ConfigureSqLite.ConfigureRandomizerContext();
@@ -27,13 +28,25 @@ public class PlayerServiceTests
 		// Assert
 		var playerInDb = await context.Players.FirstOrDefaultAsync(p => p.UserId == userId);
 		Assert.IsNotNull(playerInDb, "Player should be added to the database.");
-		Assert.AreEqual(playerName, playerInDb.PlayerName, "PlayerName should match the input.");
+		Assert.AreEqual(
+			playerName,
+			playerInDb.PlayerName,
+			"PlayerName should match the input."
+		);
 		Assert.AreEqual(playerName, result.PlayerName, "PlayerName should match the input.");
 		Assert.AreEqual(userId, playerInDb.UserId, "UserId should match the input.");
 
 		// Assuming no playlists are created, so counts should be zero
-		Assert.AreEqual(0, result.PlaylistsCount, "PlaylistsCount should be zero for a new player with no playlists.");
-		Assert.AreEqual(0, result.TracksCount, "TracksCount should be zero for a new player with no tracks.");
+		Assert.AreEqual(
+			0,
+			result.PlaylistsCount,
+			"PlaylistsCount should be zero for a new player with no playlists."
+		);
+		Assert.AreEqual(
+			0,
+			result.TracksCount,
+			"TracksCount should be zero for a new player with no tracks."
+		);
 
 		Assert.AreEqual(playerInDb.PlayerId, result.PlayerId);
 	}
@@ -44,11 +57,7 @@ public class PlayerServiceTests
 	{
 		var userId = "test_user";
 		var playerName = "Test Player";
-		context.Players.Add(new()
-		{
-			PlayerName = playerName,
-			UserId = userId
-		});
+		context.Players.Add(new() { PlayerName = playerName, UserId = userId });
 		await context.SaveChangesAsync();
 
 		await service.CreateNewPlayer(userId, playerName);
@@ -59,11 +68,7 @@ public class PlayerServiceTests
 	{
 		var userId = "test_user";
 		var playerName = "Test Player";
-		var entity = context.Players.Add(new()
-		{
-			PlayerName = playerName,
-			UserId = userId
-		});
+		var entity = context.Players.Add(new() { PlayerName = playerName, UserId = userId });
 		await context.SaveChangesAsync();
 
 		await service.DeletePlayer(userId, entity.Entity.PlayerId);
@@ -76,24 +81,26 @@ public class PlayerServiceTests
 	{
 		var userId = "test_user";
 		var playerName = "Test Player";
-		var entity = context.Players.Add(new()
-		{
-			PlayerName = playerName,
-			UserId = userId,
-			Playlists = [
-				new PlayerPlaylist {
-					PlaylistName = "TestPlaylist",
-					RemotePlaylistType = MusicProvider.Youtube,
-					RemotePlaylistId = "",
-					PlaylistTracks = [
-						new PlaylistTrack {
-							TrackName = "Test track",
-							RemoteTrackId = ""
-						}
-					]
-				}
-			]
-		});
+		var entity = context.Players.Add(
+			new()
+			{
+				PlayerName = playerName,
+				UserId = userId,
+				Playlists =
+				[
+					new PlayerPlaylist
+					{
+						PlaylistName = "TestPlaylist",
+						RemotePlaylistType = MusicProvider.Youtube,
+						RemotePlaylistId = "",
+						PlaylistTracks =
+						[
+							new PlaylistTrack { TrackName = "Test track", RemoteTrackId = "" },
+						],
+					},
+				],
+			}
+		);
 		await context.SaveChangesAsync();
 
 		var result = await service.FindPlayer(userId, entity.Entity.PlayerId);
@@ -110,11 +117,7 @@ public class PlayerServiceTests
 	{
 		var userId = "test_user";
 		var playerName = "Test Player";
-		var entity = context.Players.Add(new()
-		{
-			PlayerName = playerName,
-			UserId = userId,
-		});
+		var entity = context.Players.Add(new() { PlayerName = playerName, UserId = userId });
 		await context.SaveChangesAsync();
 
 		var result = await service.FindPlayer("another user Id", entity.Entity.PlayerId);
@@ -132,29 +135,26 @@ public class PlayerServiceTests
 	[TestMethod]
 	public async Task GetPlayers_ShouldReturnTwo()
 	{
-		context.Players.AddRange([
-			new Player
-			{
-				PlayerName = "Test Player",
-				UserId = "test_user",
-			},
-			new Player {
-				PlayerName = "Test Player2",
-				UserId = "test_user2",
-			},
-			new Player {
-				PlayerName = "Test Player2",
-				UserId = "test_user",
-				Playlists = [
-					new PlayerPlaylist {
-						PlaylistName = "",
-						RemotePlaylistId = "",
-						RemotePlaylistType = MusicProvider.Spotify
-					}
-				]
-			}
-
-		]);
+		context.Players.AddRange(
+			[
+				new Player { PlayerName = "Test Player", UserId = "test_user" },
+				new Player { PlayerName = "Test Player2", UserId = "test_user2" },
+				new Player
+				{
+					PlayerName = "Test Player2",
+					UserId = "test_user",
+					Playlists =
+					[
+						new PlayerPlaylist
+						{
+							PlaylistName = "",
+							RemotePlaylistId = "",
+							RemotePlaylistType = MusicProvider.Spotify,
+						},
+					],
+				},
+			]
+		);
 		await context.SaveChangesAsync();
 
 		var result = await service.GetUserPlayers("test_user");
@@ -165,17 +165,12 @@ public class PlayerServiceTests
 		Assert.AreEqual(1, result.Count(x => x.PlayerName == "Test Player2"));
 	}
 
-
 	[TestMethod]
 	public async Task UpdatePlayerName_ShouldSucceed()
 	{
 		var userId = "test_user";
 		var playerName = "Test Player";
-		var entity = context.Players.Add(new()
-		{
-			PlayerName = playerName,
-			UserId = userId,
-		});
+		var entity = context.Players.Add(new() { PlayerName = playerName, UserId = userId });
 		await context.SaveChangesAsync();
 
 		await service.UpsertPlayer("test_user", entity.Entity.PlayerId, "New player name");
@@ -204,16 +199,15 @@ public class PlayerServiceTests
 	public async Task UpdatePlayerName_ShouldSucceed_IfNameUnchanged()
 	{
 		var entity = context.Players.Add(
-			new Player
-			{
-				PlayerName = "New player name",
-				UserId = "test_user",
-			}
+			new Player { PlayerName = "New player name", UserId = "test_user" }
 		);
 		await context.SaveChangesAsync();
 
-
-		var result = await service.UpsertPlayer("test_user", entity.Entity.PlayerId, "New player name");
+		var result = await service.UpsertPlayer(
+			"test_user",
+			entity.Entity.PlayerId,
+			"New player name"
+		);
 
 		await entity.ReloadAsync();
 
@@ -221,27 +215,23 @@ public class PlayerServiceTests
 		Assert.AreEqual("New player name", entity.Entity.PlayerName);
 	}
 
-
 	[TestMethod]
 	[ExpectedException(typeof(PlayerNameAlreadyUsedException))]
 	public async Task UpdatePlayerName_ShouldThrow_IfNameAlreadyExistOnAnotherEntity()
 	{
 		Guid guid = Guid.NewGuid();
-		context.Players.AddRange([
-			new Player
-			{
-				PlayerId = guid,
-				PlayerName = "Test Player",
-				UserId = "test_user",
-			},
-			new Player
-			{
-				PlayerName = "New player name",
-				UserId = "test_user",
-			}
-		]);
+		context.Players.AddRange(
+			[
+				new Player
+				{
+					PlayerId = guid,
+					PlayerName = "Test Player",
+					UserId = "test_user",
+				},
+				new Player { PlayerName = "New player name", UserId = "test_user" },
+			]
+		);
 		await context.SaveChangesAsync();
-
 
 		await service.UpsertPlayer("test_user", guid, "New player name");
 	}

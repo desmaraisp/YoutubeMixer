@@ -18,11 +18,14 @@ public static class WebApplicationBuilderExtensions
 			var options = sp.GetRequiredService<IOptions<DatabaseOptions>>().Value;
 			string? connectionString = builder.Configuration.GetConnectionString(nameof(RandomizerContext));
 
-			c = options.DatabaseProvider switch {
-				DatabaseType.SqlServer => c.UseSqlServer(connectionString, y => {
+			c = options.DatabaseProvider switch
+			{
+				DatabaseType.SqlServer => c.UseSqlServer(connectionString, y =>
+				{
 					y.MigrationsAssembly("Randomizer.Dal.Migrations.SqlServer");
 				}),
-				DatabaseType.PostgreSQl => c.UseNpgsql(connectionString, y => {
+				DatabaseType.PostgreSQl => c.UseNpgsql(connectionString, y =>
+				{
 					y.MigrationsAssembly("Randomizer.Dal.Migrations.Postgresql");
 				}),
 				_ => throw new InvalidOperationException("Unrecognized database type"),

@@ -26,17 +26,19 @@ public class PlayerProgressApiController : ControllerBase
 
 		if (res == null) return NotFound();
 
-		return Ok(new GetPlayerProgressApiModel{
+		return Ok(new GetPlayerProgressApiModel
+		{
 			PlayerId = res.PlayerId,
 			PlayerTrackId = res.CurrentTrackId
 		});
 	}
-	
+
 	[HttpPut]
 	public async Task<ActionResult<GetPlayerProgressApiModel>> PutPlayerProgressAsync(Guid playerId, PutPlayerProgressApiModel payload)
 	{
 		var res = await playerProgressService.SetCurrentTrack(User.GetUserId(), playerId, payload.PlayerTrackId);
-		return Ok(new GetPlayerProgressApiModel{
+		return Ok(new GetPlayerProgressApiModel
+		{
 			PlayerId = res.PlayerId,
 			PlayerTrackId = res.CurrentTrackId
 		});

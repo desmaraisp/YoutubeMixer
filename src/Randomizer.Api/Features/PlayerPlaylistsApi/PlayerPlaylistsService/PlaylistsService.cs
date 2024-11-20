@@ -63,10 +63,12 @@ public class PlayerPlaylistsService : IPlayerPlaylistsService
 				.Include(x => x.PlaylistTracks)
 				.SingleOrDefaultAsync(x => x.PlaylistId == playlistId);
 
-		if(entity == null){
+		if (entity == null)
+		{
 			entity = AddPlaylistDto(context, payload).Entity;
 		}
-		else {
+		else
+		{
 			entity.IsDisabled = payload.IsDisabled;
 			entity.PlayerId = payload.PlayerId;
 			entity.RemotePlaylistId = payload.RemotePlaylistId;

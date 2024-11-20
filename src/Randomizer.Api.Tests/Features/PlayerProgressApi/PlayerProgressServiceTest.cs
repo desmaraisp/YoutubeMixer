@@ -22,17 +22,20 @@ public class PlayerProgressServiceTest
 			PlayerId = playerId,
 			UserId = userId,
 			Playlists = [
-				new PlayerPlaylist {
+				new PlayerPlaylist
+				{
 					PlaylistName = "",
 					RemotePlaylistId = "",
 					RemotePlaylistType = MusicProvider.Youtube,
 					PlaylistTracks = [
-						new PlaylistTrack {
+						new PlaylistTrack
+						{
 							RemoteTrackId = "1",
 							TrackName = "1",
 							TrackId = trackId
 						},
-						new PlaylistTrack {
+						new PlaylistTrack
+						{
 							RemoteTrackId = "2",
 							TrackName = "2",
 							TrackId = Guid.NewGuid()
