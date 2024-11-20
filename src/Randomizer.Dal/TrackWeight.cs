@@ -13,6 +13,10 @@ public class TrackWeight
 
 	public float WeightValue { get; set; }
 
+	[ForeignKey(nameof(Player))]
+	public Guid PlayerId { get; set; }
+	public Player Player { get; set; } = null!;
+
 	[ForeignKey(nameof(Track))]
 	public Guid TrackId { get; set; }
 	public PlaylistTrack Track { get; set; } = null!;

@@ -19,10 +19,12 @@ public class PlayerTracksServiceTests
 	public async Task GetPlayerTracks_ShouldReturn()
 	{
 		Guid trackId = Guid.NewGuid();
+		Guid playerId = Guid.NewGuid();
 		var entity = context.Players.Add(new()
 		{
 			PlayerName = "test",
 			UserId = "User",
+			PlayerId = playerId,
 			Playlists = [
 				new PlayerPlaylist
 				{
@@ -37,6 +39,7 @@ public class PlayerTracksServiceTests
 							TrackId = trackId,
 							TrackWeight = new()
 							{
+								PlayerId = playerId,
 								WeightValue = .5f,
 							}
 						}
@@ -62,10 +65,12 @@ public class PlayerTracksServiceTests
 	[TestMethod]
 	public async Task GetPlayerTracks_ShouldReturnOrdered()
 	{
+		Guid playerId = Guid.NewGuid();
 		var entity = context.Players.Add(new()
 		{
 			PlayerName = "test",
 			UserId = "User",
+			PlayerId = playerId,
 			Playlists = [
 				new PlayerPlaylist
 				{
@@ -79,6 +84,7 @@ public class PlayerTracksServiceTests
 							TrackName = "trackName",
 							TrackWeight = new()
 							{
+								PlayerId = playerId,
 								WeightValue = .5f,
 							}
 						},
@@ -88,6 +94,7 @@ public class PlayerTracksServiceTests
 							TrackName = "trackName2",
 							TrackWeight = new()
 							{
+								PlayerId = playerId,
 								WeightValue = .6f,
 							}
 						}
@@ -105,6 +112,7 @@ public class PlayerTracksServiceTests
 							TrackName = "trackName3",
 							TrackWeight = new()
 							{
+								PlayerId = playerId,
 								WeightValue = .4f,
 							}
 						}
@@ -129,11 +137,13 @@ public class PlayerTracksServiceTests
 	[TestMethod]
 	public async Task GetPlayerTracks_ShouldReturnNone_WhenUserDifferent()
 	{
+		Guid playerId = Guid.NewGuid();
 		Guid trackId = Guid.NewGuid();
 		var entity = context.Players.Add(new()
 		{
 			PlayerName = "test",
 			UserId = "User",
+			PlayerId = playerId,
 			Playlists = [
 				new PlayerPlaylist
 				{
@@ -148,6 +158,7 @@ public class PlayerTracksServiceTests
 							TrackId = trackId,
 							TrackWeight = new()
 							{
+								PlayerId = playerId,
 								WeightValue = .5f,
 							}
 						}
@@ -166,10 +177,12 @@ public class PlayerTracksServiceTests
 	public async Task GetPlayerTracks_ShouldReturnNone_WhenDisabled()
 	{
 		Guid trackId = Guid.NewGuid();
+		Guid playerId = Guid.NewGuid();
 		var entity = context.Players.Add(new()
 		{
 			PlayerName = "test",
 			UserId = "User",
+			PlayerId = playerId,
 			Playlists = [
 				new PlayerPlaylist
 				{
@@ -185,6 +198,7 @@ public class PlayerTracksServiceTests
 							TrackId = trackId,
 							TrackWeight = new()
 							{
+								PlayerId = playerId,
 								WeightValue = .5f,
 							}
 						}

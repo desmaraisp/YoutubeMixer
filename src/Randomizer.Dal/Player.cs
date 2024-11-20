@@ -20,6 +20,7 @@ public class Player
 	public required string PlayerName { get; set; }
 
 	public ICollection<PlayerPlaylist> Playlists { get; set; } = [];
+	public ICollection<TrackWeight> TrackWeights { get; set; } = [];
 
 	public PlayerProgress? PlayerProgress { get; set; }
 }
