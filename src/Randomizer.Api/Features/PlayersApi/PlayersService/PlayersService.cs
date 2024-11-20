@@ -18,7 +18,7 @@ public class PlayersService : IPlayersService
 		PlayerName = player.PlayerName,
 		UserId = player.UserId,
 		PlaylistsCount = player.Playlists.Count(),
-		TracksCount = player.Playlists.Sum(y => y.PlaylistTracks.Count())
+		TracksCount = player.Playlists.Sum(y => y.PlaylistTracks.Count)
 	};
 	private static readonly Func<Player, GetPlayerDto> ConvertPlayerToDto = PlayerProjectionExpression.Compile();
 

@@ -67,22 +67,22 @@ public class SpotifyPlaylistsService : IRemotePlaylistsService
 		}
 	}
 
-	private class SpotifyPlaylist
+	private sealed class SpotifyPlaylist
 	{
 		public required string Id { get; init; }
 		public required string Name { get; init; }
 		public required TracksInformation Tracks { get; init; }
 	}
-	private class TracksInformation
+	private sealed class TracksInformation
 	{
 		public int Total { get; init; }
 		public List<TrackItem> Items { get; init; } = [];
 	}
-	private class TrackItem
+	private sealed class TrackItem
 	{
 		public required Track Track { get; init; }
 	}
-	private class Track
+	private sealed class Track
 	{
 		public required string Name { get; init; }
 		public required string Uri { get; init; }

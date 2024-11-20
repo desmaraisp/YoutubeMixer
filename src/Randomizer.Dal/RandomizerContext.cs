@@ -4,11 +4,11 @@ namespace Randomizer.Dal;
 
 public class RandomizerContext(DbContextOptions<RandomizerContext> options) : DbContext(options)
 {
-	public DbSet<Player> Players { get; set; }
-	public DbSet<PlayerPlaylist> Playlists { get; set; }
-	public DbSet<PlaylistTrack> PlaylistTracks { get; set; }
-	public DbSet<TrackWeight> TrackWeights { get; set; }
-	public DbSet<PlayerProgress> PlayerProgresses { get; set; }
+	public DbSet<Player> Players { get; set; } = null!;
+	public DbSet<PlayerPlaylist> Playlists { get; set; } = null!;
+	public DbSet<PlaylistTrack> PlaylistTracks { get; set; } = null!;
+	public DbSet<TrackWeight> TrackWeights { get; set; } = null!;
+	public DbSet<PlayerProgress> PlayerProgresses { get; set; } = null!;
 
 	protected override void OnModelCreating(ModelBuilder modelBuilder)
 	{

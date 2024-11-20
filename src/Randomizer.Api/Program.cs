@@ -1,4 +1,3 @@
-using Microsoft.EntityFrameworkCore;
 using Randomizer.Api.Features.Auth;
 using Randomizer.Api.Features.DatabaseRegistration;
 using Randomizer.Api.Features.PlayerProgressApi;
@@ -7,7 +6,7 @@ using Randomizer.Api.Features.PlayerTracksApi;
 using Randomizer.Api.Features.RemotePlaylistsApi;
 using Serilog;
 
-internal class Program
+internal sealed class Program
 {
 	private static void Main(string[] args)
 	{
