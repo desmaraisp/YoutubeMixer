@@ -1,4 +1,4 @@
-namespace Randomizer.Api.Features.TrackWeightsApi.TrackWeightsService;
+namespace Randomizer.Features.TrackWeights.Api.TrackWeightsService;
 
 public interface ITrackWeightsService
 {

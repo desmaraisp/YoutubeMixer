@@ -1,7 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Randomizer.Dal;
 
-namespace Randomizer.Api.Features.TrackWeightsApi.TrackWeightsService;
+namespace Randomizer.Features.TrackWeights.Api.TrackWeightsService;
 
 public class TrackWeightsService : ITrackWeightsService
 {

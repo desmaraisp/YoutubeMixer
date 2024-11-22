@@ -2,6 +2,7 @@ using Asp.Versioning;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Randomizer.Features.Auth;
+using Randomizer.Features.TrackWeights.Api.TrackWeightsService;
 
 namespace Randomizer.Api.Features.TrackWeightsApi;
 
@@ -11,9 +12,9 @@ namespace Randomizer.Api.Features.TrackWeightsApi;
 [Route("api/v{version:apiVersion}/players/{playerId:guid}/track-weights")]
 public class RemotePlaylistsApiController : ControllerBase
 {
-	private readonly TrackWeightsService.ITrackWeightsService service;
+	private readonly ITrackWeightsService service;
 
-	public RemotePlaylistsApiController(TrackWeightsService.ITrackWeightsService service)
+	public RemotePlaylistsApiController(ITrackWeightsService service)
 	{
 		this.service = service;
 	}

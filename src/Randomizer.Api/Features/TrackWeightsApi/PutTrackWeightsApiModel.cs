@@ -1,4 +1,4 @@
-using Randomizer.Api.Features.TrackWeightsApi.TrackWeightsService;
+using Randomizer.Features.TrackWeights.Api.TrackWeightsService;
 
 namespace Randomizer.Api.Features.TrackWeightsApi;
 

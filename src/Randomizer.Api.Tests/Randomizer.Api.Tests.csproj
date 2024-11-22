@@ -20,6 +20,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Randomizer.Api\Randomizer.Api.csproj" />
     <ProjectReference Include="..\Randomizer.Dal\Randomizer.Dal.csproj" />
+    <ProjectReference Include="..\Randomizer.Features.TrackWeights.Api\Randomizer.Features.TrackWeights.Api.csproj" />
     <ProjectReference Include="..\Randomizer.Test.Helpers\Randomizer.Test.Helpers.csproj" />
   </ItemGroup>
 
