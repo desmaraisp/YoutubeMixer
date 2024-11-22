@@ -1,12 +1,12 @@
+using Asp.Versioning;
 using Randomizer.Api.Features.PlayerProgressApi;
 using Randomizer.Api.Features.PlayersApi;
 using Randomizer.Api.Features.PlayerTracksApi;
 using Randomizer.Api.Features.RemotePlaylistsApi;
-using Serilog;
-using Randomizer.Features.Database;
 using Randomizer.Features.Auth;
+using Randomizer.Features.Database;
 using Randomizer.Features.TrackWeights.Api;
-using Asp.Versioning;
+using Serilog;
 
 internal sealed class Program
 {
@@ -19,10 +19,12 @@ internal sealed class Program
 			config.ReadFrom.Configuration(context.Configuration);
 		});
 
-		builder.Services.AddApiVersioning(c => {
+		builder.Services.AddApiVersioning(c =>
+		{
 			c.AssumeDefaultVersionWhenUnspecified = true;
 			c.ApiVersionReader = new UrlSegmentApiVersionReader();
-		}).AddApiExplorer(c => {
+		}).AddApiExplorer(c =>
+		{
 			c.GroupNameFormat = "v'V'";
 		});
 

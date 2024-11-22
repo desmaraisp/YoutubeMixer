@@ -1,12 +1,12 @@
+using System.Security.Claims;
+using System.Text.Json.Serialization;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Randomizer.Features.TrackWeights.Api.TrackWeightsService;
-using Microsoft.AspNetCore.Routing;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Mvc;
-using System.Security.Claims;
-using System.Text.Json.Serialization;
-using Microsoft.AspNetCore.Http;
 
 namespace Randomizer.Features.TrackWeights.Api;
 
@@ -40,7 +40,7 @@ public static class WebApplicationBuilderExtensions
 		) =>
 		{
 			await service.UpdatePlayerWeightsCollection(
-				user.Claims.First(x=> x.Type == ClaimTypes.NameIdentifier).Value,
+				user.Claims.First(x => x.Type == ClaimTypes.NameIdentifier).Value,
 				playerId,
 				payload.ConvertAll(x => x.ToDto())
 			);
