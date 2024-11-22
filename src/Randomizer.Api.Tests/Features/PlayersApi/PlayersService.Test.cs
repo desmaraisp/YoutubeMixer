@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Randomizer.Api.Features.PlayersApi.PlayersService;
 using Randomizer.Dal;
+using Randomizer.Test.Helpers;
 
 namespace Randomizer.Api.Tests.Features.PlayersApi;
 

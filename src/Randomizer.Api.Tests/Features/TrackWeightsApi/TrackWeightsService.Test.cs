@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Randomizer.Api.Features.TrackWeightsApi.TrackWeightsService;
 using Randomizer.Dal;
+using Randomizer.Test.Helpers;
 
 namespace Randomizer.Api.Tests.Features.TrackWeightsApi;
 

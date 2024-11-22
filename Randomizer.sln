@@ -19,6 +19,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Randomizer.Features.Databas
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Randomizer.Features.Auth", "src\Randomizer.Features.Auth\Randomizer.Features.Auth.csproj", "{8380F113-C805-4739-BA7A-78EFD0ACA915}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Randomizer.Test.Helpers", "src\Randomizer.Test.Helpers\Randomizer.Test.Helpers.csproj", "{30538C27-6C70-4F95-A226-D2F6AE22986B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -53,6 +55,10 @@ Global
 		{8380F113-C805-4739-BA7A-78EFD0ACA915}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8380F113-C805-4739-BA7A-78EFD0ACA915}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8380F113-C805-4739-BA7A-78EFD0ACA915}.Release|Any CPU.Build.0 = Release|Any CPU
+		{30538C27-6C70-4F95-A226-D2F6AE22986B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{30538C27-6C70-4F95-A226-D2F6AE22986B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{30538C27-6C70-4F95-A226-D2F6AE22986B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{30538C27-6C70-4F95-A226-D2F6AE22986B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -65,5 +71,6 @@ Global
 		{C84F386D-6E95-4EB5-AA2D-859729CB4127} = {6B93855F-8D97-41FB-9046-7B96F37FC4F9}
 		{D25E5A53-5829-4D33-85B0-7C60FFAE9A8A} = {6B93855F-8D97-41FB-9046-7B96F37FC4F9}
 		{8380F113-C805-4739-BA7A-78EFD0ACA915} = {6B93855F-8D97-41FB-9046-7B96F37FC4F9}
+		{30538C27-6C70-4F95-A226-D2F6AE22986B} = {6B93855F-8D97-41FB-9046-7B96F37FC4F9}
 	EndGlobalSection
 EndGlobal

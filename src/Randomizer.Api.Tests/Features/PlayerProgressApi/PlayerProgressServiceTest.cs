@@ -1,5 +1,6 @@
 using Randomizer.Api.Features.PlayerProgressApi.PlayerProgressService;
 using Randomizer.Dal;
+using Randomizer.Test.Helpers;
 
 namespace Randomizer.Api.Tests.Features.PlayerProgressApi;
 

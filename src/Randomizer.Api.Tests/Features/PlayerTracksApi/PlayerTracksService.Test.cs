@@ -1,5 +1,6 @@
 using Randomizer.Api.Features.PlayerTracksApi.PlayerTracksService;
 using Randomizer.Dal;
+using Randomizer.Test.Helpers;
 
 namespace Randomizer.Api.Tests.Features.PlayerTracksApi;
 

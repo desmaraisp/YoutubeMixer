@@ -1,10 +1,11 @@
-using Microsoft.Data.Sqlite;
+﻿using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.Extensions.Logging;
 using Randomizer.Dal;
 
-namespace Randomizer.Api.Tests;
+
+namespace Randomizer.Test.Helpers;
 
 public static class ConfigureSqLite
 {
@@ -19,9 +20,9 @@ public static class ConfigureSqLite
 			.ReplaceService<IModelCustomizer, SqliteModelCustomizer>()
 			.Options;
 
-		var RandomizerContext = new RandomizerContext(contextOptions);
-		RandomizerContext.Database.EnsureCreated();
-		return RandomizerContext;
+		var randomizerContext = new RandomizerContext(contextOptions);
+		randomizerContext.Database.EnsureCreated();
+		return randomizerContext;
 	}
 
 	private static SqliteConnection CreateConnection()
