@@ -3,7 +3,7 @@ using Randomizer.Api.Features.PlayersApi.PlayersService;
 using Randomizer.Dal;
 using Randomizer.Test.Helpers;
 
-namespace Randomizer.Api.Tests.Features.PlayersApi;
+namespace Randomizer.Features.Players.Test;
 
 [TestClass]
 public class PlayerServiceTests
