@@ -33,6 +33,7 @@
     <ProjectReference Include="..\Randomizer.Dal\Randomizer.Dal.csproj" />
     <ProjectReference Include="..\Randomizer.Dal.Migrations.Postgresql\Randomizer.Dal.Migrations.Postgresql.csproj" />
     <ProjectReference Include="..\Randomizer.Dal.Migrations.SqlServer\Randomizer.Dal.Migrations.SqlServer.csproj" />
+    <ProjectReference Include="..\Randomizer.Features.TrackWeights.Api\Randomizer.Features.TrackWeights.Api.csproj" />
   </ItemGroup>
 
 </Project>
