@@ -1,7 +1,7 @@
 using Asp.Versioning;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Randomizer.Api.Features.Auth;
+using Randomizer.Features.Auth;
 using Randomizer.Api.Features.PlayerPlaylistsApi.PlayerPlaylistsService;
 
 namespace Randomizer.Api.Features.PlayerPlaylistsApi;

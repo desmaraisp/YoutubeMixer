@@ -1,6 +1,6 @@
 using System.Security.Claims;
 
-namespace Randomizer.Api.Features.Auth;
+namespace Randomizer.Features.Auth;
 
 public static class ClaimsPrincipalExtensions
 {

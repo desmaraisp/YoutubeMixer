@@ -28,6 +28,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Randomizer.Features.Auth\Randomizer.Features.Auth.csproj" />
     <ProjectReference Include="..\Randomizer.Features.Database\Randomizer.Features.Database.csproj" />
     <ProjectReference Include="..\Randomizer.Dal\Randomizer.Dal.csproj" />
     <ProjectReference Include="..\Randomizer.Dal.Migrations.Postgresql\Randomizer.Dal.Migrations.Postgresql.csproj" />

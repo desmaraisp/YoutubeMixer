@@ -1,10 +1,10 @@
-using Randomizer.Api.Features.Auth;
 using Randomizer.Api.Features.PlayerProgressApi;
 using Randomizer.Api.Features.PlayersApi;
 using Randomizer.Api.Features.PlayerTracksApi;
 using Randomizer.Api.Features.RemotePlaylistsApi;
 using Serilog;
 using Randomizer.Features.Database;
+using Randomizer.Features.Auth;
 
 internal sealed class Program
 {
@@ -18,11 +18,11 @@ internal sealed class Program
 		});
 
 
-		builder.RegisterAuthenticationFeature()
-				.RegisterPlayersApiFeature()
+		builder.RegisterPlayersApiFeature()
 				.RegisterPlayerProgressFeature()
 				.RegisterPlayerTracksApiFeature()
 				.RegisterRemotePlaylistsApiFeature()
+				.RegisterAuthenticationFeature()
 				.RegisterDatabase();
 
 		builder.Services.AddControllers();

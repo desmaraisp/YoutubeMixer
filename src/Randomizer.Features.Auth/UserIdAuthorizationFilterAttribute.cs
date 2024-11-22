@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 
-namespace Randomizer.Api.Features.Auth;
+namespace Randomizer.Features.Auth;
 
 [AttributeUsage(AttributeTargets.Method | AttributeTargets.Class)]
 public class UserIdAuthorizationFilterAttribute : Attribute, IAsyncAuthorizationFilter

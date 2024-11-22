@@ -1,7 +1,7 @@
 using Asp.Versioning;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Randomizer.Api.Features.Auth;
+using Randomizer.Features.Auth;
 
 namespace Randomizer.Api.Features.TrackWeightsApi;
 
