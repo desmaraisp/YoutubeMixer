@@ -3,7 +3,7 @@ using Randomizer.Dal;
 using Randomizer.Features.TrackWeights.Api.TrackWeightsService;
 using Randomizer.Test.Helpers;
 
-namespace Randomizer.Api.Tests.Features.TrackWeightsApi;
+namespace Randomizer.Features.TrackWeights.Test;
 
 [TestClass]
 public class TrackWeightsServiceTests
