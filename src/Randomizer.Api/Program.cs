@@ -5,6 +5,8 @@ using Randomizer.Api.Features.RemotePlaylistsApi;
 using Serilog;
 using Randomizer.Features.Database;
 using Randomizer.Features.Auth;
+using Randomizer.Features.TrackWeights.Api;
+using Asp.Versioning;
 
 internal sealed class Program
 {
@@ -17,12 +19,19 @@ internal sealed class Program
 			config.ReadFrom.Configuration(context.Configuration);
 		});
 
+		builder.Services.AddApiVersioning(c => {
+			c.AssumeDefaultVersionWhenUnspecified = true;
+			c.ApiVersionReader = new UrlSegmentApiVersionReader();
+		}).AddApiExplorer(c => {
+			c.GroupNameFormat = "v'V'";
+		});
 
 		builder.RegisterPlayersApiFeature()
 				.RegisterPlayerProgressFeature()
 				.RegisterPlayerTracksApiFeature()
 				.RegisterRemotePlaylistsApiFeature()
 				.RegisterAuthenticationFeature()
+				.RegisterTrackWeightsFeature()
 				.RegisterDatabase();
 
 		builder.Services.AddControllers();
@@ -30,7 +39,7 @@ internal sealed class Program
 		builder.Services.AddSwaggerGen();
 
 		var app = builder.Build();
-
+		
 		if (app.Environment.IsDevelopment())
 		{
 			app.UseSwagger();
@@ -39,6 +48,12 @@ internal sealed class Program
 
 		app.UseAuthorization();
 
+		var rootApiVersionSet = app.NewApiVersionSet()
+			.HasApiVersion(new(1.0))
+			.Build();
+		app.MapGroup("api/v{version:apiVersion}")
+			.WithApiVersionSet(rootApiVersionSet)
+			.RegisterTrackWeightsEndpoints();
 		app.MapControllers();
 
 		app.Run();
