@@ -1,10 +1,10 @@
 using Randomizer.Api.Features.Auth;
-using Randomizer.Api.Features.DatabaseRegistration;
 using Randomizer.Api.Features.PlayerProgressApi;
 using Randomizer.Api.Features.PlayersApi;
 using Randomizer.Api.Features.PlayerTracksApi;
 using Randomizer.Api.Features.RemotePlaylistsApi;
 using Serilog;
+using Randomizer.Features.Database;
 
 internal sealed class Program
 {

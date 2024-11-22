@@ -1,17 +1,18 @@
-using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
 using Randomizer.Dal;
+using Microsoft.EntityFrameworkCore;
 
-namespace Randomizer.Api.Features.DatabaseRegistration;
+namespace Randomizer.Features.Database;
 
 public static class WebApplicationBuilderExtensions
 {
-	public static WebApplicationBuilder RegisterDatabase(this WebApplicationBuilder builder)
+	public static IHostApplicationBuilder RegisterDatabase(this IHostApplicationBuilder builder)
 	{
 		builder.Services.AddOptions<DatabaseOptions>()
-				.BindConfiguration("DatabaseConfiguration")
-				.ValidateDataAnnotations()
-				.ValidateOnStart();
+				.BindConfiguration("DatabaseConfiguration");
 
 		builder.Services.AddDbContext<RandomizerContext>((sp, c) =>
 		{

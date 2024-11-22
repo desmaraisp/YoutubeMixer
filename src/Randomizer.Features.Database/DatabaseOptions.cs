@@ -1,4 +1,4 @@
-namespace Randomizer.Api.Features.DatabaseRegistration;
+namespace Randomizer.Features.Database;
 
 public enum DatabaseType
 {

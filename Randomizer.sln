@@ -15,13 +15,12 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Randomizer.Dal.Migrations.S
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Randomizer.Api.Tests", "src\Randomizer.Api.Tests\Randomizer.Api.Tests.csproj", "{C84F386D-6E95-4EB5-AA2D-859729CB4127}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Randomizer.Features.Database", "src\Randomizer.Features.Database\Randomizer.Features.Database.csproj", "{D25E5A53-5829-4D33-85B0-7C60FFAE9A8A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
-	EndGlobalSection
-	GlobalSection(SolutionProperties) = preSolution
-		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{ED155192-CF62-40D4-9D88-79B11B6D89DF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -44,6 +43,13 @@ Global
 		{C84F386D-6E95-4EB5-AA2D-859729CB4127}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C84F386D-6E95-4EB5-AA2D-859729CB4127}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C84F386D-6E95-4EB5-AA2D-859729CB4127}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D25E5A53-5829-4D33-85B0-7C60FFAE9A8A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D25E5A53-5829-4D33-85B0-7C60FFAE9A8A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D25E5A53-5829-4D33-85B0-7C60FFAE9A8A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D25E5A53-5829-4D33-85B0-7C60FFAE9A8A}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{ED155192-CF62-40D4-9D88-79B11B6D89DF} = {6B93855F-8D97-41FB-9046-7B96F37FC4F9}
@@ -51,5 +57,6 @@ Global
 		{EFCE7FB9-7CB6-489A-A150-42C1A5A51392} = {6B93855F-8D97-41FB-9046-7B96F37FC4F9}
 		{658A7AD5-1DEA-4381-939D-3DC9C392CEAE} = {6B93855F-8D97-41FB-9046-7B96F37FC4F9}
 		{C84F386D-6E95-4EB5-AA2D-859729CB4127} = {6B93855F-8D97-41FB-9046-7B96F37FC4F9}
+		{D25E5A53-5829-4D33-85B0-7C60FFAE9A8A} = {6B93855F-8D97-41FB-9046-7B96F37FC4F9}
 	EndGlobalSection
 EndGlobal
