@@ -18,7 +18,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Randomizer.Api\Randomizer.Api.csproj" />
+    <ProjectReference Include="..\Randomizer.Features.Players.Api\Randomizer.Features.Players.Api.csproj" />
     <ProjectReference Include="..\Randomizer.Test.Helpers\Randomizer.Test.Helpers.csproj" />
   </ItemGroup>
 

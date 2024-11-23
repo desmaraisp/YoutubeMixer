@@ -32,7 +32,7 @@ public static class WebApplicationBuilderExtensions
 	{
 		var trackWeightsGroup = rootRootVersionedGroupBuilder.MapGroup("track-weights").RequireAuthorization();
 
-		rootRootVersionedGroupBuilder.MapPut("players/{playerId:guid}/track-weights", async (
+		trackWeightsGroup.MapPut("players/{playerId:guid}/track-weights", async (
 			[FromServices] ITrackWeightsService service,
 			Guid playerId,
 			[FromBody] List<PutTrackWeightsApiModel> payload,

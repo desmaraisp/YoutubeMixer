@@ -2,7 +2,7 @@ using System.Linq.Expressions;
 using Microsoft.EntityFrameworkCore;
 using Randomizer.Dal;
 
-namespace Randomizer.Api.Features.PlayersApi.PlayersService;
+namespace Randomizer.Features.Players.Api.PlayersService;
 
 public class PlayersService : IPlayersService
 {

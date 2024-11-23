@@ -1,10 +1,10 @@
 using Asp.Versioning;
 using Randomizer.Api.Features.PlayerProgressApi;
-using Randomizer.Api.Features.PlayersApi;
 using Randomizer.Api.Features.PlayerTracksApi;
 using Randomizer.Api.Features.RemotePlaylistsApi;
 using Randomizer.Features.Auth;
 using Randomizer.Features.Database;
+using Randomizer.Features.Players.Api;
 using Randomizer.Features.TrackWeights.Api;
 using Serilog;
 
@@ -28,13 +28,12 @@ internal sealed class Program
 			c.GroupNameFormat = "v'V'";
 		});
 
-		builder.RegisterPlayersApiFeature()
-				.RegisterPlayerProgressFeature()
+		builder.RegisterPlayerProgressFeature()
 				.RegisterPlayerTracksApiFeature()
 				.RegisterRemotePlaylistsApiFeature()
 				.RegisterAuthenticationFeature()
 				.RegisterTrackWeightsFeature()
-				.RegisterDatabase();
+				.RegisterPlayersApiFeature().RegisterDatabase();
 
 		builder.Services.AddControllers();
 		builder.Services.AddEndpointsApiExplorer();
@@ -51,6 +50,7 @@ internal sealed class Program
 			.Build();
 		app.MapGroup("api/v{version:apiVersion}")
 			.WithApiVersionSet(rootApiVersionSet)
+			.RegisterPlayersEndpoints()
 			.RegisterTrackWeightsEndpoints();
 		app.MapControllers();
 

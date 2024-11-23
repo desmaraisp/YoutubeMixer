@@ -1,4 +1,4 @@
-namespace Randomizer.Api.Features.PlayersApi.PlayersService;
+namespace Randomizer.Features.Players.Api.PlayersService;
 
 public class PlayersServiceException : Exception
 {

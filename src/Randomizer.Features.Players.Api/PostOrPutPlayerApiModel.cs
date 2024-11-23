@@ -1,4 +1,4 @@
-namespace Randomizer.Api.Features.PlayersApi;
+namespace Randomizer.Features.Players.Api;
 
 public class PostOrPutPlayerApiModel
 {
