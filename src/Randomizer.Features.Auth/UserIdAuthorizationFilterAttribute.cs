@@ -1,3 +1,5 @@
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 
@@ -23,6 +25,38 @@ public class UserIdAuthorizationFilterAttribute : Attribute, IAsyncAuthorization
 			return Task.CompletedTask;
 		}
 
+		return Task.CompletedTask;
+	}
+}
+
+public class RouteUserIdAuthorizationRequirement : IAuthorizationRequirement
+{
+}
+
+public class RouteUserIdAuthorizationHandler : AuthorizationHandler<RouteUserIdAuthorizationRequirement>
+{
+	public const string RouteUserIdPolicyName = "RouteUserId";
+	protected override Task HandleRequirementAsync(AuthorizationHandlerContext context, RouteUserIdAuthorizationRequirement requirement)
+	{
+		if (context.Resource is HttpContext httpContext)
+		{
+			var userIdInUrl = httpContext.Request.RouteValues["userId"]?.ToString();
+
+			if (string.IsNullOrWhiteSpace(userIdInUrl))
+			{
+				context.Fail();
+				return Task.CompletedTask;
+			}
+
+			var userId = context.User.GetUserId();
+			if (userIdInUrl != userId)
+			{
+				context.Fail();
+				return Task.CompletedTask;
+			}
+
+			context.Succeed(requirement);
+		}
 		return Task.CompletedTask;
 	}
 }

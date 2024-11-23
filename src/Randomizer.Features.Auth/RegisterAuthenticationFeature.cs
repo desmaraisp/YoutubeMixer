@@ -23,6 +23,12 @@ public static class WebApplicationBuilderExtensions
 		builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 			.AddJwtBearer(JwtBearerDefaults.AuthenticationScheme);
 
+		builder.Services.AddAuthorizationBuilder()
+				.AddPolicy(
+					RouteUserIdAuthorizationHandler.RouteUserIdPolicyName,
+					policy => policy.Requirements.Add(new RouteUserIdAuthorizationRequirement())
+				);
+
 		return builder;
 	}
 }
