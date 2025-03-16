@@ -1,41 +1,42 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
 
-  <PropertyGroup>
-    <TargetFramework>net9.0</TargetFramework>
-	<AnalysisMode>Recommended</AnalysisMode>
-    <Nullable>enable</Nullable>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <InvariantGlobalization>true</InvariantGlobalization>
-  </PropertyGroup>
+	<PropertyGroup>
+		<TargetFramework>net9.0</TargetFramework>
+		<AnalysisMode>Recommended</AnalysisMode>
+		<Nullable>enable</Nullable>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<AnalysisMode>Recommended</AnalysisMode>
+		<InvariantGlobalization>true</InvariantGlobalization>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <PackageReference Include="Asp.Versioning.Mvc" Version="8.1.0" />
-    <PackageReference Include="Asp.Versioning.Mvc.ApiExplorer" Version="8.1.0" />
-    <PackageReference Include="Duende.AccessTokenManagement" Version="3.0.1" />
-    <PackageReference Include="Google.Apis.YouTube.v3" Version="1.68.0.3608" />
-    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="9.0.0" />
-    <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="9.0.0" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="9.0.0" />
-    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="9.0.1" />
-	<PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="9.0.0">
-		<PrivateAssets>all</PrivateAssets>
-		<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-	</PackageReference>
-	<PackageReference Include="Serilog.AspNetCore" Version="8.0.3" />
-    <PackageReference Include="Serilog.Exceptions" Version="8.4.0" />
-    <PackageReference Include="Serilog.Sinks.Console" Version="6.0.0" />
-    <PackageReference Include="Serilog.Sinks.File" Version="6.0.0" />
-    <PackageReference Include="Swashbuckle.AspNetCore.SwaggerUI" Version="7.0.0" />
-  </ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="Asp.Versioning.Mvc" Version="8.1.0" />
+		<PackageReference Include="Asp.Versioning.Mvc.ApiExplorer" Version="8.1.0" />
+		<PackageReference Include="Duende.AccessTokenManagement" Version="3.2.0" />
+		<PackageReference Include="Google.Apis.YouTube.v3" Version="1.69.0.3707" />
+		<PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="9.0.3" />
+		<PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="9.0.3" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="9.0.3" />
+		<PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="9.0.4" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="9.0.3">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+		<PackageReference Include="Serilog.AspNetCore" Version="8.0.3" />
+		<PackageReference Include="Serilog.Exceptions" Version="8.4.0" />
+		<PackageReference Include="Serilog.Sinks.Console" Version="6.0.0" />
+		<PackageReference Include="Serilog.Sinks.File" Version="6.0.0" />
+		<PackageReference Include="Swashbuckle.AspNetCore.SwaggerUI" Version="7.3.1" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\Randomizer.Features.Auth\Randomizer.Features.Auth.csproj" />
-    <ProjectReference Include="..\Randomizer.Features.Database\Randomizer.Features.Database.csproj" />
-    <ProjectReference Include="..\Randomizer.Dal\Randomizer.Dal.csproj" />
-    <ProjectReference Include="..\Randomizer.Dal.Migrations.Postgresql\Randomizer.Dal.Migrations.Postgresql.csproj" />
-    <ProjectReference Include="..\Randomizer.Dal.Migrations.SqlServer\Randomizer.Dal.Migrations.SqlServer.csproj" />
-    <ProjectReference Include="..\Randomizer.Features.Players.Api\Randomizer.Features.Players.Api.csproj" />
-    <ProjectReference Include="..\Randomizer.Features.TrackWeights.Api\Randomizer.Features.TrackWeights.Api.csproj" />
-  </ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\Randomizer.Features.Auth\Randomizer.Features.Auth.csproj" />
+		<ProjectReference Include="..\Randomizer.Features.Database\Randomizer.Features.Database.csproj" />
+		<ProjectReference Include="..\Randomizer.Dal\Randomizer.Dal.csproj" />
+		<ProjectReference Include="..\Randomizer.Dal.Migrations.Postgresql\Randomizer.Dal.Migrations.Postgresql.csproj" />
+		<ProjectReference Include="..\Randomizer.Dal.Migrations.SqlServer\Randomizer.Dal.Migrations.SqlServer.csproj" />
+		<ProjectReference Include="..\Randomizer.Features.Players.Api\Randomizer.Features.Players.Api.csproj" />
+		<ProjectReference Include="..\Randomizer.Features.TrackWeights.Api\Randomizer.Features.TrackWeights.Api.csproj" />
+	</ItemGroup>
 
 </Project>
