@@ -22,53 +22,53 @@ public class PlayersService : IPlayersService
 	};
 	private static readonly Func<Player, GetPlayerDto> ConvertPlayerToDto = PlayerProjectionExpression.Compile();
 
-	public async Task<GetPlayerDto> CreateNewPlayer(string UserId, string Name)
+	public async Task<GetPlayerDto> CreateNewPlayer(string userId, string name)
 	{
-		if (await randomizerContext.Players.AnyAsync(x => x.UserId == UserId && x.PlayerName == Name))
+		if (await randomizerContext.Players.AnyAsync(x => x.UserId == userId && x.PlayerName == name))
 		{
 			throw new PlayerNameAlreadyUsedException("Another player already exists with this same name");
 		}
 
 		var entity = randomizerContext.Players.Add(new()
 		{
-			PlayerName = Name,
-			UserId = UserId
+			PlayerName = name,
+			UserId = userId
 		});
 		await randomizerContext.SaveChangesAsync();
 		return ConvertPlayerToDto(entity.Entity);
 	}
 
-	public async Task DeletePlayer(string UserId, Guid PlayerId)
+	public async Task DeletePlayer(string userId, Guid playerId)
 	{
-		await randomizerContext.Players.Where(x => x.UserId == UserId && x.PlayerId == PlayerId).ExecuteDeleteAsync();
+		await randomizerContext.Players.Where(x => x.UserId == userId && x.PlayerId == playerId).ExecuteDeleteAsync();
 	}
 
-	public async Task<List<GetPlayerDto>> GetUserPlayers(string UserId)
+	public async Task<List<GetPlayerDto>> GetUserPlayers(string userId)
 	{
 		return await randomizerContext.Players
-			.Where(x => x.UserId == UserId)
+			.Where(x => x.UserId == userId)
 			.Select(PlayerProjectionExpression).ToListAsync();
 	}
-	public async Task<GetPlayerDto?> FindPlayer(string UserId, Guid PlayerId)
+	public async Task<GetPlayerDto?> FindPlayer(string userId, Guid playerId)
 	{
 		return await randomizerContext.Players
-			.Where(x => x.UserId == UserId && x.PlayerId == PlayerId)
+			.Where(x => x.UserId == userId && x.PlayerId == playerId)
 			.Select(PlayerProjectionExpression).SingleOrDefaultAsync();
 	}
-	public async Task<GetPlayerDto> GetPlayer(string UserId, Guid PlayerId)
+	public async Task<GetPlayerDto> GetPlayer(string userId, Guid playerId)
 	{
-		return await FindPlayer(UserId, PlayerId) ?? throw new PlayerNotFoundException("Not player was found for this user/player id combination")
+		return await FindPlayer(userId, playerId) ?? throw new PlayerNotFoundException("Not player was found for this user/player id combination")
 		{
-			Data = { { "UserId", UserId }, { "PlayerId", PlayerId } }
+			Data = { { "UserId", userId }, { "PlayerId", playerId } }
 		};
 	}
 
-	public async Task<GetPlayerDto> UpsertPlayer(string UserId, Guid PlayerId, string NewName)
+	public async Task<GetPlayerDto> UpsertPlayer(string userId, Guid playerId, string newName)
 	{
 		bool nameIsAlreadyUsed = await randomizerContext.Players.AnyAsync(x =>
-					x.UserId == UserId &&
-					x.PlayerId != PlayerId &&
-					x.PlayerName == NewName
+					x.UserId == userId &&
+					x.PlayerId != playerId &&
+					x.PlayerName == newName
 		);
 		if (nameIsAlreadyUsed)
 		{
@@ -77,19 +77,19 @@ public class PlayersService : IPlayersService
 
 
 		var player = await randomizerContext.Players
-				.SingleOrDefaultAsync(x => x.UserId == UserId && x.PlayerId == PlayerId);
+				.SingleOrDefaultAsync(x => x.UserId == userId && x.PlayerId == playerId);
 		if (player == null)
 		{
 			player = randomizerContext.Players.Add(new()
 			{
-				PlayerId = PlayerId,
-				PlayerName = NewName,
-				UserId = UserId
+				PlayerId = playerId,
+				PlayerName = newName,
+				UserId = userId
 			}).Entity;
 		}
 		else
 		{
-			player.PlayerName = NewName;
+			player.PlayerName = newName;
 		}
 
 		await randomizerContext.SaveChangesAsync();

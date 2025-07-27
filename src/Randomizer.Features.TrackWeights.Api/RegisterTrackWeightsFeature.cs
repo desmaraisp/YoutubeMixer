@@ -11,7 +11,7 @@ using Randomizer.Features.TrackWeights.Api.TrackWeightsService;
 namespace Randomizer.Features.TrackWeights.Api;
 
 [JsonSerializable(typeof(List<PutTrackWeightsApiModel>))]
-internal partial class TracksWeightsSerializerContext : JsonSerializerContext
+internal sealed partial class TracksWeightsSerializerContext : JsonSerializerContext
 {
 
 }

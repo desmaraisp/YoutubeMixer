@@ -14,7 +14,7 @@ namespace Randomizer.Features.Players.Api;
 [JsonSerializable(typeof(PostOrPutPlayerApiModel))]
 [JsonSerializable(typeof(GetPlayerApiModel))]
 [JsonSerializable(typeof(List<GetPlayerApiModel>))]
-internal partial class PlayersSerializerContext : JsonSerializerContext
+internal sealed partial class PlayersSerializerContext : JsonSerializerContext
 {
 
 }

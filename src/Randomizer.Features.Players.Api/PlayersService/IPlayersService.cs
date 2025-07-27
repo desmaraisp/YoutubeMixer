@@ -2,12 +2,12 @@ namespace Randomizer.Features.Players.Api.PlayersService;
 
 public interface IPlayersService
 {
-	public Task<List<GetPlayerDto>> GetUserPlayers(string UserId);
-	public Task<GetPlayerDto> CreateNewPlayer(string UserId, string Name);
-	public Task<GetPlayerDto> UpsertPlayer(string UserId, Guid PlayerId, string NewName);
-	public Task<GetPlayerDto?> FindPlayer(string UserId, Guid PlayerId);
-	public Task<GetPlayerDto> GetPlayer(string UserId, Guid PlayerId);
-	public Task DeletePlayer(string UserId, Guid PlayerId);
+	public Task<List<GetPlayerDto>> GetUserPlayers(string userId);
+	public Task<GetPlayerDto> CreateNewPlayer(string userId, string name);
+	public Task<GetPlayerDto> UpsertPlayer(string userId, Guid playerId, string newName);
+	public Task<GetPlayerDto?> FindPlayer(string userId, Guid playerId);
+	public Task<GetPlayerDto> GetPlayer(string userId, Guid playerId);
+	public Task DeletePlayer(string userId, Guid playerId);
 }
 
 public record class GetPlayerDto
